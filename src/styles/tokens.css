@@ -1,0 +1,99 @@
+/* AgenticOrg tokens, Direction 2 (Open Studio). Light is the default. */
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
+
+:root {
+  /* surfaces and text */
+  --ao-ground: #ffffff;
+  --ao-panel: #ffffff;
+  --ao-soft: #f6f3ef;
+  --ao-ink: #16161a;
+  --ao-muted: #646470;
+  --ao-line: #ece8e3;
+
+  /* colour field (large areas only) */
+  --ao-coral: #f26b4e;
+  --ao-sky: #4c9bf0;
+  --ao-lime: #c8e85a;
+
+  /* text and control colours (pass contrast) */
+  --ao-control: #1f5fb0;
+  --ao-coral-text: #b13a1c;
+  --ao-lime-text: #4a5e0b;
+  --ao-coral-tint: #fce8e3;
+  --ao-sky-tint: #e4f0fd;
+  --ao-lime-tint: #eef7c8;
+
+  --ao-btn: #16161a;
+  --ao-btn-ink: #ffffff;
+  --ao-ring: #1f5fb0;
+
+  /* type */
+  --ao-font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --ao-font-text: "Hanken Grotesk", system-ui, sans-serif;
+
+  /* shape */
+  --ao-r-xl: 28px;
+  --ao-r-lg: 26px;
+  --ao-r-stage: 24px;
+  --ao-r-md: 16px;
+  --ao-r-sm: 12px;
+  --ao-r-pill: 999px;
+
+  /* depth */
+  --ao-shadow-rest: 0 2px 6px rgba(22, 22, 26, 0.05), 0 12px 28px rgba(22, 22, 26, 0.07);
+  --ao-shadow-float: 0 24px 60px rgba(22, 22, 26, 0.18);
+
+  /* colour field: three radial washes, used on large areas only */
+  --ao-wash:
+    radial-gradient(60% 70% at 12% 20%, #f26b4e 0, transparent 70%),
+    radial-gradient(55% 70% at 88% 25%, #4c9bf0 0, transparent 70%),
+    radial-gradient(60% 70% at 55% 100%, #c8e85a 0, transparent 70%);
+  --ao-field-blur: 46px;
+  --ao-field-opacity: 0.55;
+  --ao-icon-fill: color-mix(in srgb, #f26b4e 22%, transparent);
+}
+
+:root[data-mode="dark"] {
+  --ao-ground: #121215;
+  --ao-panel: #1b1b20;
+  --ao-soft: #25252b;
+  --ao-ink: #f6f3ef;
+  --ao-muted: #a3a3ad;
+  --ao-line: #2d2d35;
+
+  --ao-coral: #ff7f63;
+  --ao-sky: #6db1f5;
+  --ao-lime: #c8e85a;
+
+  --ao-control: #8cc2f8;
+  --ao-coral-text: #ff9a82;
+  --ao-lime-text: #d8f27f;
+  --ao-coral-tint: #3a1f1a;
+  --ao-sky-tint: #16283a;
+  --ao-lime-tint: #2a3310;
+
+  --ao-btn: #f6f3ef;
+  --ao-btn-ink: #16161a;
+  --ao-ring: #8cc2f8;
+
+  --ao-shadow-rest: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --ao-shadow-float: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --ao-wash:
+    radial-gradient(60% 70% at 12% 20%, #ff7f63 0, transparent 70%),
+    radial-gradient(55% 70% at 88% 25%, #6db1f5 0, transparent 70%),
+    radial-gradient(60% 70% at 55% 100%, #c8e85a 0, transparent 70%);
+  --ao-field-opacity: 0.4;
+  --ao-icon-fill: color-mix(in srgb, #ff7f63 22%, transparent);
+}
+
+/* the colour field: put .ao-field on a container, content sits above it */
+.ao-field { position: relative; isolation: isolate; overflow: hidden; border-radius: var(--ao-r-stage); }
+.ao-field::before { content: ""; position: absolute; inset: -25%; z-index: -1; background: var(--ao-wash); filter: blur(var(--ao-field-blur)); opacity: var(--ao-field-opacity); animation: ao-drift 14s ease-in-out infinite alternate; }
+@keyframes ao-drift { from { transform: translate(-3%, -2%) rotate(0); } to { transform: translate(3%, 2%) rotate(8deg); } }
+@media (prefers-reduced-motion: reduce) { .ao-field::before { animation: none; } }
+
+/* type scale */
+.ao-display { font: 700 clamp(36px, 6vw, 46px) / 1.04 var(--ao-font-display); letter-spacing: -0.035em; text-wrap: balance; }
+.ao-heading { font: 700 24px / 1.2 var(--ao-font-display); letter-spacing: -0.015em; }
+.ao-body { font: 400 16px / 1.5 var(--ao-font-text); }
+.ao-caption { font: 500 13px / 1.4 var(--ao-font-text); color: var(--ao-muted); font-variant-numeric: tabular-nums; }

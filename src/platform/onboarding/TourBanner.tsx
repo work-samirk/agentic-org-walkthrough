@@ -1,0 +1,18 @@
+import { usePlatform } from '../state'
+
+export function TourBanner() {
+  const { s, set } = usePlatform()
+  if (s.tour.status !== 'offered') return null
+  return (
+    <section className="ob-banner" aria-label="Quick tour">
+      <div>
+        <b>Want a quick tour?</b>
+        <p>About two minutes. You make your first agent, then see where everything lives. Nothing real is touched.</p>
+      </div>
+      <div className="ob-banner-actions">
+        <button type="button" className="ob-ghost" onClick={() => set({ tour: { status: 'dismissed', step: 0 } })}>Not now</button>
+        <button type="button" className="ob-primary" onClick={() => set({ tour: { status: 'active', step: 0 } })}>Show me around</button>
+      </div>
+    </section>
+  )
+}
