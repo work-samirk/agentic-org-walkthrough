@@ -914,3 +914,6 @@ header.lp-nav.lp-dark,header.lp-nav.lp-dark[data-stuck]{box-shadow:none}
 .lp-hero .cl-hero-ticks{gap:8px;margin-top:22px}
 .lp-hero .cl-hero-ticks li{gap:9px;font-size:14px;color:color-mix(in srgb,var(--ao-ink) 58%,transparent)}
 .lp-hero .cl-hero-ticks svg{width:18px;height:18px;padding:3px;background:color-mix(in srgb,var(--ao-ink) 12%,transparent);color:color-mix(in srgb,var(--ao-ink) 70%,transparent)}
+
+/* the marketing pages are designed light; they ignore the app's dark mode */
+:root[data-mode=dark] .lp{color-scheme:light;--ao-ground:#ffffff;--ao-panel:#ffffff;--ao-soft:#f6f3ef;--ao-ink:#16161a;--ao-muted:#646470;--ao-line:#ece8e3;--ao-coral:#f26b4e;--ao-sky:#4c9bf0;--ao-lime:#c8e85a;--ao-control:#1f5fb0;--ao-coral-text:#b13a1c;--ao-lime-text:#4a5e0b;--ao-coral-tint:#fce8e3;--ao-sky-tint:#e4f0fd;--ao-lime-tint:#eef7c8;--ao-btn:#16161a;--ao-btn-ink:#ffffff;--ao-ring:#1f5fb0;--ao-shadow-rest:0 2px 6px rgba(22,22,26,.05),0 12px 28px rgba(22,22,26,.07);--ao-shadow-float:0 24px 60px rgba(22,22,26,.18);background:#fff;color:var(--ao-ink)}
