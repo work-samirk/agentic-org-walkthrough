@@ -2,7 +2,7 @@ import { usePlatform } from '../state'
 
 export function TourBanner() {
   const { s, set } = usePlatform()
-  if (s.tour.status !== 'offered') return null
+  if (s.tour.status !== 'offered' || new URLSearchParams(window.location.search).has('embed')) return null
   return (
     <section className="ob-banner" aria-label="Quick tour">
       <div>

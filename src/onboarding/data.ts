@@ -59,7 +59,7 @@ export const QUESTIONS: Question[] = [
   },
   {
     key: 'intent',
-    title: 'What brings you here?',
+    title: 'What do you want to do first?',
     why: 'Your answer decides where the tour starts.',
     cols: 4,
     options: [

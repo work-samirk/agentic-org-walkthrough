@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Check, Clock, ShieldCheck, X } from 'lucide-react'
-import { APPROVAL } from '../data'
+import { APPROVAL, EMBED_APPROVALS, type ApprovalItem } from '../data'
 import { usePlatform } from '../state'
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle } from '../ui/primitives'
 import { EmptyState } from '../ui/EmptyState'
@@ -11,13 +11,16 @@ export function Approvals() {
   const [tab, setTab] = useState<'pending' | 'decided'>('pending')
   const [priority, setPriority] = useState('all')
   const [feedback, setFeedback] = useState<string | null>(null)
-  const pending = s.pendingResolved ? [] : [APPROVAL]
-  const decided = s.pendingResolved ? [APPROVAL] : []
+  const embed = new URLSearchParams(window.location.search).has('embed')
+  const items: ApprovalItem[] = embed ? EMBED_APPROVALS : [APPROVAL]
+  const doneIds = embed ? s.approvalsDone : s.pendingResolved ? [APPROVAL.id] : []
+  const pending = items.filter((i) => !doneIds.includes(i.id))
+  const decided = items.filter((i) => doneIds.includes(i.id))
   const list = (tab === 'pending' ? pending : decided).filter((a) => priority === 'all' || a.priority === priority)
 
-  function decide(d: 'approve' | 'reject' | 'defer') {
+  function decide(d: 'approve' | 'reject' | 'defer', id: string) {
     if (d === 'defer') return setFeedback('Deferred. It stays in the queue.')
-    set({ pendingResolved: true, approvalDecision: d, resolved: s.resolved + 1 })
+    set(embed ? { approvalsDone: [...s.approvalsDone, id], approvalDecision: d, resolved: s.resolved + 1 } : { pendingResolved: true, approvalDecision: d, resolved: s.resolved + 1 })
     setFeedback(d === 'approve' ? 'Approved. In Shadow Mode nothing was actually sent.' : 'Rejected.')
   }
 
@@ -54,24 +57,24 @@ export function Approvals() {
             <Card key={item.id} className="card-elevated transition-all duration-200">
               <CardHeader>
                 <div className="flex items-start justify-between">
-                  <CardTitle className="text-lg font-bold">{item.title} <span className="ml-1 rounded bg-primary/10 px-1.5 py-0.5 align-middle text-[10px] font-semibold tracking-wide text-primary uppercase">Sample</span></CardTitle>
+                  <CardTitle className="text-lg font-bold">{item.title} {!embed && <span className="ml-1 rounded bg-primary/10 px-1.5 py-0.5 align-middle text-[10px] font-semibold tracking-wide text-primary uppercase">Sample</span>}</CardTitle>
                   <Badge variant="warning">{item.priority}</Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">Trigger: {item.trigger_type} | Role: {item.assignee_role}</p>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="rounded-lg border border-[hsl(var(--warning)/0.3)] bg-[hsl(var(--warning)/0.15)] p-3 text-sm font-medium whitespace-pre-wrap text-[hsl(var(--warning-foreground))]">Support Triage wants to refund ₹4,200 and send the customer a reply. Nothing is sent until you decide.</div>
+                <div className="rounded-lg border border-[hsl(var(--warning)/0.3)] bg-[hsl(var(--warning)/0.15)] p-3 text-sm font-medium whitespace-pre-wrap text-[hsl(var(--warning-foreground))]">{item.msg ?? 'Support Triage wants to refund ₹4,200 and send the customer a reply. Nothing is sent until you decide.'}</div>
                 <details className="rounded-lg border border-border/60 p-2.5">
                   <summary className="cursor-pointer text-sm font-medium transition-colors hover:text-primary">Reasoning Trace (3 steps)</summary>
                   <ul className="mt-2 space-y-1">
-                    {['The customer was charged twice for order 80412.', 'The refund is over the ₹2,500 limit the agent may approve alone.', 'So it asked a person.'].map((t) => <li key={t} className="flex items-start gap-1.5 text-xs text-muted-foreground"><span className="mt-0.5 text-primary">•</span><span>{t}</span></li>)}
+                    {(item.trace ?? ['The customer was charged twice for order 80412.', 'The refund is over the ₹2,500 limit the agent may approve alone.', 'So it asked a person.']).map((t) => <li key={t} className="flex items-start gap-1.5 text-xs text-muted-foreground"><span className="mt-0.5 text-primary">•</span><span>{t}</span></li>)}
                   </ul>
                 </details>
                 {tab === 'pending' ? (
                   <div className="flex gap-2 border-t border-border/80 pt-2">
-                    <Button className="gap-2 shadow-sm" onClick={() => decide('approve')}><Check className="h-4 w-4" /> Approve</Button>
-                    <Button variant="destructive" className="gap-2 shadow-sm" onClick={() => decide('reject')}><X className="h-4 w-4" /> Reject</Button>
-                    <Button variant="outline" className="gap-2" onClick={() => decide('defer')}><Clock className="h-4 w-4" /> Defer</Button>
+                    <Button className="gap-2 shadow-sm" onClick={() => decide('approve', item.id)}><Check className="h-4 w-4" /> Approve</Button>
+                    <Button variant="destructive" className="gap-2 shadow-sm" onClick={() => decide('reject', item.id)}><X className="h-4 w-4" /> Reject</Button>
+                    <Button variant="outline" className="gap-2" onClick={() => decide('defer', item.id)}><Clock className="h-4 w-4" /> Defer</Button>
                   </div>
                 ) : (
                   <div className="flex items-center gap-2"><span className="text-sm text-muted-foreground">Decision:</span><Badge variant={s.approvalDecision === 'approve' ? 'default' : 'destructive'}>{s.approvalDecision === 'approve' ? 'Approve' : 'Reject'}</Badge></div>

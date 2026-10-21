@@ -1,43 +1,15 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { Wordmark } from './Logo'
 import { ThemeToggle } from './Theme'
 import { Icon } from './Icon'
 import { useStage } from '../stage/useStage'
-import { StageMac } from '../stage/StageMac'
-import { StageFlow } from '../stage/StageFlow'
-import { StageSphere } from '../stage/StageSphere'
-
-type Variant = 'mac' | 'sphere' | 'flow'
-const VARIANTS: { id: Variant; label: string }[] = [
-  { id: 'mac', label: 'Mac' },
-  { id: 'sphere', label: 'Sphere' },
-  { id: 'flow', label: 'Flow' },
-]
-
-function initialVariant(): Variant {
-  try {
-    const v = localStorage.getItem('ao-stage')
-    if (v === 'mac' || v === 'sphere' || v === 'flow') return v
-  } catch {
-    /* ignore */
-  }
-  return 'sphere'
-}
+import { StageGates } from '../stage/StageGates'
 
 function Stage() {
   const ref = useRef<HTMLDivElement>(null)
-  const [variant, setVariant] = useState<Variant>(initialVariant)
-  const { i } = useStage()
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('ao-stage', variant)
-    } catch {
-      /* ignore */
-    }
-  }, [variant])
+  const { i } = useStage(4600)
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -49,20 +21,11 @@ function Stage() {
 
   return (
     <aside className="stage ao-field" ref={ref} aria-label="How AgenticOrg works">
-      <div className="viz-toggle seg" role="group" aria-label="Animation style">
-        {VARIANTS.map((v) => (
-          <button key={v.id} type="button" aria-pressed={variant === v.id} onClick={() => setVariant(v.id)}>
-            {v.label}
-          </button>
-        ))}
-      </div>
       <div className="stage-copy">
         <h2 className="ao-display">Agents you can see and control.</h2>
       </div>
-      <div className="viz" key={variant}>
-        {variant === 'mac' && <StageMac i={i} />}
-        {variant === 'sphere' && <StageSphere i={i} />}
-        {variant === 'flow' && <StageFlow i={i} />}
+      <div className="viz">
+        <StageGates i={i} />
       </div>
     </aside>
   )

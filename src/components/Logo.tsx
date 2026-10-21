@@ -10,8 +10,6 @@ export function LogoMark({ size = 32, calm = false }: { size?: number; calm?: bo
       </g>
       <g stroke="currentColor" strokeWidth={ring}>
         <circle cx="32" cy="38" r={8 * k} fill="var(--ao-coral)" />
-        <circle cx="12" cy="54" r={6.5 * k} fill="var(--ao-sky)" />
-        <circle cx="52" cy="54" r={6.5 * k} fill="var(--ao-lime)" />
       </g>
     </svg>
   )

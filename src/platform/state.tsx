@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { SAMPLE_AGENTS, type Agent } from './data'
+import { EMBED_AGENTS, SAMPLE_AGENTS, type Agent } from './data'
 import { loadAnswers } from '../onboarding/answers'
 
 export type TourStatus = 'offered' | 'active' | 'paused' | 'dismissed' | 'completed'
@@ -10,6 +10,7 @@ type Persisted = {
   extraApprovals: number
   resolved: number
   pendingResolved: boolean
+  approvalsDone: string[]
   approvalDecision: string | null
   healthy: string[]
   tour: { status: TourStatus; step: number }
@@ -30,6 +31,7 @@ function fresh(): Persisted {
     extraApprovals: 0,
     resolved: 12,
     pendingResolved: false,
+    approvalsDone: [],
     approvalDecision: null,
     healthy: [],
     tour: { status: 'offered', step: 0 },
@@ -95,6 +97,7 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
   const user = useMemo(loadUser, [])
 
   useEffect(() => {
+    if (new URLSearchParams(window.location.search).has('embed')) return
     try {
       sessionStorage.setItem(KEY, JSON.stringify(s))
     } catch {
@@ -112,7 +115,7 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const reset = useCallback(() => setS(fresh()), [])
-  const allAgents = useMemo(() => [...s.agents, ...SAMPLE_AGENTS], [s.agents])
+  const allAgents = useMemo(() => (new URLSearchParams(window.location.search).has('embed') ? EMBED_AGENTS : [...s.agents, ...SAMPLE_AGENTS]), [s.agents])
 
   const value: Ctx = { s, user, role: answers.role, intent: answers.intent, allAgents, set, createAgent, tick, see, reset }
   return <PlatformCtx.Provider value={value}>{children}</PlatformCtx.Provider>

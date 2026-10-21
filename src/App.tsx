@@ -1,28 +1,34 @@
+import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { Landing } from './landing/Landing'
+import { Pricing } from './landing/Pricing'
 import { SignIn } from './auth/SignIn'
 import { CreateOrg } from './auth/CreateOrg'
 import { JoinOrg } from './auth/JoinOrg'
 import { Requested } from './auth/Requested'
 import { Forgot } from './auth/Forgot'
 import { Welcome } from './onboarding/Welcome'
-import { PlatformProvider } from './platform/state'
-import { Shell } from './platform/Shell'
-import { Dashboard } from './platform/pages/Dashboard'
-import { Agents } from './platform/pages/Agents'
-import { AgentCreate } from './platform/pages/AgentCreate'
-import { AgentDetail } from './platform/pages/AgentDetail'
-import { Workflows } from './platform/pages/Workflows'
-import { Connectors } from './platform/pages/Connectors'
-import { Templates } from './platform/pages/Templates'
-import { Placeholder } from './platform/pages/Placeholder'
-import { Approvals } from './platform/pages/Approvals'
-import { WorkflowRun } from './platform/pages/WorkflowRun'
-import { WorkflowView } from './platform/pages/WorkflowView'
+
+const PlatformProvider = lazy(() => import('./platform/state').then((m) => ({ default: m.PlatformProvider })))
+const Shell = lazy(() => import('./platform/Shell').then((m) => ({ default: m.Shell })))
+const Dashboard = lazy(() => import('./platform/pages/Dashboard').then((m) => ({ default: m.Dashboard })))
+const Agents = lazy(() => import('./platform/pages/Agents').then((m) => ({ default: m.Agents })))
+const AgentCreate = lazy(() => import('./platform/pages/AgentCreate').then((m) => ({ default: m.AgentCreate })))
+const AgentDetail = lazy(() => import('./platform/pages/AgentDetail').then((m) => ({ default: m.AgentDetail })))
+const Workflows = lazy(() => import('./platform/pages/Workflows').then((m) => ({ default: m.Workflows })))
+const Connectors = lazy(() => import('./platform/pages/Connectors').then((m) => ({ default: m.Connectors })))
+const Templates = lazy(() => import('./platform/pages/Templates').then((m) => ({ default: m.Templates })))
+const Placeholder = lazy(() => import('./platform/pages/Placeholder').then((m) => ({ default: m.Placeholder })))
+const Approvals = lazy(() => import('./platform/pages/Approvals').then((m) => ({ default: m.Approvals })))
+const WorkflowRun = lazy(() => import('./platform/pages/WorkflowRun').then((m) => ({ default: m.WorkflowRun })))
+const WorkflowView = lazy(() => import('./platform/pages/WorkflowView').then((m) => ({ default: m.WorkflowView })))
 
 export default function App() {
   return (
+    <Suspense fallback={null}>
     <Routes>
-      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/" element={<Landing />} />
+      <Route path="/pricing" element={<Pricing />} />
       <Route path="/login" element={<SignIn />} />
       <Route path="/signup" element={<CreateOrg />} />
       <Route path="/join" element={<JoinOrg />} />
@@ -46,5 +52,6 @@ export default function App() {
       </Route>
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
+    </Suspense>
   )
 }

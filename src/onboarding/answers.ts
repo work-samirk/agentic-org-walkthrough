@@ -3,7 +3,10 @@ export type Answers = Partial<Record<'role' | 'size' | 'source' | 'intent', stri
 
 export function loadAnswers(): Answers {
   try {
-    return JSON.parse(sessionStorage.getItem(KEY) ?? '{}')
+    const a: Answers = JSON.parse(sessionStorage.getItem(KEY) ?? '{}')
+    const preset = sessionStorage.getItem('ao-preset-role')
+    if (!a.role && preset) a.role = preset
+    return a
   } catch {
     return {}
   }

@@ -107,6 +107,16 @@ export const SAMPLE_AGENTS: Agent[] = [
   { id: 'sample-leave', name: 'Sana Khan', designation: 'HR Coordinator', agentType: 'hr_assistant', domain: 'hr', status: 'shadow', conf: 0.88, samples: 6, accuracy: 0.667, specialization: 'Answer leave questions from the policy', sample: true, tools: ['search_policy'] },
 ]
 
+// What the landing page shows inside its product window: six agents, only one below its floor.
+export const EMBED_AGENTS: Agent[] = [
+  { id: 'demo-support', name: 'Rohan Das', designation: 'Support Specialist', agentType: 'chat_agent', domain: 'comms', status: 'active', conf: 0.88, samples: 41, accuracy: 0.912, specialization: 'Triage tickets and draft replies', tools: ['read_inbox', 'send_email'] },
+  { id: 'demo-ap', name: 'Priya Menon', designation: 'AP Processor', agentType: 'ap_processor', domain: 'finance', status: 'active', conf: 0.88, samples: 47, accuracy: 0.941, specialization: 'Match invoices to purchase orders and schedule payment', tools: ['get_invoice', 'match_po'] },
+  { id: 'demo-settlement', name: 'Meera Iyer', designation: 'Settlement Analyst', agentType: 'recon_agent', domain: 'finance', status: 'shadow', conf: 0.88, samples: 25, accuracy: 0.834, specialization: 'Match daily settlements to the bank statement', tools: ['fetch_bank_statement', 'get_transaction_list'] },
+  { id: 'demo-payroll', name: 'Arjun Mehta', designation: 'Payroll Engine', agentType: 'payroll_engine', domain: 'hr', status: 'active', conf: 0.88, samples: 52, accuracy: 0.964, specialization: 'Compute monthly payroll and statutory deductions', tools: ['get_attendance', 'compute_payroll'] },
+  { id: 'demo-leads', name: 'Kavya Rao', designation: 'Sales Analyst', agentType: 'lead_scorer', domain: 'marketing', status: 'shadow', conf: 0.88, samples: 38, accuracy: 0.903, specialization: 'Score new leads and draft follow-ups', tools: ['list_leads'] },
+  { id: 'demo-leave', name: 'Sana Khan', designation: 'HR Coordinator', agentType: 'hr_assistant', domain: 'hr', status: 'shadow', conf: 0.88, samples: 31, accuracy: 0.889, specialization: 'Answer leave questions from the policy', tools: ['search_policy'] },
+]
+
 export type Connector = { id: string; name: string; category: string; auth: string; rate: number; sample?: boolean }
 
 export const CONNECTORS: Connector[] = [
@@ -155,6 +165,16 @@ export const ACTIVITY = [
   { id: 2, event_type: 'agent.run', action: 'execute', outcome: 'success', time: '18 min ago' },
   { id: 3, event_type: 'agent.create', action: 'create', outcome: 'success', time: '1 hr ago' },
   { id: 4, event_type: 'approval.request', action: 'refund_over_limit', outcome: 'pending', time: '1 hr ago' },
+]
+
+export type ApprovalItem = { id: string; title: string; trigger_type: string; assignee_role: string; priority: string; msg?: string; trace?: string[] }
+// What the landing page shows inside its product window: a queue with several items waiting.
+export const EMBED_APPROVALS: ApprovalItem[] = [
+  { id: 'e1', title: 'Refund of ₹4,200 to a customer', trigger_type: 'refund_over_limit', assignee_role: 'admin', priority: 'high', msg: 'Support Triage wants to refund ₹4,200 and send the customer a reply. Nothing is sent until you decide.', trace: ['The customer was charged twice for order 80412.', 'The refund is over the ₹2,500 limit the agent may approve alone.', 'So it asked a person.'] },
+  { id: 'e2', title: 'Vendor payment of ₹18.4L to Alpha Logistics', trigger_type: 'payment_over_threshold', assignee_role: 'finance_head', priority: 'critical', msg: 'AP Processor matched invoice INV-7731 to the purchase order and wants to schedule the payment.', trace: ['The invoice matches the PO and the goods receipt.', 'The amount is above the ₹10L limit for automatic payment.', 'So it asked the finance head.'] },
+  { id: 'e3', title: 'Offer letter for a Senior Engineer, ₹32L', trigger_type: 'offer_approval', assignee_role: 'hr_head', priority: 'normal', msg: 'HR Coordinator drafted the offer letter and needs sign-off before it goes to the candidate.', trace: ['The candidate cleared all interview rounds.', 'The offer is above the band for this level.', 'So it asked the HR head.'] },
+  { id: 'e4', title: 'Send the March campaign to 12,400 contacts', trigger_type: 'bulk_send', assignee_role: 'marketing_lead', priority: 'normal', msg: 'Campaign Pilot is ready to send. Sending to this many contacts needs a person to confirm.', trace: ['Three segments are ready and the A/B test is set.', 'Bulk sends over 10,000 contacts always need approval.', 'So it asked the marketing lead.'] },
+  { id: 'e5', title: 'Write off invoice INV-4899 (₹86,000)', trigger_type: 'write_off', assignee_role: 'cfo', priority: 'high', msg: 'Recon Agent found the customer has been unreachable for 180 days and proposes a write-off.', trace: ['The invoice is 180 days overdue.', 'Three reminders and two calls went unanswered.', 'Write-offs always need the CFO.'] },
 ]
 
 export const APPROVAL = { id: 'appr-1', title: 'Refund of ₹4,200 to a customer', trigger_type: 'refund_over_limit', assignee_role: 'admin', priority: 'high' }

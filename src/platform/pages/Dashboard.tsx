@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Bot, CheckCircle2, Eye, ShieldAlert, Zap } from 'lucide-react'
 import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { usePlatform } from '../state'
-import { ACTIVITY, APPROVAL } from '../data'
+import { ACTIVITY, APPROVAL, EMBED_APPROVALS } from '../data'
 import { Badge, Card, CardContent, CardHeader, CardTitle } from '../ui/primitives'
 import { TourBanner } from '../onboarding/TourBanner'
 import { Hint } from '../onboarding/Hint'
@@ -19,7 +19,8 @@ export function Dashboard() {
   const total = allAgents.length
   const active = allAgents.filter((a) => a.status === 'active').length
   const shadow = allAgents.filter((a) => a.status === 'shadow').length
-  const pending = s.pendingResolved ? [] : [APPROVAL]
+  const embed = new URLSearchParams(window.location.search).has('embed')
+  const pending = embed ? EMBED_APPROVALS.filter((a) => !s.approvalsDone.includes(a.id)) : s.pendingResolved ? [] : [APPROVAL]
   const resolved = s.resolved
   const decisions = resolved + pending.length
   const resolvedPct = Math.round((resolved / decisions) * 100)

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Component, type ReactNode } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Bot, ChevronDown } from 'lucide-react'
-import { NAV } from './data'
+import { EMBED_APPROVALS, NAV } from './data'
 import { usePlatform } from './state'
 import { OnboardingLayer } from './onboarding/Layer'
 import { Launcher } from './onboarding/Launcher'
@@ -27,13 +27,18 @@ function useCollapsed() {
 export function Shell() {
   const { user, s } = usePlatform()
   const loc = useLocation()
+  // the landing page shows real screens in a frame: no tour, no checklist, always light
+  const embed = new URLSearchParams(loc.search).has('embed')
+  useEffect(() => {
+    if (embed) document.documentElement.dataset.mode = 'light'
+  }, [embed])
   const nav = useNavigate()
   const [open, setOpen] = useState(false)
   const [collapsed, toggle, setCollapsed] = useCollapsed()
   const [bell, setBell] = useState(false)
   const bellRef = useRef<HTMLDivElement>(null)
   const target = useTourTarget()
-  const pending = s.pendingResolved ? 0 : 1
+  const pending = embed ? EMBED_APPROVALS.length - s.approvalsDone.length : s.pendingResolved ? 0 : 1
 
   // Groups open themselves when you navigate into them.
   useEffect(() => {
@@ -146,9 +151,9 @@ export function Shell() {
           <div className="flex min-w-0 items-center gap-1.5 sm:gap-3">
             <div className="relative min-w-0">
               <svg className="pointer-events-none absolute top-1/2 left-2.5 -translate-y-1/2 text-slate-400" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
-              <input type="text" aria-label="Ask anything" placeholder="Ask anything... (⌘K)" className="h-9 w-28 min-w-0 rounded-lg border border-slate-700 bg-slate-800/50 pr-3 pl-8 text-sm text-slate-200 transition-[width] duration-200 placeholder:text-slate-500 focus:ring-1 focus:ring-primary focus:outline-none sm:w-44 md:w-64 lg:w-96" />
+              <input type="text" aria-label="Ask anything" placeholder="Ask anything... (⌘K)" className={`h-9 w-28 min-w-0 rounded-lg border pr-3 pl-8 text-sm transition-[width] duration-200 ${embed ? 'border-slate-200 bg-white text-slate-800 shadow-sm placeholder:text-slate-400' : 'border-slate-700 bg-slate-800/50 text-slate-200 placeholder:text-slate-500'} focus:ring-1 focus:ring-primary focus:outline-none sm:w-44 md:w-64 lg:w-96`} />
             </div>
-            <Launcher />
+            {!embed && <Launcher />}
             <select aria-label="Select language" defaultValue="en" className="interactive-surface relative z-50 hidden h-8 flex-shrink-0 rounded border bg-background px-1.5 text-sm focus:ring-1 focus:ring-primary focus:outline-none sm:block sm:px-2">
               <option value="en">EN</option>
               <option value="hi">HI</option>
@@ -201,7 +206,7 @@ export function Shell() {
           <Boundary key={loc.pathname}><Outlet /></Boundary>
         </main>
       </div>
-      <OnboardingLayer />
+      {!embed && <OnboardingLayer />}
     </div>
   )
 }

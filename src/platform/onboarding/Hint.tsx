@@ -5,7 +5,7 @@ import { usePlatform } from '../state'
 // A one-sentence "What is this?" the first time a new idea appears. Shown once, then gone.
 export function Hint({ id, title, children, inline }: { id: string; title: string; children: ReactNode; inline?: boolean }) {
   const { s, see } = usePlatform()
-  if (s.seen.includes(id)) return null
+  if (s.seen.includes(id) || new URLSearchParams(window.location.search).has('embed')) return null
   return (
     <div className={`ob-hint${inline ? ' ob-hint-wide' : ''}`} role="note">
       <Info size={18} aria-hidden="true" />

@@ -21,13 +21,6 @@ export function Welcome() {
     saveAnswers(next)
     nav(to > flow.length ? '/home' : `/welcome/${to}`)
   }
-  function skip() {
-    const rest = { ...answers }
-    delete rest[q.key]
-    setAnswers(rest)
-    go(n + 1, rest)
-  }
-
   return (
     <div className="welcome">
       <div className="welcome-top">
@@ -35,7 +28,7 @@ export function Welcome() {
           <Icon name="arrowLeft" size={16} /> Back
         </button>
         <div className="welcome-right">
-          <Link className="link small" to="/home">Skip all</Link>
+          <Link className="quiet" to="/home">Skip all</Link>
           <ThemeToggle />
         </div>
       </div>
@@ -55,7 +48,8 @@ export function Welcome() {
               className="opt"
               onClick={() => setAnswers((a) => ({ ...a, [q.key]: o.id }))}
             >
-              {o.icon && <Icon name={o.icon} size={22} />}
+              <span className="opt-tick" aria-hidden="true"><Icon name="check" size={13} strokeWidth={3} /></span>
+              {o.icon && <Icon name={o.icon} size={32} />}
               <b>{o.label}</b>
             </button>
           ))}
@@ -65,14 +59,12 @@ export function Welcome() {
           <button type="button" className="btn primary" disabled={!current} onClick={() => go(n + 1, answers)}>
             {n === flow.length ? 'Finish' : 'Continue'}
           </button>
-          <button type="button" className="quiet" onClick={skip}>Skip for now</button>
         </div>
       </main>
 
-      <div className="dots" role="progressbar" aria-valuemin={1} aria-valuemax={flow.length} aria-valuenow={n} aria-label={`Question ${n} of ${flow.length}`}>
-        {flow.map((f, k) => (
-          <span key={f.key} data-on={k === n - 1 ? '' : undefined} data-done={k < n - 1 ? '' : undefined} />
-        ))}
+      <div className="w-prog" role="progressbar" aria-valuemin={1} aria-valuemax={flow.length} aria-valuenow={n} aria-label={`Step ${n} of ${flow.length}`}>
+        <small>Step {n} of {flow.length}</small>
+        <span><i style={{ width: `${(n / flow.length) * 100}%` }} /></span>
       </div>
     </div>
   )

@@ -158,7 +158,7 @@ export function AgentCreate() {
                 <div>
                   <label className="text-sm font-medium">Employee Name *</label>
                   <input type="text" value={employeeName} onChange={(e) => setEmployeeName(e.target.value)} placeholder="e.g. Priya, Arjun, Maya" className={field} />
-                  <p className="mt-1 text-xs text-muted-foreground">The virtual employee's identity — how they'll appear across the platform.</p>
+                  <p className="mt-1 text-xs text-muted-foreground">The virtual employee's identity, how they'll appear across the platform.</p>
                 </div>
                 <div>
                   <label className="text-sm font-medium">Designation</label>
@@ -212,7 +212,7 @@ export function AgentCreate() {
                   <label className="text-sm font-medium">Reports To (Org Chart)</label>
                   <p className="mb-2 text-xs text-muted-foreground">Select a parent agent for escalation hierarchy. Leave empty for no parent.</p>
                   <select className="w-full rounded border bg-background px-3 py-2 text-sm" defaultValue="">
-                    <option value="">— No parent (escalates to human) —</option>
+                    <option value="">No parent (escalates to human)</option>
                   </select>
                 </div>
               </>
@@ -223,7 +223,7 @@ export function AgentCreate() {
                 <div>
                   <label className="text-sm font-medium">Select Template</label>
                   <select className={field} defaultValue="">
-                    <option value="">— Write custom prompt —</option>
+                    <option value="">Write custom prompt</option>
                     {PROMPT_TEMPLATES.map((t) => <option key={t}>{t} (built-in)</option>)}
                   </select>
                 </div>
@@ -240,9 +240,9 @@ export function AgentCreate() {
                 <div>
                   <label className="text-sm font-medium">LLM Model</label>
                   <select className={field} defaultValue="openai|gpt-5.4">
-                    <option value="openai|gpt-5.4">openai — gpt-5.4</option>
-                    <option value="openai|gpt-4o-mini">openai — gpt-4o-mini</option>
-                    <option value="anthropic|claude-opus-4">anthropic — claude-opus-4</option>
+                    <option value="openai|gpt-5.4">openai / gpt-5.4</option>
+                    <option value="openai|gpt-4o-mini">openai / gpt-4o-mini</option>
+                    <option value="anthropic|claude-opus-4">anthropic / claude-opus-4</option>
                   </select>
                   <p className="mt-1 text-xs text-muted-foreground">Only providers/models with a usable key for your tenant are shown above.</p>
                 </div>
@@ -294,7 +294,7 @@ export function AgentCreate() {
 
                 <div>
                   <label className="text-sm font-medium">Authorized Tools</label>
-                  <p className="mb-2 text-xs text-muted-foreground">Tools this agent can call. {connectorIds.length > 0 ? 'Filtered to the connectors you picked above.' : 'Add a connector above to auto-populate its tools — none are added by default.'}</p>
+                  <p className="mb-2 text-xs text-muted-foreground">Tools this agent can call. {connectorIds.length > 0 ? 'Filtered to the connectors you picked above.' : 'Add a connector above to auto-populate its tools, none are added by default.'}</p>
                   {tools.length > 0 ? (
                     <div className="mb-2 space-y-2">
                       <div className="flex flex-wrap gap-2">
@@ -361,7 +361,7 @@ export function AgentCreate() {
                   <div><span className="text-muted-foreground">Confidence Floor:</span> {(floor * 100).toFixed(0)}%</div>
                   <div><span className="text-muted-foreground">HITL Condition:</span> {hitl}</div>
                   <div><span className="text-muted-foreground">Max Retries:</span> {retries}</div>
-                  <div><span className="text-muted-foreground">LLM Model:</span> openai — gpt-5.4</div>
+                  <div><span className="text-muted-foreground">LLM Model:</span> openai / gpt-5.4</div>
                   {specialization && <div className="col-span-2"><span className="text-muted-foreground">Specialization:</span> {specialization}</div>}
                 </div>
                 {tools.length > 0 && (

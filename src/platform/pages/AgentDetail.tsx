@@ -77,7 +77,7 @@ function OverviewTab({ agent, sc, ran, onTrace }: { agent: Agent; sc: Script; ra
     { label: 'Description', value: 'No description' },
     { label: 'HITL Condition', value: `confidence < ${agent.conf.toFixed(2)}` },
     { label: 'Confidence Floor', value: `${(agent.conf * 100).toFixed(0)}%` },
-    { label: 'LLM Model', value: 'openai — gpt-5.4' },
+    { label: 'LLM Model', value: 'openai / gpt-5.4' },
     { label: 'Created', value: new Date().toLocaleString() },
   ]
   return (
@@ -96,7 +96,7 @@ function OverviewTab({ agent, sc, ran, onTrace }: { agent: Agent; sc: Script; ra
             <span className="text-xs tracking-wide text-muted-foreground uppercase">Reports To (Org Chart)</span>
             <Button variant="outline" size="sm">Edit</Button>
           </div>
-          <p className="mt-1 text-sm"><span className="text-muted-foreground">None — escalates directly to human</span></p>
+          <p className="mt-1 text-sm"><span className="text-muted-foreground">None, escalates directly to human</span></p>
         </div>
         <div className="border-t pt-2">
           <span className="text-xs tracking-wide text-muted-foreground uppercase">Authorized Tools</span>
@@ -112,7 +112,7 @@ function OverviewTab({ agent, sc, ran, onTrace }: { agent: Agent; sc: Script; ra
 
 function ConfigTab({ agent }: { agent: Agent }) {
   const rows = [
-    { label: 'LLM Model', value: 'openai — gpt-5.4' },
+    { label: 'LLM Model', value: 'openai / gpt-5.4' },
     { label: 'Max Retries', value: '3' },
     { label: 'HITL Condition', value: `confidence < ${agent.conf.toFixed(2)}` },
     { label: 'Confidence Floor', value: `${(agent.conf * 100).toFixed(0)}%` },
@@ -153,7 +153,7 @@ function WorkflowConfigTab() {
     <div className="space-y-4">
       <div className="space-y-1 rounded-md border border-blue-200 bg-blue-50 px-4 py-3 text-xs text-blue-800 dark:border-blue-800 dark:bg-blue-950/30 dark:text-blue-300">
         <p className="font-semibold">Workflow Config</p>
-        <p>Define any JSON config your agent needs at runtime. LangGraph reads it as <code className="rounded bg-blue-100 px-1 dark:bg-blue-900">state["workflow_config"]</code>. The structure is entirely up to you — no fixed schema.</p>
+        <p>Define any JSON config your agent needs at runtime. LangGraph reads it as <code className="rounded bg-blue-100 px-1 dark:bg-blue-900">state["workflow_config"]</code>. The structure is entirely up to you, no fixed schema.</p>
         <p className="text-blue-600 dark:text-blue-400">Leave blank to use the standard ReAct graph. Set any JSON to activate the workflow graph.</p>
       </div>
       <Card>
@@ -234,7 +234,7 @@ function ShadowTab({ agent, onSample }: { agent: Agent; onSample: () => void }) 
           <div className="flex justify-between text-sm"><span className="text-muted-foreground">Samples generated</span><span className="font-medium">{count}</span></div>
           <div className="flex justify-between text-sm"><span className="text-muted-foreground">Promotion target</span><span className="font-medium">{min}</span></div>
           <div className="h-4 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-muted"><div className={`h-full rounded-full transition-all ${meets ? 'bg-green-500' : 'bg-yellow-500'}`} style={{ width: `${pct}%` }} /></div>
-          <p className="text-xs text-muted-foreground">{meets ? 'Sample count requirement met' : `${min - count} more samples needed — use "Generate Test Sample" to collect samples`}</p>
+          <p className="text-xs text-muted-foreground">{meets ? 'Sample count requirement met' : `${min - count} more samples needed, use "Generate Test Sample" to collect samples`}</p>
         </CardContent>
       </Card>
       <Card>
