@@ -15,7 +15,7 @@ export const CORAL = '#ff7f63'
 const SKY = '#6db1f5'
 const VIOLET = '#9b82f5'
 export const PAPER = '#f4f1ec'
-export const FONT = "'Geist', system-ui, sans-serif"
+export const FONT = "'Timeless Sans', system-ui, sans-serif"
 
 const VERT = `varying vec3 vN; void main(){ vN = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`
 const FRAG = `

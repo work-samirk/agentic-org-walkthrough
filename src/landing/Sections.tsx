@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { siClaude, siGithub, siGmail, siGnometerminal, siGooglecalendar, siHubspot, siJira, siNpm, siPagerduty, siPypi, siSap, siStripe, siZoho, siZoom } from 'simple-icons'
+import { siClaude, siGithub, siGnometerminal, siNpm, siPypi } from 'simple-icons'
 import { Icon } from '../components/Icon'
 import { presetRole, reduced } from './config'
 import { CASE_STEPS, DOMAIN_DATA, PROTOCOLS, SCENARIOS, SDKS, STATS, TESTIMONIALS, computeScale, formatINR, DEFAULT_CLOSE_DAYS, DEFAULT_EMPLOYEES, DEFAULT_INVOICES, DEFAULT_TICKETS } from './realData'
@@ -11,23 +11,23 @@ const BADGE_ICON: Record<string, string> = { PyPI: siPypi.path, npm: siNpm.path,
 const EndOrb = lazy(() => import('./HeroOrb').then((m) => ({ default: m.StrandsSolo })))
 
 /* Connectors on two curved rails ----------------------------------------- */
-type Logo = { n: string; c: string; p?: string; l?: string }
-const si = (i: { title: string; hex: string; path: string }): Logo => ({ n: i.title, c: `#${i.hex}`, p: i.path })
-const ROW_A: Logo[] = [si(siGmail), si(siHubspot), si(siStripe), si(siSap), { n: 'Slack', c: '#4A154B', l: 'S' }, si(siJira), { n: 'Salesforce', c: '#00A1E0', l: 'Sf' }, si(siZoho)]
-const ROW_B: Logo[] = [si(siGithub), { n: 'Oracle', c: '#C74634', l: 'O' }, si(siGooglecalendar), { n: 'Tally', c: '#2C4F9E', l: 'T' }, si(siZoom), { n: 'Darwinbox', c: '#6B3FA0', l: 'D' }, si(siPagerduty)]
+type Logo = { n: string; f: string }
+const lg = (n: string, f: string): Logo => ({ n, f: `/connectors/${f}.svg` })
+const ROW_A: Logo[] = [lg('Salesforce', 'salesforce'), lg('Zoho', 'zoho'), lg('HubSpot', 'hubspot'), lg('Stripe', 'stripe'), lg('Slack', 'slack'), lg('Jira', 'jira'), lg('Gmail', 'gmail'), lg('Microsoft Teams', 'microsoft-teams'), lg('Razorpay', 'razorpay'), lg('Shopify', 'shopify')]
+const ROW_B: Logo[] = [lg('Google Calendar', 'google-calendar'), lg('Zoom', 'zoom'), lg('QuickBooks', 'quickbooks'), lg('Xero', 'xero'), lg('WhatsApp', 'whatsapp'), lg('Twilio', 'twilio'), lg('Okta', 'okta'), lg('PhonePe', 'phonepe'), lg('GitHub', 'github'), lg('Airtable', 'airtable')]
 
 function Rail({ logos, dir }: { logos: Logo[]; dir: 'l' | 'r' }) {
   const GAP = 132
   const items = [...logos, ...logos, ...logos]
   const y = (i: number) => Math.sin(i * 0.95) * 16
-  const d = items.map((_, i) => `${i === 0 ? 'M' : 'L'}${i * GAP + 36} ${48 + y(i)}`).join(' ')
+  const d = items.map((_, i) => `${i === 0 ? 'M' : 'L'}${i * GAP + 36} ${56 + y(i)}`).join(' ')
   return (
     <div className="lp-rail" data-dir={dir}>
       <div className="lp-rail-track" style={{ width: items.length * GAP }}>
-        <svg className="lp-rail-line" width={items.length * GAP} height="96" aria-hidden="true"><path d={d} fill="none" /></svg>
+        <svg className="lp-rail-line" width={items.length * GAP} height="112" aria-hidden="true"><path d={d} fill="none" /></svg>
         {items.map((l, i) => (
-          <span key={i} className="lp-pearl" title={l.n} style={{ left: i * GAP, top: 12 + y(i) + 0, background: l.c }}>
-            {l.p ? <svg viewBox="0 0 24 24" width="30" height="30" role="img" aria-label={l.n}><path d={l.p} fill="#fff" /></svg> : <b aria-label={l.n}>{l.l}</b>}
+          <span key={i} className="lp-pearl" title={l.n} style={{ left: i * GAP, top: 20 + y(i) }}>
+            <img src={l.f} alt={l.n} width="40" height="40" loading="lazy" decoding="async" />
           </span>
         ))}
       </div>

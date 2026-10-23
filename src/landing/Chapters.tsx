@@ -13,44 +13,44 @@ function useInView(ref: React.RefObject<HTMLElement | null>) {
   return seen
 }
 
-/* 4. Earn autonomy -------------------------------------------------------- */
-const RUNGS = [
-  { n: 'Shadow', d: 'Drafts and simulates on samples. Nothing leaves.', tag: 'Day 1', demo: 'shadow' },
-  { n: 'Approve', d: 'Acts for real, but waits for a yes on each important step.', tag: 'Trusted', demo: 'approve' },
-  { n: 'Auto', d: 'Works alone inside your limits and asks when unsure.', tag: 'Proven', demo: 'auto' },
+/* 4. Earn trust, one step at a time: static left, cards that stack on the right ----------- */
+const STEPS = [
+  { n: 'Draft', tag: 'Step 1', d: 'You describe the job. The agent writes a plan and touches nothing yet.', demo: 'draft', limit: 'No actions yet' },
+  { n: 'Shadow', tag: 'Step 2', d: 'It runs on sample data and pretends to act. Nothing leaves.', demo: 'shadow', limit: 'Simulated only' },
+  { n: 'Approve', tag: 'Step 3', d: 'It acts for real, but waits for a yes on each important step.', demo: 'approve', limit: 'Up to $120, with your yes' },
+  { n: 'Auto', tag: 'Step 4', d: 'It works alone inside your limits and asks when unsure.', demo: 'auto', limit: 'Up to $50 on its own' },
+  { n: 'Audit and roll back', tag: 'Always on', d: 'Every step is logged. Roll back or hit the kill switch at any time.', demo: 'audit', limit: 'Always yours to change' },
 ]
-function RungDemo({ kind }: { kind: string }) {
+function StepDemo({ kind }: { kind: string }) {
+  if (kind === 'draft') return <div className="lp-mini"><span className="lp-pill sky"><i />Plan ready</span><p>Refund customers for damaged orders</p><small>3 steps · no actions taken</small></div>
   if (kind === 'shadow') return <div className="lp-mini"><span className="lp-pill sky"><i />Simulated</span><p>Refund $120 on a sample order</p><small>Customer's bank: untouched</small></div>
   if (kind === 'approve') return <div className="lp-mini"><span className="lp-pill coral"><i />Your turn</span><p>Refund $120 to a customer?</p><span className="lp-btn ink sm" aria-hidden="true">Approve</span></div>
-  return <div className="lp-mini"><span className="lp-pill lime"><i />Done, 93% sure</span><p>Refund $12 inside your limit</p><small>Anything above $50 still asks you</small></div>
+  if (kind === 'auto') return <div className="lp-mini"><span className="lp-pill lime"><i />Done, 93% sure</span><p>Refund $12 inside your limit</p><small>Anything above $50 still asks you</small></div>
+  return (
+    <div className="lp-mini ts-log">
+      <p><b>09:42</b> Refund $12 sent within policy</p>
+      <p><b>09:44</b> Refund $120 approved by Dana</p>
+      <div className="ts-log-btns"><span className="lp-ctl" aria-hidden="true"><Icon name="loop" size={14} />Roll Back</span><span className="lp-ctl danger" aria-hidden="true"><Icon name="alert" size={14} />Kill Switch</span></div>
+    </div>
+  )
 }
+const STICKY = 112
+const STEP_GAP = 22
 export function Ladder() {
   const ref = useRef<HTMLElement>(null)
   const [idx, setIdx] = useState(0)
-  // scrolling picks the level: the section stays pinned on wide screens and each third of the scroll lights the next box;
-  // on narrow screens the boxes stack, so the one nearest the middle of the screen is lit
+  // the cards pin one over another; the last one to reach its pinned place is the current step
   useEffect(() => {
     const el = ref.current
     if (!el) return
     let raf = 0
     const pick = () => {
       raf = 0
-      const r = el.getBoundingClientRect()
-      if (window.matchMedia('(min-width:961px)').matches && !reduced()) {
-        const span = r.height - window.innerHeight
-        const p = span > 0 ? Math.min(0.999, Math.max(0, -r.top / span)) : 0
-        setIdx(Math.floor(p * 3))
-      } else {
-        const mid = window.innerHeight / 2
-        const rungs = Array.from(el.querySelectorAll('.lp-rung'))
-        let best = 0, d = Infinity
-        rungs.forEach((n, i) => {
-          const b = n.getBoundingClientRect()
-          const dist = Math.abs(b.top + b.height / 2 - mid)
-          if (dist < d) { d = dist; best = i }
-        })
-        setIdx(r.top > 0 && r.top > mid ? 0 : best)
-      }
+      if (!window.matchMedia('(min-width:961px)').matches) { setIdx(0); return }
+      const cards = Array.from(el.querySelectorAll<HTMLElement>('.ts-card'))
+      let cur = 0
+      cards.forEach((c, i) => { if (c.getBoundingClientRect().top <= STICKY + i * STEP_GAP + 8) cur = i })
+      setIdx(cur)
     }
     const on = () => { if (!raf) raf = requestAnimationFrame(pick) }
     pick()
@@ -59,32 +59,31 @@ export function Ladder() {
     return () => { window.removeEventListener('scroll', on); window.removeEventListener('resize', on); if (raf) cancelAnimationFrame(raf) }
   }, [])
   return (
-    <section id="autonomy" className="lp-sec lp-dark lp-ladder-sec" ref={ref} aria-labelledby="lp-h-lad">
-      <div className="lp-wrap lp-ladder-stick">
-        <div className="lp-head">
+    <section id="autonomy" className="lp-sec lp-dark ts" ref={ref} aria-labelledby="lp-h-lad">
+      <div className="lp-wrap ts-grid">
+        <div className="ts-left">
           <h2 id="lp-h-lad">Every action is checked. You decide how far agents go.</h2>
           <p className="lp-lead">Start with tight limits and widen them as the agent proves itself. The kill switch is always one click away.</p>
+          <ol className="ts-steps" aria-label="Steps">
+            {STEPS.map((x, i) => <li key={x.n} data-on={i <= idx ? '' : undefined} data-now={i === idx ? '' : undefined}><i>{i + 1}</i>{x.n}</li>)}
+          </ol>
+          <p className="ts-limit" aria-live="polite"><span>What it may do</span><b>{STEPS[idx].limit}</b></p>
+          <ul className="ts-gates" aria-label="Every action passes three checks">
+            <li><Icon name="eye" size={16} />Confidence check</li>
+            <li><Icon name="users" size={16} />Human approval</li>
+            <li><Icon name="lock" size={16} />Audit trail</li>
+          </ul>
         </div>
-        <ol className="lp-gates3" aria-label="Every action passes three gates">
-            <li><Icon name="eye" size={18} /><span><b>Confidence check</b>It acts alone only when it is sure.</span></li>
-            <li><Icon name="users" size={18} /><span><b>Human approval</b>Anything that matters waits for a person.</span></li>
-            <li><Icon name="lock" size={18} /><span><b>Audit trail</b>Every step is logged.</span></li>
-        </ol>
-        <div className="lp-ladder">
-          {RUNGS.map((r, i) => (
-            <div key={r.n} className="lp-rung" data-on={i <= idx ? '' : undefined} data-now={i === idx ? '' : undefined} style={{ ['--i' as string]: i }}>
-              <span className="lp-tag">{r.tag}</span>
-              <b>{r.n}</b>
-              <p>{r.d}</p>
-              <RungDemo kind={r.demo} />
-              {i === idx && <span className="lp-climber" aria-hidden="true"><Icon name="spark" size={16} /></span>}
-            </div>
+        <div className="ts-stack">
+          {STEPS.map((x, i) => (
+            <article key={x.n} className="ts-card" data-now={i === idx ? '' : undefined}
+              style={{ ['--i' as string]: i, ['--s' as string]: i < idx ? 1 - 0.035 * (idx - i) : 1, ['--o' as string]: i < idx ? Math.max(0.5, 1 - 0.14 * (idx - i)) : 1 }}>
+              <span className="lp-tag">{x.tag}</span>
+              <b>{x.n}</b>
+              <p>{x.d}</p>
+              <StepDemo kind={x.demo} />
+            </article>
           ))}
-        </div>
-        <div className="lp-controls" aria-label="Controls you always have">
-          <span className="lp-ctl"><Icon name="play" size={16} />Promote</span>
-          <span className="lp-ctl"><Icon name="loop" size={16} />Roll Back</span>
-          <span className="lp-ctl danger"><Icon name="alert" size={16} />Kill Switch</span>
         </div>
       </div>
     </section>

@@ -424,8 +424,9 @@ html:has(.lp){scroll-behavior:smooth}
 .lp,.lp-dark,.lp-light,.lp-night{--ao-lime:var(--ao-ink);--ao-lime-tint:var(--ao-soft);--ao-lime-text:var(--ao-ink)}
 .lp-pill.lime{background:var(--ao-soft);color:var(--ao-ink)}
 
-/* type: Geist everywhere on the landing page, lighter and smaller than before */
-.lp{--ao-font-display:"Geist",system-ui,sans-serif;--ao-font-text:"Geist",system-ui,sans-serif;font-feature-settings:"ss01","cv11"}
+/* type: Timeless Sans on the landing and pricing pages only; the platform keeps its own fonts */
+@font-face{font-family:"Timeless Sans";src:url("/fonts/TimelessSansVF.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+.lp{--ao-font-display:"Timeless Sans",system-ui,sans-serif;--ao-font-text:"Timeless Sans",system-ui,sans-serif}
 .lp h1,.lp h2,.lp h3{letter-spacing:-.035em}
 .lp-mono,.lp pre,.lp code{font-family:"JetBrains Mono",ui-monospace,monospace}
 
@@ -452,8 +453,8 @@ html:has(.lp){scroll-behavior:smooth}
 
 /* curved connector rails */
 .lp-rails{display:grid;gap:8px;margin-top:8px;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
-.lp-rail{position:relative;height:100px;overflow:hidden}
-.lp-rail-track{position:absolute;left:0;top:0;height:100px;animation:lp-rail-l 60s linear infinite}
+.lp-rail{position:relative;height:112px;overflow:hidden}
+.lp-rail-track{position:absolute;left:0;top:0;height:112px;animation:lp-rail-l 60s linear infinite}
 .lp-rail[data-dir=r] .lp-rail-track{animation-name:lp-rail-r;animation-duration:72s}
 @keyframes lp-rail-l{to{transform:translateX(-33.333%)}}
 @keyframes lp-rail-r{from{transform:translateX(-33.333%)}to{transform:translateX(0)}}
@@ -491,7 +492,7 @@ html:has(.lp){scroll-behavior:smooth}
 .lp-term-foot span[data-s=run]{color:#ffc46b}.lp-term-foot span[data-s=ok]{color:#8fd0ff}.lp-term-foot em{margin-left:auto;font-style:normal}
 
 /* developers */
-.lp-sdks{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.lp-sdks{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .lp-sdk{display:flex;flex-direction:column;background:#101219;color:#e8e6e1;border-radius:24px;overflow:hidden;border:1px solid #20222e;box-shadow:0 24px 60px rgba(22,22,26,.18)}
 .lp-sdk header{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid #1d1f2b}
 .lp-sdk h3{font-size:17px;color:#f4f1ec}
@@ -574,7 +575,7 @@ html:has(.lp){scroll-behavior:smooth}
 .lp-end .lp-ticks{margin:24px 0 8px}.lp-end .lp-ticks svg{background:var(--ao-sky);color:#fff}
 .lp-end .lp-sso{margin-top:24px}
 .lp-end-wrap::before{display:none}
-@media (max-width:1100px){.lp-sdks{grid-template-columns:1fr 1fr}.lp-roi{grid-template-columns:1fr}}
+@media (max-width:1100px){.lp-roi{grid-template-columns:1fr}}
 @media (max-width:960px){.lp-flow ol{grid-template-columns:1fr 1fr}.lp-flow-line{display:none}.lp-end{grid-template-columns:1fr}.lp-end-art{min-height:380px}.lp-end-copy{padding:36px 28px}.lp-protos{grid-template-columns:1fr}.lp-action{flex-direction:column;align-items:flex-start}}
 @media (max-width:640px){.lp-sdks,.lp-flow ol,.lp-doms,.lp-hero-num{grid-template-columns:1fr}.lp-hero-num ul{grid-template-columns:1fr 1fr 1fr}.lp-stats li{padding:12px 20px}.lp-deck{height:380px}.lp-rev{padding:22px}.lp-term-feed{height:320px}}
 .lp-sphere{width:100%;max-width:560px;margin:0 auto}
@@ -1097,3 +1098,55 @@ html:has(dialog.dm[open]){overflow:hidden}
   .pz .pz-title h2{text-align:center;align-self:center;font-size:2rem}
   .pz-title .pz-tabs{align-self:center}
 }
+
+/* connector logos: quiet grey until hovered or focused */
+/* grey on the logo only: the white circle stays solid so the rail line never shows through */
+.lp-pearl img{filter:grayscale(1);opacity:.72;transition:filter .3s,opacity .3s}
+.lp-pearl:hover img,.lp-pearl:focus-visible img{filter:none;opacity:1}
+@media (hover:none){.lp-pearl img{filter:none;opacity:.9}}
+@media (prefers-reduced-motion:reduce){.lp-pearl img{transition:none}}
+.lp-pearl{box-shadow:0 0 0 6px color-mix(in srgb,var(--ao-ground) 90%,transparent),0 4px 14px rgba(22,22,26,.08)}
+
+/* connector pearls: the brand's own logo on white */
+.lp-pearl{background:#fff;z-index:1;box-shadow:0 0 0 6px var(--ao-ground),0 4px 14px rgba(22,22,26,.08),inset 0 0 0 1px rgba(22,22,26,.06)}
+.lp-pearl img{width:40px;height:40px;object-fit:contain;display:block}
+
+/* stacking trust section: a still left side, cards that pin and stack on the right */
+.ts{padding:112px 0 120px;overflow:visible;background:radial-gradient(45% 40% at 85% 20%,rgba(107,92,240,.16),transparent 70%),radial-gradient(40% 40% at 10% 90%,rgba(255,127,99,.12),transparent 70%),#0a0b10}
+.ts-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:72px;align-items:start}
+.ts-left{position:sticky;top:112px;color:#f4f1ec}
+.ts-left h2{font:600 clamp(2rem,3.4vw,3rem)/1.05 var(--ao-font-display);letter-spacing:-.04em;margin:0 0 16px;color:#f4f1ec}
+.ts-left .lp-lead{color:rgba(244,241,236,.72);margin:0 0 28px;max-width:42ch}
+.ts-steps{list-style:none;margin:0 0 22px;padding:0;display:grid;gap:4px}
+.ts-steps li{display:flex;align-items:center;gap:12px;padding:6px 0;font-size:16px;color:rgba(244,241,236,.45);transition:color .3s}
+.ts-steps li i{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.18);font:600 12px var(--ao-font-text);font-style:normal;transition:background .3s,color .3s,border-color .3s}
+.ts-steps li[data-on]{color:rgba(244,241,236,.85)}
+.ts-steps li[data-on] i{border-color:transparent;background:rgba(255,255,255,.14)}
+.ts-steps li[data-now]{color:#fff;font-weight:600}
+.ts-steps li[data-now] i{background:linear-gradient(135deg,#4f8be0,#8b6ef0 60%,#f2795f);color:#fff}
+.ts-limit{display:flex;flex-direction:column;gap:4px;margin:0 0 22px;padding:14px 18px;border-radius:18px;border:1px solid rgba(255,255,255,.14);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));max-width:340px}
+.ts-limit span{font-size:13px;color:rgba(244,241,236,.6)}
+.ts-limit b{font:600 18px var(--ao-font-display);color:#f4f1ec}
+.ts-gates{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.ts-gates li{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:99px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);font-size:13px;color:rgba(244,241,236,.8)}
+.ts-stack{display:block}
+.ts-card{position:sticky;top:calc(112px + var(--i)*22px);margin-bottom:26vh;min-height:360px;display:flex;flex-direction:column;gap:10px;padding:28px;border-radius:30px;border:1px solid rgba(255,255,255,.14);background:linear-gradient(160deg,#171a26,#10121b);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 24px 60px rgba(0,0,0,.45);transform:scale(var(--s,1));transform-origin:50% 0;filter:brightness(var(--o,1));transition:transform .5s cubic-bezier(.16,1,.3,1),filter .5s}
+.ts-card:last-child{margin-bottom:0}
+.ts-card b{font:600 clamp(1.7rem,2.6vw,2.2rem)/1.05 var(--ao-font-display);letter-spacing:-.03em;color:#f4f1ec}
+.ts-card p{margin:0;color:rgba(244,241,236,.72);font-size:17px;line-height:1.5;max-width:44ch}
+.ts-card .lp-tag{align-self:flex-start;background:rgba(255,255,255,.1);color:rgba(244,241,236,.85);border-color:transparent}
+.ts-card .lp-mini{margin-top:auto;background:#07080c;border:1px solid rgba(255,255,255,.08)}
+.ts-card .lp-mini p{color:#f4f1ec;font-size:16px}.ts-card .lp-mini small{color:rgba(244,241,236,.6)}
+.ts-card[data-now]{border-color:transparent;box-shadow:inset 0 0 0 2px rgba(139,110,240,.7),0 0 0 6px rgba(139,110,240,.1),0 24px 70px rgba(111,110,240,.3)}
+.ts-log p{font:400 13px/1.5 "JetBrains Mono",monospace;margin:0 0 4px}.ts-log b{font:inherit;color:rgba(244,241,236,.55);margin-right:8px}
+.ts-log-btns{display:flex;gap:8px;margin-top:10px}
+.ts .lp-ctl{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#f4f1ec;box-shadow:none}
+.ts .lp-ctl.danger{background:rgba(255,127,99,.16);border-color:rgba(255,127,99,.4);color:#ffb199}
+@media (max-width:960px){
+  .ts{padding:72px 0}
+  .ts-grid{grid-template-columns:1fr;gap:36px}
+  .ts-left{position:static}
+  .ts-steps,.ts-limit{display:none}
+  .ts-card{position:static;margin-bottom:16px;min-height:0;transform:none;filter:none}
+}
+@media (prefers-reduced-motion:reduce){.ts-card{transition:none}}
