@@ -32,9 +32,9 @@ export const TAB_HELP: Record<string, string> = {
 const TAB_NAMES: Record<string, string> = { overview: 'Overview', workspace: 'Workspace', config: 'Config', workflow: 'Workflow Config', prompt: 'Prompt', shadow: 'Shadow', cost: 'Cost', scopes: 'Scopes', learning: 'Learning', voice: 'Voice' }
 const TAB_STEPS: Omit<Step, 'stop'>[] = Object.keys(TAB_NAMES).map((k, i) => ({ id: `tab-${k}`, stopName: 'Agent tabs', target: `tab-${k}`, advance: i === 0 ? 'next' : 'click', side: 'bottom', title: TAB_NAMES[k], body: (i === 0 ? '' : '') + TAB_HELP[k] + (i === 0 ? ' Now take a look at each tab. Click the next one.' : '') }))
 
-type StopKey = 'agents' | 'workflows' | 'connectors' | 'templates'
+type StopKey = 'dashboard' | 'agents' | 'workflows' | 'connectors' | 'templates' | 'approvals' | 'creds'
 
-const HANDS_ON: Record<Exclude<StopKey, 'templates'>, Omit<Step, 'stop'>[]> = {
+const HANDS_ON: Partial<Record<StopKey, Omit<Step, 'stop'>[]>> = {
   agents: [
     { id: 'nav-agents', stopName: 'Agents', target: 'nav-agents', advance: 'click', side: 'right', title: 'Open Agents', body: 'Agents are the workers you create. Click Agents to see yours.' },
     { id: 'create', stopName: 'Agents', target: 'create-agent', advance: 'click', side: 'bottom', title: 'Create your first agent', body: 'Click Create Agent. It takes about a minute.' },
@@ -64,48 +64,54 @@ const HANDS_ON: Record<Exclude<StopKey, 'templates'>, Omit<Step, 'stop'>[]> = {
   ],
 }
 
+// The same tour for everyone: one stop per major area. Each stop lights the tab, then explains the page in a short modal.
 const QUICK: Record<StopKey, Omit<Step, 'stop'>[]> = {
+  dashboard: [
+    { id: 'q-dash-nav', stopName: 'Dashboard', target: 'nav-dashboard', advance: 'click', side: 'right', title: 'Dashboard', body: 'Your live view of every agent, run and approval. Click to open it.' },
+    { id: 'q-dash-page', stopName: 'Dashboard', target: 'page-title', advance: 'next', side: 'bottom', title: 'What your agents are doing now', body: 'See runs, how sure each agent was, and anything waiting for a person. This is where you check on the work.' },
+  ],
   agents: [
-    { id: 'q-agents-nav', stopName: 'Agents', target: 'nav-agents', advance: 'click', side: 'right', title: 'Agents', body: 'Your agents live here. Click to take a look.' },
-    { id: 'q-agents-page', stopName: 'Agents', target: 'page-title', advance: 'next', side: 'bottom', title: 'Your fleet', body: 'Create an agent any time from here. Sample agents are labelled Sample and can be removed.' },
+    { id: 'q-agents-nav', stopName: 'Agents', target: 'nav-agents', advance: 'click', side: 'right', title: 'Agents', body: 'Agents are what you build. Each has a prompt, tools, a confidence floor and a status. Click to open.' },
+    { id: 'q-agents-page', stopName: 'Agents', target: 'page-title', advance: 'next', side: 'bottom', title: 'Your agent fleet', body: 'Sample agents are labelled Sample. Open one to chat with it and read its trace. Create your own agent from a plain English prompt any time.' },
   ],
   workflows: [
-    { id: 'q-wf-nav', stopName: 'Workflows', target: 'nav-workflows', advance: 'click', side: 'right', title: 'Workflows', body: 'Chain agents into one job. Click to take a look.' },
-    { id: 'q-wf-page', stopName: 'Workflows', target: 'page-title', advance: 'next', side: 'bottom', title: 'Your workflows', body: 'One sample is ready to run. You can build your own later.' },
-  ],
-  connectors: [
-    { id: 'q-conn-nav', stopName: 'Connectors', target: 'nav-connectors', advance: 'click', side: 'right', title: 'Connectors', body: 'Link agents to Gmail, your bank and more. Click to take a look.' },
-    { id: 'q-conn-page', stopName: 'Connectors', target: 'page-title', advance: 'next', side: 'bottom', title: 'Your connectors', body: 'Health Check tells you if a connection works.' },
+    { id: 'q-wf-nav', stopName: 'Workflows', target: 'nav-workflows', advance: 'click', side: 'right', title: 'Workflows', body: 'Chain agents into one job, with approvals in between. Click to open.' },
+    { id: 'q-wf-page', stopName: 'Workflows', target: 'page-title', advance: 'next', side: 'bottom', title: 'Your workflows', body: 'One sample is ready to run on sample data, so nothing real is sent. Build your own when you are ready.' },
   ],
   templates: [
-    { id: 'q-tpl-nav', stopName: 'Templates', target: 'nav-templates', advance: 'click', side: 'right', title: 'Agent Templates', body: 'Start from an agent that already works. Click to take a look.' },
-    { id: 'q-tpl-page', stopName: 'Templates', target: 'template-list', advance: 'next', side: 'bottom', title: 'Ready-made agents', body: 'Pick one and create your own copy in a click.' },
+    { id: 'q-tpl-nav', stopName: 'Templates', target: 'nav-templates', advance: 'click', side: 'right', title: 'Agent Templates', body: 'Start from an agent that already works. Click to open.' },
+    { id: 'q-tpl-page', stopName: 'Templates', target: 'template-list', advance: 'next', side: 'bottom', title: 'Ready-made agents', body: 'Pick one and create your own copy in a click. Change its prompt and tools to fit your job.' },
+  ],
+  connectors: [
+    { id: 'q-conn-nav', stopName: 'Connectors', target: 'nav-connectors', advance: 'click', side: 'right', title: 'Connectors', body: 'Connectors give agents their tools, like Gmail, Slack and your accounting system. Click to open.' },
+    { id: 'q-conn-page', stopName: 'Connectors', target: 'page-title', advance: 'next', side: 'bottom', title: 'Your connectors', body: 'Nothing is connected until you connect it, with your own login. Health Check tells you if a connection works.' },
+  ],
+  approvals: [
+    { id: 'q-appr-nav', stopName: 'Approvals', target: 'nav-approvals', advance: 'click', side: 'right', title: 'Approvals', body: 'When an agent is unsure, it asks a person here. Click to open.' },
+    { id: 'q-appr-page', stopName: 'Approvals', target: 'page-title', advance: 'next', side: 'bottom', title: 'The approval queue', body: 'Each item shows what the agent wants to do and why. Approve or reject, and the decision goes into the audit trail.' },
+  ],
+  creds: [
+    { id: 'q-creds-nav', stopName: 'AI Credentials', target: 'nav-creds', advance: 'click', side: 'right', title: 'AI Credentials', body: 'Agents run on the AI model provider you choose. Click to open.' },
+    { id: 'q-creds-page', stopName: 'AI Credentials', target: 'page-title', advance: 'next', side: 'bottom', title: 'Your model provider', body: 'Set the provider and key your agents use here, before you run your first agent.' },
   ],
 }
 
-const ORDER: Record<string, StopKey[]> = {
-  agents: ['agents', 'workflows', 'connectors', 'templates'],
-  workflows: ['workflows', 'agents', 'connectors', 'templates'],
-  connectors: ['connectors', 'agents', 'workflows', 'templates'],
-}
+const ORDER: StopKey[] = ['dashboard', 'agents', 'workflows', 'templates', 'connectors', 'approvals', 'creds']
 
-export function buildTour(intent?: string): Step[] {
-  const order = ORDER[intent ?? ''] ?? (['agents', 'workflows', 'connectors', 'templates'] as StopKey[])
-  const handsOn = intent === 'agents' || intent === 'workflows' || intent === 'connectors' ? (intent as Exclude<StopKey, 'templates'>) : null
-  return order.flatMap((key, stop) => {
-    const list = key === handsOn ? HANDS_ON[key] : QUICK[key]
-    return list.map((st) => ({ ...st, stop }))
-  })
+export const TOUR_STOPS = ORDER.length
+
+export function buildTour(): Step[] {
+  return ORDER.flatMap((key, stop) => (QUICK[key] ?? HANDS_ON[key] ?? []).map((st) => ({ ...st, stop })))
 }
 
 export function useTourStep(): string | null {
-  const { s, intent } = usePlatform()
+  const { s } = usePlatform()
   if (s.tour.status !== 'active') return null
-  return buildTour(intent)[s.tour.step]?.id ?? null
+  return buildTour()[s.tour.step]?.id ?? null
 }
 
 export function useTourTarget(): string | null {
-  const { s, intent } = usePlatform()
+  const { s } = usePlatform()
   if (s.tour.status !== 'active') return null
-  return buildTour(intent)[s.tour.step]?.target ?? null
+  return buildTour()[s.tour.step]?.target ?? null
 }

@@ -1,11 +1,14 @@
 import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { siGithub, siGmail, siGooglecalendar, siHubspot, siJira, siPagerduty, siSap, siStripe, siZoho, siZoom } from 'simple-icons'
+import { siClaude, siGithub, siGmail, siGnometerminal, siGooglecalendar, siHubspot, siJira, siNpm, siPagerduty, siPypi, siSap, siStripe, siZoho, siZoom } from 'simple-icons'
 import { Icon } from '../components/Icon'
 import { presetRole, reduced } from './config'
 import { CASE_STEPS, DOMAIN_DATA, PROTOCOLS, SCENARIOS, SDKS, STATS, TESTIMONIALS, computeScale, formatINR, DEFAULT_CLOSE_DAYS, DEFAULT_EMPLOYEES, DEFAULT_INVOICES, DEFAULT_TICKETS } from './realData'
 
-const Sphere = lazy(() => import('./Sphere'))
+// white marks for the tags on the developer cards
+const BADGE_ICON: Record<string, string> = { PyPI: siPypi.path, npm: siNpm.path, Terminal: siGnometerminal.path, 'ChatGPT / Claude': siClaude.path }
+
+const EndOrb = lazy(() => import('./HeroOrb').then((m) => ({ default: m.StrandsSolo })))
 
 /* Connectors on two curved rails ----------------------------------------- */
 type Logo = { n: string; c: string; p?: string; l?: string }
@@ -37,7 +40,7 @@ export function Pearls() {
     <section id="connectors" className="lp-sec lp-center" aria-labelledby="lp-h-conn">
       <div className="lp-wrap">
         <div className="lp-head c">
-          <h2 id="lp-h-conn">Connect the tools you already use.</h2>
+          <h2 id="lp-h-conn">Connect the tools your agent uses.</h2>
           <p className="lp-lead">Agents work through connectors, each with the permissions you set. Cloud or your own VPC.</p>
         </div>
       </div>
@@ -90,8 +93,8 @@ export function LiveExecution() {
     <section id="live" className="lp-sec lp-dark" aria-labelledby="lp-h-live">
       <div className="lp-wrap">
         <div className="lp-head c">
-          <h2 id="lp-h-live">Watch agents think, execute and decide.</h2>
-          <p className="lp-lead">Real reasoning traces, real tool calls and confidence scores. Pick a scenario and watch the full pipeline.</p>
+          <h2 id="lp-h-live">See every step an agent takes.</h2>
+          <p className="lp-lead">Reasoning, tool calls and a confidence score for every run. Pick a scenario to replay it.</p>
         </div>
         <div className="lp-tabs" role="tablist" aria-label="Scenarios">
           {SCENARIOS.map((s, i) => (
@@ -124,9 +127,18 @@ export function LiveExecution() {
 }
 
 /* Build with AgenticOrg ---------------------------------------------------- */
-function Copy({ text }: { text: string }) {
+function Copy({ text, label = 'Copy' }: { text: string; label?: string }) {
   const [ok, setOk] = useState(false)
-  return <button type="button" className="lp-copy-btn" onClick={() => { navigator.clipboard?.writeText(text); setOk(true); setTimeout(() => setOk(false), 1400) }}>{ok ? 'Copied' : 'Copy'}</button>
+  return (
+    <button type="button" className="lp-copy-btn" aria-label={ok ? 'Copied' : 'Copy to clipboard'} data-ok={ok ? '' : undefined} onClick={() => { navigator.clipboard?.writeText(text); setOk(true); setTimeout(() => setOk(false), 1600) }}>
+      {ok ? (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+      ) : (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5" /><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15" /></svg>
+      )}
+      <span aria-live="polite">{ok ? 'Copied' : label}</span>
+    </button>
+  )
 }
 export function Dev() {
   return (
@@ -140,10 +152,10 @@ export function Dev() {
         <div className="lp-sdks">
           {SDKS.map((s) => (
             <article key={s.title} className="lp-sdk">
-              <header><h3>{s.title}</h3><span>{s.badge}</span></header>
+              <header><h3>{s.title}</h3><span>{BADGE_ICON[s.badge] && <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d={BADGE_ICON[s.badge]} fill="currentColor" /></svg>}{s.badge}</span></header>
               <div className="lp-inst"><code><i>$</i> {s.install}</code><Copy text={s.install} /></div>
-              <pre><code>{s.code}</code></pre>
-              <a href={s.link} target="_blank" rel="noreferrer">{s.cta} <Icon name="send" size={14} /></a>
+              <div className="lp-codebox"><pre><code>{s.code}</code></pre></div>
+              <a href={s.link} target="_blank" rel="noreferrer">{s.cta}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9" /></svg><span className="sr-only"> (opens in a new tab)</span></a>
             </article>
           ))}
         </div>
@@ -154,9 +166,9 @@ export function Dev() {
         </div>
         <div className="lp-action lg">
           <div><h3>See it in action: OACP-grounded shopping preview</h3><p>Safe workflow preview: a buyer asks from ChatGPT, AgenticOrg uses MCP and cached OACP artifacts, checks freshness and revocation posture, then prepares a non-executing handoff or refuses unsafe paths. Live checkout and payment remain blocked until approved.</p></div>
-          <a className="lp-btn ink" href="#developers" onClick={(e) => e.preventDefault()}>View safe workflow</a>
+          <a className="lp-btn ink" href="#developers" onClick={(e) => e.preventDefault()}>View Safe Workflow</a>
         </div>
-        <div className="lp-keyrow"><p>Get your API key from the dashboard to start building.</p><div><Link to="/signup" className="lp-btn ink big">Get API key, free</Link><a className="lp-btn line big" href="https://github.com/mishrasanjeev/agentic-org" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" width="18" height="18"><path d={siGithub.path} fill="currentColor" /></svg>View on GitHub</a></div></div>
+        <div className="lp-keyrow"><p>Get your API key from the dashboard to start building.</p><div><Link to="/signup" className="lp-btn ink big">Get API Key, Free</Link><a className="lp-btn line big" href="https://github.com/mishrasanjeev/agentic-org" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" width="18" height="18"><path d={siGithub.path} fill="currentColor" /></svg>View on GitHub</a></div></div>
       </div>
     </section>
   )
@@ -216,7 +228,7 @@ export function Roi() {
   return (
     <section id="roi" className="lp-sec lp-soft" aria-labelledby="lp-h-roi">
       <div className="lp-wrap">
-        <div className="lp-head c"><h2 id="lp-h-roi">Calculate your savings with AgenticOrg.</h2><p className="lp-lead">Adjust the sliders to match your organization. See real-time savings estimates across every department.</p></div>
+        <div className="lp-head c"><h2 id="lp-h-roi">Calculate your savings with AgenticOrg.</h2><p className="lp-lead">Set your team size and volumes to see the estimated savings by department.</p></div>
         <div className="lp-roi">
           <form className="lp-roi-in lg" onSubmit={(e) => e.preventDefault()}>
             <h3>Your organization</h3>
@@ -324,7 +336,7 @@ export function Reviews() {
   return (
     <section id="reviews" className="lp-sec lp-dark lp-aurora" aria-labelledby="lp-h-rev">
       <div className="lp-wrap">
-        <div className="lp-head c"><h2 id="lp-h-rev">Trusted by teams across India.</h2><p className="lp-lead">Enterprise leaders share how AgenticOrg transformed their operations.</p></div>
+        <div className="lp-head c"><h2 id="lp-h-rev">Trusted by teams across India.</h2><p className="lp-lead">Feedback from teams using AgenticOrg.</p></div>
         <ul className="lp-stats">{STATS.map((s) => <li key={s.label}><b>{s.value}</b><span>{s.label}</span></li>)}</ul>
       </div>
 
@@ -363,11 +375,11 @@ export function Reviews() {
 }
 
 /* CA firm case study: a flowing four-step line ------------------------------ */
-const CHIP: Record<string, { c: string; p?: string; l: string }> = {
-  'Zoho Books': { c: `#${siZoho.hex}`, p: siZoho.path, l: 'Z' },
-  'Finvu AA': { c: '#0B6E6E', l: 'F' },
-  GSTN: { c: '#1F5FB0', l: 'G' },
-  'Tally Bridge': { c: '#2C4F9E', l: 'T' },
+const CHIP: Record<string, string> = {
+  'Zoho Books': '/logos/zoho-books.webp',
+  'Finvu AA': '/logos/finvu.webp',
+  GSTN: '/logos/gstn.webp',
+  'Tally Bridge': '/logos/tally.webp',
 }
 const CASE_ICONS = ['send', 'landmark', 'shield', 'loop'] as const
 
@@ -388,8 +400,8 @@ export function CaseStudy() {
             <p className="cs-kicker"><span>Case study</span><i />CA firm</p>
             <p className="cs-num" aria-hidden="true">8</p>
             <h2 id="lp-h-case">A CA firm goes live in 8 days.</h2>
-            <p className="cs-dek">End-to-end automation: invoice processing, bank reconciliation, GST filing and Tally sync, all running on AI agents.</p>
-            <a href="#case" className="lp-btn ink" onClick={(e) => e.preventDefault()}>Read the full case study<Icon name="arrowRight" size={16} /></a>
+            <p className="cs-dek">Invoicing, bank reconciliation, GST filing and Tally sync, all handled by agents.</p>
+            <a href="#case" className="lp-btn ink" onClick={(e) => e.preventDefault()}>Read the Full Case Study<Icon name="arrowRight" size={16} /></a>
           </header>
 
           <ol className="cs-story">
@@ -401,7 +413,7 @@ export function CaseStudy() {
                   <div>
                     <h3>{s.title}</h3>
                     <p>{s.desc}</p>
-                    <em><span style={{ background: ch.c }}>{ch.p ? <svg viewBox="0 0 24 24" width="12" height="12"><path d={ch.p} fill="#fff" /></svg> : ch.l}</span>{s.connector}</em>
+                    <em><img src={ch} alt={s.connector} height="24" /></em>
                   </div>
                 </li>
               )
@@ -420,13 +432,13 @@ export function EndCard({ role }: { role?: string }) {
       <div className="lp-wrap">
         <div className="lp-end">
           <div className="lp-end-art">
-            <div className="lp-arch"><Suspense fallback={null}><Sphere light={false} className="lp-end-sphere" /></Suspense></div>
+            <div className="lp-arch"><Suspense fallback={null}><EndOrb className="lp-end-sphere" /></Suspense></div>
           </div>
           <div className="lp-end-copy">
             <p className="lp-badge"><i />Free to start</p>
-            <h2 id="lp-h-end">Your next hire is an <span className="lp-gt">AI employee.</span></h2>
-            <p className="lp-lead">Virtual employees that act with human control, scoped tools, audit trails and fail-closed release gates.</p>
-            <div className="lp-sso"><Link to="/signup" className="lp-btn ink big" onClick={() => role && presetRole(role)}>Start free</Link><Link to="/app" className="lp-btn line big">Try the live demo</Link></div>
+            <h2 id="lp-h-end">Ship your first <span className="lp-gt">AI agent today.</span></h2>
+            <p className="lp-lead">Describe it, test it on sample data and put it to work. Approvals and an audit trail are built in.</p>
+            <div className="lp-sso"><Link to="/signup" className="lp-btn ink big" onClick={() => role && presetRole(role)}>Build Your First Agent</Link><Link to="/app" className="lp-btn line big">Try the Live Demo</Link></div>
             <p className="lp-fine">No credit card required. Full audit trail built in.</p>
           </div>
         </div>

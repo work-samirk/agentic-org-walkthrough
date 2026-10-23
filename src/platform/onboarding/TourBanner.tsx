@@ -7,7 +7,7 @@ export function TourBanner() {
     <section className="ob-banner" aria-label="Quick tour">
       <div>
         <b>Want a quick tour?</b>
-        <p>About two minutes. You make your first agent, then see where everything lives. Nothing real is touched.</p>
+        <p>About two minutes. We light up each main tab and explain what it is for. Nothing real is touched.</p>
       </div>
       <div className="ob-banner-actions">
         <button type="button" className="ob-ghost" onClick={() => set({ tour: { status: 'dismissed', step: 0 } })}>Not now</button>

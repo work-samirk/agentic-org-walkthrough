@@ -9,7 +9,7 @@ export type Question = {
   options: Option[]
 }
 
-// The welcome questions from the onboarding PRD (6.3.3). Organisation type and industry were dropped on 21 Oct 2026. Every one can be skipped.
+// The welcome questions from the onboarding PRD (6.3.3). The fourth question (what to do first) was removed on 23 Oct 2026: every new user now gets the same tour. Organisation type and industry were dropped on 21 Oct 2026. Every one can be skipped.
 export const QUESTIONS: Question[] = [
   {
     key: 'role',
@@ -55,18 +55,6 @@ export const QUESTIONS: Question[] = [
       { id: 'newsletter', label: 'A newsletter or blog', icon: 'mail' },
       { id: 'video', label: 'A video or podcast', icon: 'play' },
       { id: 'other', label: 'Other', icon: 'dots' },
-    ],
-  },
-  {
-    key: 'intent',
-    title: 'What do you want to do first?',
-    why: 'Your answer decides where the tour starts.',
-    cols: 4,
-    options: [
-      { id: 'agents', label: 'Create agents', icon: 'spark' },
-      { id: 'workflows', label: 'Build workflows', icon: 'loop' },
-      { id: 'connectors', label: 'Connect my apps', icon: 'plug' },
-      { id: 'explore', label: 'Just exploring', icon: 'eye' },
     ],
   },
 ]

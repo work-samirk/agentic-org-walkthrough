@@ -1,12 +1,13 @@
 import { lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import { Icon } from '../components/Icon'
+import { DemoButton } from './DemoModal'
 
 // if the chunk fails to load once (dropped connection, a redeploy), try again before giving up
 type Mod = typeof import('./Warps')
 const load = (): Promise<Mod> => import('./Warps').catch(() => new Promise<void>((r) => window.setTimeout(r, 800)).then(load))
 const WarpTree = lazy(() => load().then((m) => ({ default: m.WarpTree })))
-const WarpSolo = lazy(() => load().then((m) => ({ default: m.WarpSolo })))
+const StrandsSolo = lazy(() => import('./HeroOrb').then((m) => ({ default: m.StrandsSolo })))
 
 export function OrgHero({ art }: { art: 'tree' | 'solo' }) {
   return (
@@ -14,21 +15,21 @@ export function OrgHero({ art }: { art: 'tree' | 'solo' }) {
       <div className="lp-wrap lp-hero-grid">
         <div className="lp-hero-copy">
           <p className="cl-badge"><span className="lp-pill lime"><i />v4.8.0: Governed agents with OACP trust boundaries</span></p>
-          <h1 id="cl-h1">Your Back Office <span className="lp-grad">Runs Itself.</span></h1>
-          <p className="lp-sub">Name them. Train them. Deploy them. AI virtual employees that process invoices, run payroll, launch campaigns, and resolve incidents, with human approval on every critical decision.</p>
+          <h1 id="cl-h1">Build AI Agents<br /><span className="lp-grad">Production Ready<br />Enterprise Safe</span></h1>
+          <ul className="lp-ticks cl-hero-ticks">
+            <li><Icon name="check" size={16} strokeWidth={3} /><b>Prompt</b><span>Describe it in plain English</span></li>
+            <li><Icon name="check" size={16} strokeWidth={3} /><b>Test</b><span>Dry-run it on sample data</span></li>
+            <li><Icon name="check" size={16} strokeWidth={3} /><b>Ship</b><span>Use it anywhere, or sell it</span></li>
+          </ul>
           <div className="lp-sso">
-            <Link to="/signup" className="lp-btn ink big">Start Free<Icon name="arrowRight" size={18} /></Link>
-            <a href="#live" className="lp-btn line big">Watch Demo<Icon name="arrowRight" size={18} className="cl-down" /></a>
+            <Link to="/signup" className="lp-btn ink big">Build Your First Agent<Icon name="arrowRight" size={18} /></Link>
+            <DemoButton />
           </div>
           <p className="lp-fine">No credit card required · Free to start · Full audit trail built in</p>
-          <ul className="lp-ticks cl-hero-ticks">
-            <li><Icon name="check" size={16} strokeWidth={3} />Upload your org chart CSV</li>
-            <li><Icon name="check" size={16} strokeWidth={3} />Agents match your hierarchy</li>
-            <li><Icon name="check" size={16} strokeWidth={3} />Human approval on every critical decision</li>
-          </ul>
+          <p className="lp-fine cl-teams-line">Not a developer? <a href="#teams">Start with ready made agents</a>.</p>
         </div>
         <div className="cl-org">
-          <Suspense fallback={null}>{art === 'tree' ? <WarpTree className="cl-org-player" /> : <WarpSolo className="cl-org-player" />}</Suspense>
+          <Suspense fallback={null}>{art === 'tree' ? <WarpTree className="cl-org-player" /> : <StrandsSolo className="cl-org-player" />}</Suspense>
         </div>
       </div>
     </section>

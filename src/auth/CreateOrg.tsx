@@ -39,10 +39,10 @@ export function CreateOrg() {
 
       <div className="sso">
         <button type="button" className="btn soft" onClick={() => nav('/welcome/1')}>
-          <GoogleMark /> Sign up with Google
+          <GoogleMark /> Sign Up With Google
         </button>
         <button type="button" className="btn soft" onClick={() => nav('/welcome/1')}>
-          <MicrosoftMark /> Sign up with Microsoft
+          <MicrosoftMark /> Sign Up With Microsoft
         </button>
       </div>
       <div className="divider">

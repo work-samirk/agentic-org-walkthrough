@@ -2,12 +2,14 @@ import './landing.css'
 import { useEffect, useState } from 'react'
 import { Chrome } from './Chrome'
 import { OrgHero } from './OrgHero'
+import { PricingSection } from './PricingSection'
+import { PromptSection } from './PromptSection'
 import { Trust } from './Trust'
-import { Steps } from './Steps'
 import { Heads } from './Heads'
 import { ProductTabs } from './ProductWindow'
-import { Ladder, OrgChart, Relay } from './Chapters'
+import { Ladder, OrgChart } from './Chapters'
 import { Faq, Footer } from './Start'
+import { Compare, TeamsIntro } from './DevSections'
 import { CaseStudy, Dev, EndCard, LiveExecution, Pearls, Reviews, Roi } from './Sections'
 
 export function Landing() {
@@ -30,27 +32,29 @@ export function Landing() {
 
   return (
     <div className="lp">
-      <Chrome stuck={stuck} links={[['product', 'Product'], ['live', 'Live agents'], ['developers', 'Developers'], ['roi', 'Savings'], ['reviews', 'Reviews']]} />
+      <Chrome stuck={stuck} links={[['why', 'Why AgenticOrg'], ['product', 'Product'], ['developers', 'Developers'], ['reviews', 'Reviews'], ['pricing', 'Pricing']]} />
       <main id="top">
         <OrgHero art="solo" />
-        <Trust />
         <section id="product" className="lp-sec lp-soft" aria-labelledby="lp-h-prod">
           <div className="lp-wrap">
-            <div className="lp-head c"><h2 id="lp-h-prod">One Platform. Unlimited AI Employees. Complete Automation.</h2><p className="lp-lead">Agents, a live view of the work, and every approval in one place.</p></div>
+            <div className="lp-head c"><h2 id="lp-h-prod">Describe it. Test it. Ship it.</h2><p className="lp-lead">Create an agent from a prompt, watch it run, and clear every approval in one place.</p></div>
             <ProductTabs />
           </div>
         </section>
+        <PromptSection />
+        <Compare />
         <Pearls />
         <LiveExecution />
-        <Relay />
-        <Steps />
-        <OrgChart />
         <Ladder />
-        <Heads />
         <Dev />
+        <TeamsIntro />
+        <OrgChart />
+        <Heads />
         <Roi />
+        <Trust />
         <Reviews />
         <CaseStudy />
+        <PricingSection />
         <Faq />
         <EndCard />
       </main>

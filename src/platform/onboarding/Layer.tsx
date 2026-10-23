@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { Link, useLocation } from 'react-router-dom'
 import { Check, ChevronDown, ChevronUp, X } from 'lucide-react'
 import { usePlatform } from '../state'
-import { buildTour, type Step } from './tour'
+import { buildTour, TOUR_STOPS, type Step } from './tour'
 
 type Box = { x: number; y: number; w: number; h: number }
 const PAD = 8
@@ -208,8 +208,8 @@ function ChecklistCard() {
 }
 
 export function OnboardingLayer() {
-  const { s, set, intent, tick } = usePlatform()
-  const steps = useMemo(() => buildTour(intent), [intent])
+  const { s, set, tick } = usePlatform()
+  const steps = useMemo(() => buildTour(), [])
   const [finished, setFinished] = useState(false)
   const live = useRef({ s, steps })
   live.current = { s, steps }
@@ -258,8 +258,8 @@ export function OnboardingLayer() {
         <Spotlight
           step={step}
           index={s.tour.step}
-          total={4}
-          countText={`${step.stopName} · ${steps.slice(0, s.tour.step + 1).filter((x) => x.stop === step.stop && x.stopName === step.stopName).length} of ${steps.filter((x) => x.stop === step.stop && x.stopName === step.stopName).length}`}
+          total={TOUR_STOPS}
+          countText={`Stop ${step.stop + 1} of ${TOUR_STOPS}: ${step.stopName}`}
           onNext={advance}
           onSkip={() => set({ tour: { status: 'dismissed', step: 0 } })}
           onPause={() => set({ tour: { status: 'paused', step: s.tour.step } })}

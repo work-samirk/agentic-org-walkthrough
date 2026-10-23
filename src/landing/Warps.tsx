@@ -11,11 +11,11 @@ import { reduced } from './config'
 const W = 760
 const H = 740
 const CXO_C = '#b9c7ff'
-const CORAL = '#ff7f63'
+export const CORAL = '#ff7f63'
 const SKY = '#6db1f5'
 const VIOLET = '#9b82f5'
-const PAPER = '#f4f1ec'
-const FONT = "'Geist', system-ui, sans-serif"
+export const PAPER = '#f4f1ec'
+export const FONT = "'Geist', system-ui, sans-serif"
 
 const VERT = `varying vec3 vN; void main(){ vN = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`
 const FRAG = `
@@ -130,10 +130,10 @@ function Orb({ px, py, r, color, ang, amp, time, scale = 1, glow, full = 0 }: Or
   )
 }
 
-const clamp = (f: number, a: number, b: number) => interpolate(f, [a, b], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
-const ease = Easing.inOut(Easing.cubic)
+export const clamp = (f: number, a: number, b: number) => interpolate(f, [a, b], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+export const ease = Easing.inOut(Easing.cubic)
 
-const chip: CSSProperties = {
+export const chip: CSSProperties = {
   position: 'absolute',
   boxSizing: 'border-box',
   borderRadius: 16,
@@ -156,7 +156,7 @@ function Pill({ text, color, check }: { text: string; color: string; check?: boo
   )
 }
 
-type P = [number, number]
+export type P = [number, number]
 function curve(a: P, b: P) {
   const my = (a[1] + b[1]) / 2
   const at = (t: number): P => {
@@ -279,31 +279,31 @@ function TreeScene() {
 }
 
 /* ---- one orb that hands over ------------------------------------------------ */
-const SEG = 120
-const STEPS = [
-  { who: 'Ananya', role: 'Chief of Staff', c: CXO_C, tag: 'CXO', tasks: ['Splitting the Q3 board pack across three teams', 'Briefing the Sales, Ops and Finance heads', 'Checking every action against policy'] },
-  { who: 'Aarav', role: 'Sales Representative', c: CORAL, tag: 'Sales', tasks: ['Qualifying 42 leads and drafting outreach', 'Updating the pipeline forecast', 'Scheduling 14 follow-ups'] },
-  { who: 'Meera', role: 'Operations Analyst', c: SKY, tag: 'Ops', tasks: ['Triaging 31 tickets and chasing two vendors', 'Watching every SLA target', 'Closing incident 412 in 6 minutes'] },
-  { who: 'Rohan', role: 'Financial Analyst', c: VIOLET, tag: 'Finance', tasks: ['Matching 847 bank transactions to invoices', 'Flagging 3 breaks for review', 'Verifying payroll with zero errors'] },
-  { who: 'Ananya', role: 'Chief of Staff', c: CXO_C, tag: 'CXO', tasks: ['Merged the results from three teams', 'Every output passed its policy checks', 'Board pack is ready and waits for your approval'] },
+export const SEG = 120
+export const STEPS = [
+  { who: 'Ananya', role: 'Business Analyst Agent', c: CXO_C, tag: 'CXO', tasks: ['Splitting the Q3 board pack across three teams', 'Briefing the Sales, Ops and Finance heads', 'Checking every action against policy'] },
+  { who: 'Aarav', role: 'Lead Generation Agent', c: CORAL, tag: 'Sales', tasks: ['Qualifying 42 leads and drafting outreach', 'Updating the pipeline forecast', 'Scheduling 14 follow-ups'] },
+  { who: 'Meera', role: 'Customer Support Agent', c: SKY, tag: 'Ops', tasks: ['Triaging 31 tickets and chasing two vendors', 'Watching every SLA target', 'Closing incident 412 in 6 minutes'] },
+  { who: 'Rohan', role: 'Reconciliation Agent', c: VIOLET, tag: 'Finance', tasks: ['Matching 847 bank transactions to invoices', 'Flagging 3 breaks for review', 'Verifying payroll with zero errors'] },
+  { who: 'Ananya', role: 'Business Analyst Agent', c: CXO_C, tag: 'CXO', tasks: ['Merged the results from three teams', 'Every output passed its policy checks', 'Board pack is ready and waits for your approval'] },
 ]
 
-const CMDS: string[][][] = [
+export const CMDS: string[][][] = [
   [['plan.split("Q3 board pack")', '3 goals: sales, ops, finance'], ['assign(team="sales")', 'brief sent'], ['policy.check(approvals)', '2 gates, 1 human'], ['merge(results)', 'board pack ready']],
   [['crm.qualify(leads=42)', '11 hot, 9 warm'], ['draft_outreach(hot)', '11 emails drafted'], ['pipeline.update()', 'forecast +38L'], ['follow_up.schedule()', '14 reminders set']],
   [['tickets.triage(31)', '31 routed, 0 mis-routes'], ['vendor.chase(2)', 'reminders sent'], ['sla.watch()', 'all within target'], ['incident.close(412)', 'resolved in 6m']],
   [['recon.run(847)', '99.7% matched'], ['flag(breaks)', '3 sent to review'], ['invoice.match(INV-4899)', '3-way match passed'], ['payroll.verify()', 'zero errors']],
 ]
 // places around and over the orb; none of them reach the name and task line below it
-const BOX_W = 290
-const BOX_H = 105
-const SLOTS: P[] = [[14, 40], [456, 40], [14, 200], [456, 200], [14, 360], [456, 360], [235, 22], [235, 205], [235, 385]]
-const rnd = (n: number) => {
+export const BOX_W = 290
+export const BOX_H = 105
+export const SLOTS: P[] = [[14, 40], [456, 40], [14, 200], [456, 200], [14, 360], [456, 360], [235, 22], [235, 205], [235, 385]]
+export const rnd = (n: number) => {
   const x = Math.sin(n * 127.1 + 311.7) * 43758.5453
   return x - Math.floor(x)
 }
 
-function Term({ at, color, lines, age, life }: { at: P; color: string; lines: string[]; age: number; life: number }) {
+export function Term({ at, color, lines, age, life }: { at: P; color: string; lines: string[]; age: number; life: number }) {
   const typed = Math.floor(age * 0.6)
   const cmd = '$ ' + lines[0]
   const showCmd = cmd.slice(0, typed)

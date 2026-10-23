@@ -109,7 +109,7 @@ export function Heads() {
       <div className="lp-wrap">
         <div className="lp-head c">
           <h2 id="hd-h">Built for every department head.</h2>
-          <p className="lp-lead">Whether you run finance, HR, marketing or operations, AgenticOrg has agents for your biggest headaches.</p>
+          <p className="lp-lead">Ready agents for finance, HR, marketing and operations teams.</p>
         </div>
 
         <div className="hd-grid">

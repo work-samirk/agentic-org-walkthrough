@@ -29,10 +29,10 @@ export function ProductWindow({ path, title, className = '', onReady, frameRef, 
 }
 
 const TABS = [
-  { id: 'Agent fleet', path: '/app/agents?embed=1' },
   { id: 'Create agent', path: '/app/agents/new?embed=1' },
   { id: 'Live observatory', path: '/app?embed=1' },
   { id: 'Approvals', path: '/app/approvals?embed=1' },
+  { id: 'Agent fleet', path: '/app/agents?embed=1' },
 ] as const
 
 export function ProductTabs() {
@@ -86,16 +86,17 @@ export function ProductTabs() {
 
   return (
     <div ref={root}>
-      <div className="cl-tabs" role="tablist" aria-label="Product screens">
-        {TABS.map((t) => <button key={t.id} type="button" role="tab" aria-selected={tab.id === t.id} className="lp-chip" aria-pressed={tab.id === t.id} onClick={() => { setLoaded(0); setTab(t) }}>{t.id}</button>)}
-      </div>
       <div role="tabpanel">
         <ProductWindow key={tab.id} title={tab.id} path={tab.path} frameRef={frame} onReady={() => setLoaded((n) => n + 1)}>
           <div className="lp-cur" ref={cursor} aria-hidden="true">
             <i />
             <svg width="26" height="26" viewBox="0 0 24 24"><path d="M4 2.5l15.5 9-6.7 1.6-3.3 6.3z" fill="#fff" stroke="#16161a" strokeWidth="1.6" strokeLinejoin="round" /></svg>
           </div>
+
         </ProductWindow>
+      </div>
+      <div className="cl-tabs" role="tablist" aria-label="Product screens">
+        {TABS.map((t) => <button key={t.id} type="button" role="tab" aria-selected={tab.id === t.id} className="lp-chip" aria-pressed={tab.id === t.id} onClick={() => { setLoaded(0); setTab(t) }}>{t.id}</button>)}
       </div>
     </div>
   )

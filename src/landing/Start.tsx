@@ -6,11 +6,11 @@ import { FREE_LINE, presetRole } from './config'
 
 const TOOLS = ['Gmail', 'Slack', 'Stripe', 'Zoho Books', 'Jira', 'HubSpot', 'Tally', 'Darwinbox']
 const FAQ = [
+  ['What can I build?', 'Any job you can describe in plain English. Examples are chasing unpaid invoices, qualifying leads, triaging support tickets, keeping a repository tidy and handling an inbox.'],
+  ['Where can my agent run?', 'In the AgenticOrg dashboard, on Telegram, or inside your own app through the SDKs and the API.'],
+  ['Can I sell an agent I build?', 'Yes. You can offer an agent to your own customers. Ask us for the details of how that works for your program.'],
+  ['How is this different from building with LangGraph or another framework?', 'A framework gives you the parts. AgenticOrg also runs the agent, tests it in Shadow Mode, holds risky actions for approval and keeps an audit trail, so you do not have to build those yourself.'],
   ['What if the agent gets it wrong?', 'It starts in Shadow Mode, so mistakes happen on sample data. After that it asks a person when its confidence is below the floor you set, and you can roll it back or stop it.'],
-  ['What is Shadow Mode?', 'A trial. The agent does the job on samples, you see how accurate it is, and nothing real changes until you promote it.'],
-  ['Can I stop an agent?', 'Yes. Every agent has a Kill Switch and a Rollback, always in the same place.'],
-  ['What gets recorded?', 'Every step, the evidence it used, and who approved what and when. It is one audit trail you can read later.'],
-  ['How long does the first agent take?', 'About a minute in the guided walkthrough: describe the job, check the prefilled setup, then create it in Shadow Mode.'],
   ['Is it free?', 'It is free to start and needs no credit card. You can try the whole first-agent walkthrough on sample data.'],
 ]
 
@@ -68,8 +68,8 @@ export function StartBlock() {
       <div className="lp-wrap lp-final-in">
         <h2 id="lp-h-start">Start free. Keep the final say.</h2>
         <div className="lp-sso c">
-          <Link to="/signup" className="lp-btn ink big"><GoogleMark size={18} />Continue with Google</Link>
-          <Link to="/signup" className="lp-btn line big"><MicrosoftMark size={18} />Continue with Microsoft</Link>
+          <Link to="/signup" className="lp-btn ink big"><GoogleMark size={18} />Continue With Google</Link>
+          <Link to="/signup" className="lp-btn line big"><MicrosoftMark size={18} />Continue With Microsoft</Link>
           <Link to="/signup" className="lp-link">or use email</Link>
         </div>
         <p className="lp-fine c">{FREE_LINE}</p>

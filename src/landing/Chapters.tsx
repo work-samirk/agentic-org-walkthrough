@@ -1,21 +1,6 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect, useRef, useState } from 'react'
 import { Icon } from '../components/Icon'
 import { reduced } from './config'
-
-gsap.registerPlugin(ScrollTrigger)
-
-// scroll progress 0..1 of a section, as state. Static (1) when motion is reduced.
-function useProgress(ref: React.RefObject<HTMLElement | null>, start = 'top 75%', end = 'bottom 55%') {
-  const [p, setP] = useState(reduced() ? 1 : 0)
-  useLayoutEffect(() => {
-    if (!ref.current || reduced()) return
-    const st = ScrollTrigger.create({ trigger: ref.current, start, end, scrub: true, onUpdate: (s) => setP(s.progress) })
-    return () => st.kill()
-  }, [ref, start, end])
-  return p
-}
 
 function useInView(ref: React.RefObject<HTMLElement | null>) {
   const [seen, setSeen] = useState(false)
@@ -27,8 +12,6 @@ function useInView(ref: React.RefObject<HTMLElement | null>) {
   }, [ref])
   return seen
 }
-
-export { Relay } from './Gates'
 
 /* 4. Earn autonomy -------------------------------------------------------- */
 const RUNGS = [
@@ -43,18 +26,53 @@ function RungDemo({ kind }: { kind: string }) {
 }
 export function Ladder() {
   const ref = useRef<HTMLElement>(null)
-  const p = useProgress(ref, 'top 70%', 'bottom 70%')
-  const idx = Math.min(2, Math.floor(p * 3))
+  const [idx, setIdx] = useState(0)
+  // scrolling picks the level: the section stays pinned on wide screens and each third of the scroll lights the next box;
+  // on narrow screens the boxes stack, so the one nearest the middle of the screen is lit
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    let raf = 0
+    const pick = () => {
+      raf = 0
+      const r = el.getBoundingClientRect()
+      if (window.matchMedia('(min-width:961px)').matches && !reduced()) {
+        const span = r.height - window.innerHeight
+        const p = span > 0 ? Math.min(0.999, Math.max(0, -r.top / span)) : 0
+        setIdx(Math.floor(p * 3))
+      } else {
+        const mid = window.innerHeight / 2
+        const rungs = Array.from(el.querySelectorAll('.lp-rung'))
+        let best = 0, d = Infinity
+        rungs.forEach((n, i) => {
+          const b = n.getBoundingClientRect()
+          const dist = Math.abs(b.top + b.height / 2 - mid)
+          if (dist < d) { d = dist; best = i }
+        })
+        setIdx(r.top > 0 && r.top > mid ? 0 : best)
+      }
+    }
+    const on = () => { if (!raf) raf = requestAnimationFrame(pick) }
+    pick()
+    window.addEventListener('scroll', on, { passive: true })
+    window.addEventListener('resize', on)
+    return () => { window.removeEventListener('scroll', on); window.removeEventListener('resize', on); if (raf) cancelAnimationFrame(raf) }
+  }, [])
   return (
     <section id="autonomy" className="lp-sec lp-dark lp-ladder-sec" ref={ref} aria-labelledby="lp-h-lad">
-      <div className="lp-wrap">
+      <div className="lp-wrap lp-ladder-stick">
         <div className="lp-head">
-          <h2 id="lp-h-lad">Freedom is earned, one step at a time.</h2>
-          <p className="lp-lead">You decide how far each agent goes. The Kill Switch is always one click away.</p>
+          <h2 id="lp-h-lad">Every action is checked. You decide how far agents go.</h2>
+          <p className="lp-lead">Start with tight limits and widen them as the agent proves itself. The kill switch is always one click away.</p>
         </div>
+        <ol className="lp-gates3" aria-label="Every action passes three gates">
+            <li><Icon name="eye" size={18} /><span><b>Confidence check</b>It acts alone only when it is sure.</span></li>
+            <li><Icon name="users" size={18} /><span><b>Human approval</b>Anything that matters waits for a person.</span></li>
+            <li><Icon name="lock" size={18} /><span><b>Audit trail</b>Every step is logged.</span></li>
+        </ol>
         <div className="lp-ladder">
           {RUNGS.map((r, i) => (
-            <div key={r.n} className="lp-rung" data-on={i <= idx ? '' : undefined} style={{ ['--i' as string]: i }}>
+            <div key={r.n} className="lp-rung" data-on={i <= idx ? '' : undefined} data-now={i === idx ? '' : undefined} style={{ ['--i' as string]: i }}>
               <span className="lp-tag">{r.tag}</span>
               <b>{r.n}</b>
               <p>{r.d}</p>
@@ -65,7 +83,7 @@ export function Ladder() {
         </div>
         <div className="lp-controls" aria-label="Controls you always have">
           <span className="lp-ctl"><Icon name="play" size={16} />Promote</span>
-          <span className="lp-ctl"><Icon name="loop" size={16} />Roll back</span>
+          <span className="lp-ctl"><Icon name="loop" size={16} />Roll Back</span>
           <span className="lp-ctl danger"><Icon name="alert" size={16} />Kill Switch</span>
         </div>
       </div>
@@ -74,19 +92,20 @@ export function Ladder() {
 }
 
 /* 5. Staff the org (dark) ------------------------------------------------- */
-const CSV = ['name,role,reports_to', 'Dana,VP Finance,', 'Priya,AP processor,Dana', 'Arjun,Recon agent,Dana']
+const CSV = ['name,role,reports_to', 'Dana,VP Finance,', 'Priya,Accounts Payable Agent,Dana', 'Arjun,Reconciliation Agent,Dana', 'Kavya,GST Compliance Agent,Dana', 'Nisha,Reporting Agent,Dana']
 const CSV_TEXT = CSV.join('\n')
+// one person, three agents under them, and one agent that gathers what the three produce
 const NODES = [
-  { id: 'h', x: 300, y: 40, l: 'Dana', s: 'VP Finance · human', human: true },
-  { id: 'a', x: 150, y: 150, l: 'Priya', s: 'AP processor · agent' },
-  { id: 'b', x: 450, y: 150, l: 'Arjun', s: 'Recon agent · agent' },
-  { id: 'c', x: 150, y: 260, l: 'Intern bot', s: 'Invoice intake · agent' },
-  { id: 'd', x: 450, y: 260, l: 'Match bot', s: 'Matching · agent' },
+  { id: 'h', x: 300, y: 40, l: 'Dana', s: 'VP Finance · human', human: true, c: '#b9c7ff' },
+  { id: 'a', x: 100, y: 200, l: 'Priya', s: 'Accounts Payable Agent', c: '#ff7f63' },
+  { id: 'b', x: 300, y: 200, l: 'Arjun', s: 'Reconciliation Agent', c: '#6db1f5' },
+  { id: 'c', x: 500, y: 200, l: 'Kavya', s: 'GST Compliance Agent', c: '#9b82f5' },
+  { id: 'd', x: 300, y: 360, l: 'Nisha', s: 'Reporting Agent', c: '#ffc58a' },
 ]
-const EDGES: [string, string][] = [['h', 'a'], ['h', 'b'], ['a', 'c'], ['b', 'd']]
+const EDGES: [string, string][] = [['h', 'a'], ['h', 'b'], ['h', 'c'], ['a', 'd'], ['b', 'd'], ['c', 'd']]
 // One clock drives the CSV and the chart, so they stay in step. The chart always starts from the top node.
-const CHAR_MS = 60
-const CYCLE = 11500
+const CHAR_MS = 36
+const CYCLE = 13000
 const ease = (x: number) => (x < 0 ? 0 : x > 1 ? 1 : x * x * (3 - 2 * x))
 export function OrgChart() {
   const ref = useRef<HTMLElement>(null)
@@ -107,13 +126,13 @@ export function OrgChart() {
     h: true,
     a: typed >= upTo(2),
     b: typed >= upTo(3),
-    c: t >= 5600,
-    d: t >= 6300,
+    c: typed >= upTo(4),
+    d: typed >= upTo(5),
   }
-  // the question climbs from Match bot to Arjun to Dana
-  const rp = t >= 7200 && t < 10000 ? (t - 7200) / 2400 : -1
-  const dot = rp < 0 ? null : rp < 0.45 ? [450, 260 - 110 * ease(rp / 0.45)] : [450 - 150 * ease((rp - 0.45) / 0.55), 150 - 110 * ease((rp - 0.45) / 0.55)]
-  const glow = rp >= 1 || (t >= 9600 && t < 10000)
+  // the question climbs from the reporting agent through the reconciliation agent to Dana
+  const rp = t >= 7400 && t < 9800 ? (t - 7400) / 2400 : -1
+  const dot = rp < 0 ? null : rp < 0.45 ? [300, 360 - 160 * ease(rp / 0.45)] : [300, 200 - 160 * ease((rp - 0.45) / 0.55)]
+  const glow = rp >= 1 || (t >= 9800 && t < 10200)
 
   return (
     <section id="org" className="lp-sec lp-dark" ref={ref} aria-labelledby="lp-h-org">
@@ -124,21 +143,35 @@ export function OrgChart() {
           <pre className="lp-csv" aria-label="Sample CSV">{CSV_TEXT.slice(0, typed)}<span className="lp-caret" /></pre>
         </div>
         <div className="lp-org">
-          <svg viewBox="0 0 600 320" role="img" aria-label="An org chart where a question escalates from an agent up to a person">
+          <svg viewBox="0 -34 600 490" role="img" aria-label="An org chart where a question escalates from an agent up to a person">
+            <defs>
+              {NODES.map((n) => (
+                <radialGradient key={n.id} id={`og-${n.id}`} cx="50%" cy="78%" r="70%">
+                  <stop offset="0" stopColor={n.c} stopOpacity=".55" />
+                  <stop offset="1" stopColor={n.c} stopOpacity="0" />
+                </radialGradient>
+              ))}
+            </defs>
             {EDGES.map(([a, b]) => (
-              <line key={a + b} className="lp-edge" pathLength={1} x1={node(a).x} y1={node(a).y + 22} x2={node(b).x} y2={node(b).y - 22}
+              <line key={a + b} className="lp-edge" pathLength={1} x1={node(a).x} y1={node(a).y + 88} x2={node(b).x} y2={node(b).y - 38}
                 style={{ strokeDasharray: 1, strokeDashoffset: on[b] ? 0 : 1, transition: 'stroke-dashoffset .7s ease' }} />
             ))}
+            {dot && <circle className="lp-ripple-dot" cx={dot[0]} cy={dot[1]} r="7" />}
             {NODES.map((n) => (
               <g key={n.id} transform={`translate(${n.x} ${n.y})`}>
                 <g className="lp-node" style={{ opacity: on[n.id] ? 1 : 0, transform: `scale(${on[n.id] ? (n.id === 'h' && glow ? 1.08 : 1) : 0.7})`, transformBox: 'fill-box', transformOrigin: 'center', transition: 'opacity .5s, transform .5s cubic-bezier(.3,1.4,.5,1)' }}>
-                  <rect x="-78" y="-26" width="156" height="52" rx="16" className={n.human ? 'human' : ''} />
-                  <text y="-3" textAnchor="middle" className="n">{n.l}</text>
-                  <text y="14" textAnchor="middle" className="s">{n.s}</text>
+                  <g aria-hidden="true">
+                    <circle r="30" fill="#07080c" />
+                    <circle r="30" fill={`url(#og-${n.id})`} />
+                    <path d="M-27 5 C-14 -6 -3 9 10 0 S22 -5 27 -2" fill="none" stroke="#fff6e8" strokeWidth="3" strokeLinecap="round" opacity=".95" />
+                    <path d="M-27 5 C-14 -6 -3 9 10 0 S22 -5 27 -2" fill="none" stroke={n.c} strokeWidth="7" strokeLinecap="round" opacity=".35" />
+                    <circle r="29.3" fill="none" stroke={n.c} strokeWidth="1.6" opacity=".85" />
+                  </g>
+                  <text y="56" textAnchor="middle" className="n">{n.l}</text>
+                  <text y="74" textAnchor="middle" className="s">{n.s}</text>
                 </g>
               </g>
             ))}
-            {dot && <circle className="lp-ripple-dot" cx={dot[0]} cy={dot[1]} r="7" />}
           </svg>
         </div>
       </div>

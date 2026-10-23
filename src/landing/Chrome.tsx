@@ -27,8 +27,8 @@ export function Chrome({ stuck, links, base = '' }: { stuck: boolean; links: [st
             {links.map(([id, l]) => <a key={id} href={`${base}#${id}`}>{l}</a>)}
           </nav>
           <div className="lp-nav-r">
-            <Link to="/login" className="lp-btn ghost">Sign in</Link>
-            <Link to="/signup" className="lp-btn ink">Start free</Link>
+            <Link to="/login" className="lp-btn ghost">Sign In</Link>
+            <Link to="/signup" className="lp-btn ink">Start Free</Link>
           </div>
         </div>
       </header>
