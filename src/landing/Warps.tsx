@@ -269,7 +269,7 @@ function TreeScene() {
             </div>
           )
         })}
-        <div style={{ position: 'absolute', left: 0, width: W, top: 700, textAlign: 'center', fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 13, color: 'rgba(244,241,236,.7)', opacity: log ? 1 : 0 }}>
+        <div style={{ position: 'absolute', left: 0, width: W, top: 700, textAlign: 'center', fontFamily: "'Timeless Sans', system-ui, sans-serif", fontSize: 13, color: 'rgba(244,241,236,.7)', opacity: log ? 1 : 0 }}>
           <i style={{ display: 'inline-block', width: 6, height: 6, borderRadius: 9, background: CORAL, marginRight: 9, verticalAlign: 'middle' }} />
           {log}
         </div>
@@ -312,7 +312,7 @@ export function Term({ at, color, lines, age, life }: { at: P; color: string; li
   const caret = Math.floor(age / 8) % 2 === 0
   const o = Math.min(clamp(age, 0, 6), 1 - clamp(age, life - 8, life))
   return (
-    <div style={{ position: 'absolute', left: at[0], top: at[1], minWidth: 240, padding: '11px 15px', borderRadius: 10, background: 'rgba(5,6,9,.9)', border: '1px solid rgba(255,255,255,.12)', boxShadow: '0 12px 30px rgba(0,0,0,.5)', fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 15, lineHeight: '22px', color: PAPER, opacity: o, transform: `translateY(${(1 - o) * 8}px)`, whiteSpace: 'pre' }}>
+    <div style={{ position: 'absolute', left: at[0], top: at[1], minWidth: 240, padding: '11px 15px', borderRadius: 10, background: 'rgba(5,6,9,.9)', border: '1px solid rgba(255,255,255,.12)', boxShadow: '0 12px 30px rgba(0,0,0,.5)', fontFamily: "'Timeless Sans', system-ui, sans-serif", fontSize: 15, lineHeight: '22px', color: PAPER, opacity: o, transform: `translateY(${(1 - o) * 8}px)`, whiteSpace: 'pre' }}>
       <div style={{ display: 'flex', gap: 5, marginBottom: 7 }}>
         {[0, 1, 2].map((i) => <i key={i} style={{ width: 7, height: 7, borderRadius: 9, background: i === 0 ? color : 'rgba(255,255,255,.18)' }} />)}
       </div>

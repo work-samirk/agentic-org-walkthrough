@@ -309,12 +309,12 @@ h1.ao-display{font-size:clamp(28px,3.4vw,34px)}
 .gs-list li{display:flex;grid-template-columns:none;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,var(--ao-panel) 70%,transparent);border:1px solid color-mix(in srgb,var(--ao-ink) 10%,transparent);font-size:15px}
 .gs-list em{display:inline-flex;align-items:center;gap:6px;font:600 13px/1 var(--ao-font-text);font-style:normal;padding:5px 11px;border-radius:99px;background:color-mix(in srgb,var(--ao-ink) 8%,transparent);color:color-mix(in srgb,var(--ao-ink) 50%,transparent);animation:gs-ok .01s linear var(--d) forwards}
 @keyframes gs-ok{to{background:var(--ao-ink);color:var(--ao-ground)}}
-.gs-prompt p{margin:0;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--ao-panel) 70%,transparent);border:1px solid color-mix(in srgb,var(--ao-ink) 10%,transparent);font:500 14.5px/1.45 'JetBrains Mono',ui-monospace,monospace}
+.gs-prompt p{margin:0;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--ao-panel) 70%,transparent);border:1px solid color-mix(in srgb,var(--ao-ink) 10%,transparent);font:500 14.5px/1.45 var(--ao-font-mono)}
 .gs-prompt p span{display:block;clip-path:inset(0 100% 0 0);animation:gs-reveal 1.8s steps(34,end) .3s forwards}
 @keyframes gs-reveal{to{clip-path:inset(0 0 0 0)}}
 .gs-go{display:inline-flex;margin-top:12px;padding:9px 16px;border-radius:99px;background:var(--ao-ink);color:var(--ao-ground);font:600 14px/1 var(--ao-font-text);opacity:.35;animation:gs-pop .4s ease 2.3s forwards}
 @keyframes gs-pop{to{opacity:1;box-shadow:0 0 0 5px color-mix(in srgb,var(--ao-ink) 18%,transparent)}}
-.gs-log{margin:0;display:grid;gap:7px;padding:14px 16px;border-radius:12px;background:color-mix(in srgb,var(--ao-panel) 80%,transparent);border:1px solid color-mix(in srgb,var(--ao-ink) 10%,transparent);font:500 13.5px/1.3 'JetBrains Mono',ui-monospace,monospace;white-space:pre;overflow:hidden}
+.gs-log{margin:0;display:grid;gap:7px;padding:14px 16px;border-radius:12px;background:color-mix(in srgb,var(--ao-panel) 80%,transparent);border:1px solid color-mix(in srgb,var(--ao-ink) 10%,transparent);font:500 13.5px/1.3 var(--ao-font-mono);white-space:pre;overflow:hidden}
 .gs-log span{opacity:0;transform:translateY(4px);animation:gs-in .4s ease var(--d) forwards}
 @keyframes gs-in{to{opacity:1;transform:none}}
 .gs-row{display:flex;justify-content:space-between;align-items:baseline}
@@ -333,7 +333,7 @@ h1.ao-display{font-size:clamp(28px,3.4vw,34px)}
 
 /* left side */
 .auth-top .wordmark{font-size:19px}
-.auth-top .logo-mark{width:34px;height:34px}
+.auth-top .logo-mark{width:auto;height:27px}
 .auth-body{padding-top:20px}
 .field-top .link.small{font-size:13px;font-weight:500;color:var(--ao-muted)}
 .field-top .link.small:hover{color:var(--ao-ink)}

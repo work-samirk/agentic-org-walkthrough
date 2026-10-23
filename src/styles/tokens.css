@@ -1,5 +1,5 @@
 /* AgenticOrg tokens, Direction 2 (Open Studio). Light is the default. */
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
+@font-face { font-family: "Timeless Sans"; src: url("/fonts/TimelessSansVF.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
 
 :root {
   /* surfaces and text */
@@ -28,8 +28,9 @@
   --ao-ring: #1f5fb0;
 
   /* type */
-  --ao-font-display: "Bricolage Grotesque", system-ui, sans-serif;
-  --ao-font-text: "Hanken Grotesk", system-ui, sans-serif;
+  --ao-font-display: "Timeless Sans", system-ui, sans-serif;
+  --ao-font-text: "Timeless Sans", system-ui, sans-serif;
+  --ao-font-mono: "Timeless Sans", system-ui, sans-serif; /* no Timeless Mono exists */
 
   /* shape */
   --ao-r-xl: 28px;

@@ -87,7 +87,7 @@ const glass: CSSProperties = {
   WebkitBackdropFilter: 'blur(14px) saturate(1.5)',
   boxShadow: 'inset 0 1px 0 rgba(255,255,255,.28), 0 18px 40px rgba(2,6,20,.45)',
   color: PAPER,
-  fontFamily: "'Geist', system-ui, sans-serif",
+  fontFamily: "'Timeless Sans', system-ui, sans-serif",
 }
 
 function Status({ text, color, check }: { text: string; color: string; check?: boolean }) {
@@ -209,7 +209,7 @@ function Scene() {
           const st = !briefed ? { t: 'Standby', c: 'rgba(244,241,236,.5)' } : f < back ? { t: 'Delegating', c: t.color } : !merged ? { t: 'Reviewing', c: t.color } : { t: 'Done', c: PAPER }
           return (
             <div key={t.id}>
-              <div style={{ position: 'absolute', left: t.x - 70, top: LEAD.y - LEAD.h / 2 - 24, width: 140, textAlign: 'center', fontFamily: "'Geist', system-ui, sans-serif", fontSize: 12, letterSpacing: '.14em', textTransform: 'uppercase', color: t.color, opacity: e }}>{t.label}</div>
+              <div style={{ position: 'absolute', left: t.x - 70, top: LEAD.y - LEAD.h / 2 - 24, width: 140, textAlign: 'center', fontFamily: "'Timeless Sans', system-ui, sans-serif", fontSize: 12, letterSpacing: '.14em', textTransform: 'uppercase', color: t.color, opacity: e }}>{t.label}</div>
               <Card x={t.x} y={LEAD.y} w={LEAD.w} h={LEAD.h} scale={e} glow={briefed && f < back ? t.color : undefined}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, height: '100%', padding: '0 14px' }}>
                   <Avatar letter={t.lead[0]} color={t.color} size={38} />
@@ -252,7 +252,7 @@ function Scene() {
             <span style={{ letterSpacing: 0, textTransform: 'none' }}>{Math.min(7, logLines.length)} events logged</span>
           </div>
           {shown.map(([t, text], i) => (
-            <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 9, fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 13, lineHeight: '19px', color: PAPER, opacity: (i === shown.length - 1 ? 1 : 0.5) * clamp(f, t, t + 8) }}>
+            <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 9, fontFamily: "'Timeless Sans', system-ui, sans-serif", fontSize: 13, lineHeight: '19px', color: PAPER, opacity: (i === shown.length - 1 ? 1 : 0.5) * clamp(f, t, t + 8) }}>
               <i style={{ width: 6, height: 6, borderRadius: 9, background: i === shown.length - 1 ? CORAL : 'rgba(244,241,236,.4)' }} />
               {text}
             </div>

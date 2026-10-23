@@ -34,7 +34,7 @@ export function Welcome() {
       </div>
 
       <main className="welcome-main" key={q.key}>
-        <LogoMark size={46} calm />
+        <LogoMark size={46} />
         <h1>{q.title}</h1>
         <p className="why">{q.why}</p>
 

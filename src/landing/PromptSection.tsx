@@ -13,7 +13,7 @@ const TABS = [
 const KEY = 'ao.draftPrompt'
 
 // A dummy box: it types a few real jobs by itself, lets the visitor write their own, then hands over to sign-in.
-export function PromptSection() {
+export function PromptSection({ backdrop, merged = false }: { backdrop?: React.ReactNode; merged?: boolean }) {
   const nav = useNavigate()
   const root = useRef<HTMLElement>(null)
   const area = useRef<HTMLTextAreaElement>(null)
@@ -56,9 +56,16 @@ export function PromptSection() {
 
   return (
     <section id="try" className="lp-sec lp-dark pr" ref={root} aria-labelledby="pr-h">
+      {backdrop}
       <div className="lp-wrap pr-wrap">
-        <h2 id="pr-h">Describe the agent. We will build it.</h2>
-        <p className="lp-lead">Say what the job is in plain English. You will connect tools and test it on sample data next.</p>
+        {merged ? (
+          <h2 id="pr-h">Describe the job in plain English.<br />We will build the agent.</h2>
+        ) : (
+          <>
+            <h2 id="pr-h">Describe the agent. We will build it.</h2>
+            <p className="lp-lead">Say what the job is in plain English. You will connect tools and test it on sample data next.</p>
+          </>
+        )}
         <form className="pr-box" onSubmit={go}>
           <div className="pr-tabs" role="tablist" aria-label="Example jobs">
             {TABS.map((t, k) => (
