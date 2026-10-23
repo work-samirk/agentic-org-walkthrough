@@ -25,16 +25,14 @@ export function PricingSection() {
   return (
     <section id="pricing" className="lp-sec lp-dark pz" aria-labelledby="pz-a">
       <div className="lp-wrap">
-        <div className="lp-head c"><h2 id="pz-a">Simple, transparent pricing.</h2><p className="lp-lead">Start free. Scale to unlimited agents as your team grows. No hidden fees.</p></div>
-        <Tabs plan={plan} set={setPlan} />
-        <div className="pz-grid" data-plan={plan} role="table" aria-label="Plans and features" style={{ gridTemplateRows: `repeat(${ROWS.length + 2}, auto)` }}>
-          <div className="pz-hl" aria-hidden="true"><span>Most Popular</span></div>
+        <div className="pz-grid" data-plan={plan} role="table" aria-label="Plans and features" style={{ gridTemplateRows: `repeat(${ROWS.length + 1}, auto)` }}>
+          <div className="pz-hl" aria-hidden="true" />
           <div className="pz-r pz-head" role="row">
-            <div className="pz-lab" role="columnheader" />
+            <div className="pz-lab pz-title" role="columnheader"><h2 id="pz-a">Simple, transparent pricing.</h2><Tabs plan={plan} set={setPlan} /></div>
             {TIERS.map((t, i) => (
               <div key={t.name} className="pz-c pz-plan" data-c={i} role="columnheader">
                 <b>{t.name}</b>
-                <p className="pz-price"><i>{t.price}</i><span>{t.period}</span></p>
+                {t.price !== 'Custom' && <p className="pz-price"><i>{t.price}</i><span>{t.period}</span></p>}
                 <p className="pz-blurb">{t.blurb}</p>
                 <Cta t={t} big />
               </div>
@@ -46,10 +44,6 @@ export function PricingSection() {
               {v.map((x, i) => <div key={i} className="pz-c" data-c={i} role="cell">{cell(x)}</div>)}
             </div>
           ))}
-          <div className="pz-r pz-foot" role="row">
-            <div className="pz-lab" role="rowheader" />
-            {TIERS.map((t, i) => <div key={t.name} className="pz-c" data-c={i} role="cell"><Cta t={t} big /></div>)}
-          </div>
         </div>
       </div>
     </section>
