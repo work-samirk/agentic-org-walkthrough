@@ -52,8 +52,8 @@ export function Landing() {
         <Heads />
         <Roi />
         <Trust />
-        <Reviews />
         <CaseStudy />
+        <Reviews />
         <PricingSection />
         <Faq />
         <EndCard />

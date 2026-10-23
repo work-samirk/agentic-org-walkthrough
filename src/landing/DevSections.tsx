@@ -51,7 +51,7 @@ export function TeamsIntro() {
     <section id="teams" className="lp-sec lp-dark fd" aria-labelledby="fd-h">
       <div className="lp-wrap">
         <div className="fd-card">
-          <img className="fd-photo" src="/founder.webp" alt="" width="1000" height="1500" loading="lazy" decoding="async" />
+          <img className="fd-photo" src="/founder.webp" alt="" width="1600" height="1194" loading="lazy" decoding="async" />
           <div className="fd-copy">
             <h2 id="fd-h">Founder? Start with a ready team.</h2>
             <p className="lp-lead">Finance, HR, marketing and support agents, with a person approving what matters.</p>

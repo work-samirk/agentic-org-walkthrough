@@ -411,9 +411,8 @@ export function CaseStudy() {
                 <li key={s.stage} style={{ ['--k' as string]: k }}>
                   <span className="cs-ic"><Icon name={CASE_ICONS[k]} size={20} /></span>
                   <div>
-                    <h3>{s.title}</h3>
+                    <div className="cs-row"><h3>{s.title}</h3><em><img src={ch} alt={s.connector} height="26" /></em></div>
                     <p>{s.desc}</p>
-                    <em><img src={ch} alt={s.connector} height="24" /></em>
                   </div>
                 </li>
               )
