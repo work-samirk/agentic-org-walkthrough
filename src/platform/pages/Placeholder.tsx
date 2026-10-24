@@ -2,10 +2,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { LayoutDashboard } from 'lucide-react'
 import { NAV_LABELS } from '../data'
 import { EmptyState } from '../ui/EmptyState'
+import { SCREENS } from '../screens'
 
 export function Placeholder() {
   const { slug = '' } = useParams()
   const nav = useNavigate()
+  const Screen = SCREENS[slug]
+  if (Screen) return <Screen />
   const title = NAV_LABELS[slug] ?? slug.replace(/-/g, ' ')
   return (
     <div className="space-y-6">

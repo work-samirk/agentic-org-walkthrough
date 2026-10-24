@@ -1,11 +1,14 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthLayout } from '../components/AuthLayout'
+import { resetDemoState } from '../platform/reset'
 import { Field } from '../components/Field'
 import { GoogleMark, Icon, MicrosoftMark } from '../components/Icon'
 import { emailOk } from './validate'
 
 export function SignIn() {
+  // a fresh login always replays the tour
+  useEffect(() => { resetDemoState() }, [])
   const nav = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

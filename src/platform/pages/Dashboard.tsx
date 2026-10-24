@@ -4,7 +4,6 @@ import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer,
 import { usePlatform } from '../state'
 import { ACTIVITY, APPROVAL, EMBED_APPROVALS } from '../data'
 import { Badge, Card, CardContent, CardHeader, CardTitle } from '../ui/primitives'
-import { TourBanner } from '../onboarding/TourBanner'
 import { Hint } from '../onboarding/Hint'
 import { EmptyState } from '../ui/EmptyState'
 
@@ -56,7 +55,6 @@ export function Dashboard() {
         </div>
       </div>
 
-      <TourBanner />
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-5" data-tour="kpis">
         {metrics.map((m) => (

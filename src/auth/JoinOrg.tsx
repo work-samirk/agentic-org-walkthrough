@@ -1,11 +1,14 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthLayout } from '../components/AuthLayout'
+import { resetDemoState } from '../platform/reset'
 import { Field, PasswordRules } from '../components/Field'
 import { emailOk, passwordOk } from './validate'
 import { saveUser } from '../platform/state'
 
 export function JoinOrg() {
+  // a fresh login always replays the tour
+  useEffect(() => { resetDemoState() }, [])
   const nav = useNavigate()
   const [code, setCode] = useState('')
   const [name, setName] = useState('')

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Check, ChevronDown, ChevronUp, X } from 'lucide-react'
 import { usePlatform } from '../state'
-import { buildTour, TOUR_STOPS, type Step } from './tour'
+import { buildTour, TOUR_ITEMS, TOUR_STOPS, type Step } from './tour'
 
 type Box = { x: number; y: number; w: number; h: number }
 const PAD = 8
@@ -151,16 +151,13 @@ export function Spotlight({ step, total, onNext, onSkip, onPause, onSkipStep, co
   )
 }
 
-const ITEMS = [
-  { key: 'signedIn', label: 'Sign in', to: null },
-  { key: 'questions', label: 'Answer the questions', to: '/welcome/1' },
-  { key: 'created', label: 'Create your first agent', to: '/app/agents/new' },
-  { key: 'chatted', label: 'Chat with it', to: '/app/agents/mine-1?tab=chat' },
-  { key: 'trace', label: 'Review the trace', to: '/app/agents/mine-1?tab=chat' },
-] as const
+// the checklist is the tour: one item per stop
+const ITEMS: { key: string; label: string; to: string | null }[] = [...TOUR_ITEMS]
 
-function ChecklistCard() {
+function ChecklistCard({ compact }: { compact?: boolean }) {
   const { s, set } = usePlatform()
+  // while the tour is running the box stays a small pill; it opens again when the tour is paused or done
+  const open = s.checklistOpen && !compact
   const done = ITEMS.filter((i) => s.checklist[i.key]).length
   const { pathname } = useLocation()
   const last = useRef(pathname)
@@ -180,28 +177,34 @@ function ChecklistCard() {
   if (s.checklistDismissed) return null
   const all = done === ITEMS.length
   return (
-    <aside className="ob-check" aria-label="Getting started" data-open={s.checklistOpen ? '' : undefined}>
-      <button type="button" className="ob-check-head" aria-expanded={s.checklistOpen} onClick={() => set({ checklistOpen: !s.checklistOpen })}>
-        <span className="ob-ring-mini" style={{ ['--p' as string]: done / ITEMS.length }}><b>{done}/{ITEMS.length}</b></span>
-        <span className="t">{all ? 'You are all set' : 'Getting started'}</span>
-        {s.checklistOpen ? <ChevronDown size={18} /> : <ChevronUp size={18} />}
-      </button>
-      {s.checklistOpen && (
-        <>
-          <ul>
-            {ITEMS.map((i) => {
-              const ok = s.checklist[i.key]
-              const inner = (
-                <>
-                  <span className="tick" data-ok={ok ? '' : undefined}>{ok && <Check size={12} strokeWidth={3} />}</span>
-                  <span>{i.label}</span>
-                </>
-              )
-              return <li key={i.key}>{i.to && !ok ? <Link to={i.to}>{inner}</Link> : <div>{inner}</div>}</li>
-            })}
-          </ul>
-          <button type="button" className="ob-check-x" aria-label="Dismiss checklist" onClick={() => set({ checklistDismissed: true })}><X size={16} /></button>
-        </>
+    <aside className="ob-check" aria-label="Getting started" data-open={open ? '' : undefined}>
+      <div className="ob-check-head">
+        <button type="button" className="ob-check-toggle" aria-expanded={open} disabled={compact} onClick={() => set({ checklistOpen: !s.checklistOpen })}>
+          <span className="ob-ring-mini" style={{ ['--p' as string]: done / ITEMS.length }}><b>{done}/{ITEMS.length}</b></span>
+          <span className="t">{all ? 'You are all set' : 'Getting started'}</span>
+        </button>
+        {!compact && (
+          <div className="ob-check-ctl">
+            <button type="button" aria-label={open ? 'Collapse checklist' : 'Expand checklist'} onClick={() => set({ checklistOpen: !s.checklistOpen })}>{open ? <ChevronDown size={18} /> : <ChevronUp size={18} />}</button>
+            <button type="button" aria-label="Dismiss checklist" onClick={() => set({ checklistDismissed: true })}><X size={16} /></button>
+          </div>
+        )}
+      </div>
+      {open && (
+        <ul>
+          {ITEMS.map((i, n) => {
+            const ok = s.checklist[i.key]
+            const inner = (
+              <>
+                <span className="tick" data-ok={ok ? '' : undefined}>{ok ? <Check size={12} strokeWidth={3} /> : n + 1}</span>
+                <span>{i.label}</span>
+              </>
+            )
+            const stop = TOUR_ITEMS.findIndex((t) => t.key === i.key)
+            if (stop >= 0 && !ok) return <li key={i.key}><button type="button" onClick={() => set({ tour: { status: 'active', step: stop } })}>{inner}</button></li>
+            return <li key={i.key}>{i.to && !ok ? <Link to={i.to}>{inner}</Link> : <div>{inner}</div>}</li>
+          })}
+        </ul>
       )}
     </aside>
   )
@@ -211,6 +214,8 @@ export function OnboardingLayer() {
   const { s, set, tick } = usePlatform()
   const steps = useMemo(() => buildTour(), [])
   const [finished, setFinished] = useState(false)
+  const nav = useNavigate()
+  const { pathname } = useLocation()
   const live = useRef({ s, steps })
   live.current = { s, steps }
   const prev = useRef(s.tour.status)
@@ -219,7 +224,7 @@ export function OnboardingLayer() {
     const { s: cur, steps: st } = live.current
     if (cur.tour.status !== 'active') return
     const cs = st[cur.tour.step]
-    if (cs?.id === 'trace') tick('trace')
+    if (cs?.key) tick(cs.key)
     const next = cur.tour.step + 1
     if (next >= st.length) set({ tour: { status: 'completed', step: 0 }, checklistOpen: true })
     else set({ tour: { status: 'active', step: next } })
@@ -252,6 +257,10 @@ export function OnboardingLayer() {
   }, [s.tour.status])
 
   const step = steps[s.tour.step]
+  // each stop opens its page, so the screen behind the modal follows the tour
+  useEffect(() => {
+    if (s.tour.status === 'active' && step?.to && pathname !== step.to) nav(step.to)
+  }, [s.tour.status, s.tour.step, step?.to, pathname, nav])
   return (
     <>
       {s.tour.status === 'active' && step && (
@@ -259,7 +268,7 @@ export function OnboardingLayer() {
           step={step}
           index={s.tour.step}
           total={TOUR_STOPS}
-          countText={`Stop ${step.stop + 1} of ${TOUR_STOPS}: ${step.stopName}`}
+          countText={`Step ${step.stop + 1} of ${TOUR_STOPS}`}
           onNext={advance}
           onSkip={() => set({ tour: { status: 'dismissed', step: 0 } })}
           onPause={() => set({ tour: { status: 'paused', step: s.tour.step } })}
@@ -279,7 +288,7 @@ export function OnboardingLayer() {
           <button type="button" className="ob-link" onClick={() => setFinished(false)}>Close</button>
         </div>
       )}
-      {s.tour.status !== 'active' && <ChecklistCard />}
+      <ChecklistCard compact={s.tour.status === 'active'} />
     </>
   )
 }

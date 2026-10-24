@@ -8,7 +8,7 @@ import { Footer } from './Start'
 // Plans, comparison and questions follow the product's real pricing page.
 export const TIERS = [
   { name: 'Free', price: '$0', period: '/month', blurb: 'Get started with core AI agents and see results immediately.', cta: 'Start Free', to: '/signup', features: ['39 AI agents', '20 connectors', '500 tasks/day', 'Community support', 'Shadow mode testing', 'Basic audit log', 'Single workspace'] },
-  { name: 'Pro', price: '$2', period: '/month', blurb: 'Scale your operations with advanced agents and priority support.', cta: 'Start Pro', to: '/signup', popular: true, features: ['Unlimited AI agents', '112 connectors', 'Unlimited tasks', 'Email support', 'Custom workflows', 'Priority HITL queue', 'Advanced analytics', 'API access', 'Team workspaces'] },
+  { name: 'Pro', price: '$20', period: '/month', blurb: 'Scale your operations with advanced agents and priority support.', cta: 'Start Pro', to: '/signup', popular: true, features: ['Unlimited AI agents', '112 connectors', 'Unlimited tasks', 'Email support', 'Custom workflows', 'Priority HITL queue', 'Advanced analytics', 'API access', 'Team workspaces'] },
   { name: 'Enterprise', price: 'Custom', period: '', blurb: 'Full platform with dedicated support, SLA and custom deployments.', cta: 'Contact Sales', to: 'mailto:sanjeev@agenticorg.ai', features: ['Unlimited AI agents', '112 connectors', 'Unlimited everything', 'Dedicated support', '99.9% SLA guarantee', 'Custom connectors', 'On-premise option', 'SSO / SAML', 'Custom integrations', 'Dedicated CSM'] },
 ]
 

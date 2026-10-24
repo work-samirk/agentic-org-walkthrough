@@ -1,9 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { EMBED_AGENTS, SAMPLE_AGENTS, type Agent } from './data'
 import { loadAnswers } from '../onboarding/answers'
+import { PLATFORM_KEY } from './reset'
 
 export type TourStatus = 'offered' | 'active' | 'paused' | 'dismissed' | 'completed'
-export type Checklist = { signedIn: true; questions: boolean; created: boolean; chatted: boolean; trace: boolean }
+export type Checklist = Record<string, boolean>
 
 type Persisted = {
   agents: Agent[]
@@ -22,7 +23,7 @@ type Persisted = {
   ran: boolean
 }
 
-const KEY = 'ao-platform-v2'
+const KEY = PLATFORM_KEY
 
 function fresh(): Persisted {
   const a = loadAnswers()
@@ -34,8 +35,9 @@ function fresh(): Persisted {
     approvalsDone: [],
     approvalDecision: null,
     healthy: [],
-    tour: { status: 'offered', step: 0 },
-    checklist: { signedIn: true, questions: Object.keys(a).length > 0, created: false, chatted: false, trace: false },
+    // the tour starts by itself on the dashboard, with the Dashboard stop already ticked; embedded views never show it
+    tour: { status: typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('embed') ? 'dismissed' : 'active', step: 0 },
+    checklist: { signedIn: true, questions: Object.keys(a).length > 0, dashboard: true },
     checklistOpen: true,
     checklistDismissed: false,
     seen: [],
@@ -84,7 +86,7 @@ type Ctx = {
   allAgents: Agent[]
   set: (patch: Partial<Persisted>) => void
   createAgent: (agent: Agent) => Agent
-  tick: (k: keyof Checklist) => void
+  tick: (k: string) => void
   see: (id: string) => void
   reset: () => void
 }
@@ -106,7 +108,7 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
   }, [s])
 
   const set = useCallback((patch: Partial<Persisted>) => setS((p) => ({ ...p, ...patch })), [])
-  const tick = useCallback((k: keyof Checklist) => setS((p) => ({ ...p, checklist: { ...p.checklist, [k]: true } })), [])
+  const tick = useCallback((k: string) => setS((p) => ({ ...p, checklist: { ...p.checklist, [k]: true } })), [])
   const see = useCallback((id: string) => setS((p) => (p.seen.includes(id) ? p : { ...p, seen: [...p.seen, id] })), [])
 
   const createAgent = useCallback((agent: Agent) => {
