@@ -67,12 +67,12 @@ export function Spotlight({ step, total, onNext, onSkip, onPause, onSkipStep, co
   const [late, setLate] = useState(false)
   const tipRef = useRef<HTMLDivElement>(null)
   const [tipH, setTipH] = useState(190)
-  const scrolled = useRef('')
+  const lastScroll = useRef(0)
   const firstSeen = useRef(performance.now())
 
   useEffect(() => {
     firstSeen.current = performance.now()
-    scrolled.current = ''
+    lastScroll.current = 0
     const reset = window.setTimeout(() => {
       setMissing(false)
       setBox(null)
@@ -91,9 +91,15 @@ export function Spotlight({ step, total, onNext, onSkip, onPause, onSkipStep, co
       const b = elBox(step.target)
       if (b) {
         const el = findEl(step.target)
-        if (scrolled.current !== step.id && el) {
-          scrolled.current = step.id
-          if (b.y < 70 || b.y + Math.min(b.h, 200) > window.innerHeight) el.scrollIntoView({ block: 'center' })
+        // the sidebar group may still be opening, so keep checking for the first moments of each stop
+        const now = performance.now()
+        if (el && now - firstSeen.current < 3000 && now - lastScroll.current > 250) {
+          lastScroll.current = now
+          // keep it inside the window and inside any scrolling box it sits in (the sidebar list)
+          const clip = el.closest('nav')?.getBoundingClientRect()
+          const top = Math.max(70, clip?.top ?? 0)
+          const bottom = Math.min(window.innerHeight, clip?.bottom ?? window.innerHeight)
+          if (b.y < top || b.y + Math.min(b.h, 200) > bottom) el.scrollIntoView({ block: 'center' })
         }
         const c = elBox(step.advanceOn ?? step.target) ?? b
         setBox((p) => (p && Math.abs(p.x - b.x) < 0.5 && Math.abs(p.y - b.y) < 0.5 && Math.abs(p.w - b.w) < 0.5 && Math.abs(p.h - b.h) < 0.5 ? p : b))
