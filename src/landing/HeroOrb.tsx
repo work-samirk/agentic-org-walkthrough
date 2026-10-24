@@ -48,14 +48,14 @@ function Scene() {
         <Strands colors={colors} intensity={0.6} waviness={2.25} glassSize={0.78} hueShift={hue} energy={energy} intro={false} interactive={false} clickPulse={false} maxDevicePixelRatio={1.25} />
       </div>
       <div style={{ position: 'absolute', left: 0, width: W, top: 508, textAlign: 'center', color: PAPER, fontFamily: FONT, opacity: text, transform: `translateY(${(1 - text) * 10}px)` }}>
-        <div style={{ fontSize: 32, fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.1 }}>{cur.who}</div>
-        <div style={{ fontSize: 20, fontWeight: 600, color: 'rgba(244,241,236,.55)', margin: '4px 0 12px' }}>{cur.role}</div>
+        <div style={{ fontSize: 32, fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.1 }}>{cur.role}</div>
+        <div style={{ height: 12 }} />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 7 }}>
           {cur.tasks.map((t, i) => {
             const o = clamp(local, 14 + i * 9, 26 + i * 9)
             return (
               <div key={t} style={{ ...chip, position: 'relative', display: 'inline-flex', alignItems: 'center', gap: 12, padding: '8px 16px', borderRadius: 99, fontSize: 15, opacity: o, transform: `translateY(${(1 - o) * 8}px)` }}>
-                <i style={{ width: 8, height: 8, borderRadius: 9, background: last && i === 2 ? colors[0] : colors[5], boxShadow: `0 0 10px ${colors[5]}` }} />
+                <i style={{ width: 8, height: 8, borderRadius: 9, background: last && i === 2 ? '#d0f255' : '#36cc8b', boxShadow: `0 0 10px ${last && i === 2 ? '#d0f255' : '#36cc8b'}` }} />
                 {t}
               </div>
             )

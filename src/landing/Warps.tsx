@@ -284,7 +284,7 @@ export const STEPS = [
   { who: 'Ananya', role: 'Business Analyst Agent', c: CXO_C, tag: 'CXO', tasks: ['Splitting the Q3 board pack across three teams', 'Briefing the Sales, Ops and Finance heads', 'Checking every action against policy'] },
   { who: 'Aarav', role: 'Lead Generation Agent', c: CORAL, tag: 'Sales', tasks: ['Qualifying 42 leads and drafting outreach', 'Updating the pipeline forecast', 'Scheduling 14 follow-ups'] },
   { who: 'Meera', role: 'Customer Support Agent', c: SKY, tag: 'Ops', tasks: ['Triaging 31 tickets and chasing two vendors', 'Watching every SLA target', 'Closing incident 412 in 6 minutes'] },
-  { who: 'Rohan', role: 'Reconciliation Agent', c: VIOLET, tag: 'Finance', tasks: ['Matching 847 bank transactions to invoices', 'Flagging 3 breaks for review', 'Verifying payroll with zero errors'] },
+  { who: 'Rohan', role: 'Recon Agent', c: VIOLET, tag: 'Finance', tasks: ['Matching 847 bank transactions to invoices', 'Flagging 3 breaks for review', 'Verifying payroll with zero errors'] },
   { who: 'Ananya', role: 'Business Analyst Agent', c: CXO_C, tag: 'CXO', tasks: ['Merged the results from three teams', 'Every output passed its policy checks', 'Board pack is ready and waits for your approval'] },
 ]
 
