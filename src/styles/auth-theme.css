@@ -1,0 +1,41 @@
+/* sign-in and welcome screens: the green theme, light and dark following the system */
+.auth, .welcome {
+  --ao-control: #005656;
+  --ao-ring: #0f7a6b;
+  --ao-sky-tint: #e3f4ec;
+  --ao-lime-tint: #eef7c8;
+  --ao-wash:
+    radial-gradient(60% 70% at 12% 20%, #36cc8b 0, transparent 70%),
+    radial-gradient(55% 70% at 88% 25%, #86dd70 0, transparent 70%),
+    radial-gradient(60% 70% at 55% 100%, #7fd6c2 0, transparent 70%);
+  --ao-field-opacity: .5;
+}
+:root[data-mode=dark] .auth, :root[data-mode=dark] .welcome {
+  color-scheme: dark;
+  --ao-ground: #0a0a0a;
+  --ao-panel: #141414;
+  --ao-soft: #1a1a1a;
+  --ao-line: #262626;
+  --ao-muted: #a3a3a3;
+  --ao-control: #36cc8b;
+  --ao-ring: #36cc8b;
+  --ao-sky-tint: #0d2a22;
+  --ao-btn: #d0f255;
+  --ao-btn-ink: #0a0a0a;
+  --ao-wash:
+    radial-gradient(60% 70% at 12% 20%, #0f7a6b 0, transparent 70%),
+    radial-gradient(55% 70% at 88% 25%, #36cc8b 0, transparent 70%),
+    radial-gradient(60% 70% at 55% 100%, #005656 0, transparent 70%);
+  --ao-field-opacity: .55;
+}
+:root[data-mode=dark] .auth, :root[data-mode=dark] .welcome { background: #0a0a0a; }
+
+/* right panel */
+:root[data-mode=dark] .stage { background: #031a1a; }
+.gs-meter span { background: linear-gradient(90deg, #005656, #36cc8b); }
+@keyframes gs-press { 0%,70% { box-shadow: 0 0 0 0 rgba(54,204,139,.5) } 85% { box-shadow: 0 0 0 8px rgba(54,204,139,.3); transform: scale(.96) } 100% { opacity: 0; transform: scale(.96) } }
+
+/* welcome colour wave */
+.welcome::before { background: radial-gradient(50% 75% at 10% 100%, #36cc8b 0, transparent 72%), radial-gradient(55% 90% at 50% 108%, #7fd6c2 0, transparent 72%), radial-gradient(50% 75% at 92% 100%, #86dd70 0, transparent 72%); }
+:root[data-mode=dark] .welcome::before { background: radial-gradient(50% 75% at 10% 100%, #0f7a6b 0, transparent 72%), radial-gradient(55% 90% at 50% 108%, #005656 0, transparent 72%), radial-gradient(50% 75% at 92% 100%, #36cc8b 0, transparent 72%); opacity: .6; }
+:root[data-mode=dark] .welcome { --w-ground: #0a0a0a; }

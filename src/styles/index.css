@@ -4,6 +4,7 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 @import "./tokens.css" layer(ao);
 @import "./base.css" layer(ao);
+@import "./auth-theme.css" layer(ao);
 @import "./onboarding.css" layer(ao);
 @import "./platform.css";
 

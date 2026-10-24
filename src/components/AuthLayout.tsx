@@ -2,7 +2,6 @@ import { useEffect, useRef, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { Wordmark } from './Logo'
-import { ThemeToggle } from './Theme'
 import { Icon } from './Icon'
 import { useStage } from '../stage/useStage'
 import { StageGates } from '../stage/StageGates'
@@ -47,7 +46,6 @@ export function AuthLayout({ children, back }: { children: ReactNode; back?: { t
           <Link to="/login" aria-label="AgenticOrg home">
             <Wordmark />
           </Link>
-          <ThemeToggle />
         </header>
         <div className="auth-body">
           {back && (

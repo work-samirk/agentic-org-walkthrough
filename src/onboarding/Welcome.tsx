@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { LogoMark } from '../components/Logo'
-import { ThemeToggle } from '../components/Theme'
 import { Icon } from '../components/Icon'
 import { QUESTIONS } from './data'
 import { loadAnswers, saveAnswers, type Answers } from './answers'
@@ -29,7 +28,6 @@ export function Welcome() {
         </button>
         <div className="welcome-right">
           <Link className="quiet" to="/home">Skip all</Link>
-          <ThemeToggle />
         </div>
       </div>
 

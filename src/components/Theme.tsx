@@ -1,37 +1,16 @@
-import { useEffect, useState } from 'react'
-import { Icon } from './Icon'
+import { useEffect } from 'react'
 
-type Mode = 'light' | 'dark'
-
-function initial(): Mode {
-  try {
-    const saved = localStorage.getItem('ao-mode')
-    if (saved === 'light' || saved === 'dark') return saved
-  } catch {
-    /* storage can be blocked */
-  }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-}
-
-export function ThemeToggle() {
-  const [mode, setMode] = useState<Mode>(initial)
-
+// the colour mode follows the browser or system setting and updates live when it changes
+export function useSystemTheme() {
   useEffect(() => {
-    document.documentElement.dataset.mode = mode
-    try {
-      localStorage.setItem('ao-mode', mode)
-    } catch {
-      /* ignore */
+    const q = window.matchMedia('(prefers-color-scheme: dark)')
+    // the landing page's product window is always light
+    const embed = new URLSearchParams(window.location.search).has('embed')
+    const apply = () => {
+      document.documentElement.dataset.mode = q.matches && !embed ? 'dark' : 'light'
     }
-  }, [mode])
-
-  return (
-    <div className="seg" role="group" aria-label="Colour mode">
-      {(['light', 'dark'] as const).map((m) => (
-        <button key={m} type="button" aria-pressed={mode === m} onClick={() => setMode(m)} aria-label={`${m} mode`}>
-          <Icon name={m === 'light' ? 'sun' : 'moon'} size={18} />
-        </button>
-      ))}
-    </div>
-  )
+    apply()
+    q.addEventListener('change', apply)
+    return () => q.removeEventListener('change', apply)
+  }, [])
 }

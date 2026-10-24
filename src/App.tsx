@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { useSystemTheme } from './components/Theme'
 import { LandingV2 } from './landing/LandingV2'
 import { Pricing } from './landing/Pricing'
 import { SignIn } from './auth/SignIn'
@@ -27,6 +28,7 @@ const WorkflowRun = lazy(() => import('./platform/pages/WorkflowRun').then((m) =
 const WorkflowView = lazy(() => import('./platform/pages/WorkflowView').then((m) => ({ default: m.WorkflowView })))
 
 export default function App() {
+  useSystemTheme()
   return (
     <Suspense fallback={null}>
     <Routes>
