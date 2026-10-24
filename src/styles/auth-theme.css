@@ -6,9 +6,9 @@
   --ao-lime-tint: #eef7c8;
   --ao-wash:
     radial-gradient(60% 70% at 12% 20%, #36cc8b 0, transparent 70%),
-    radial-gradient(55% 70% at 88% 25%, #86dd70 0, transparent 70%),
-    radial-gradient(60% 70% at 55% 100%, #7fd6c2 0, transparent 70%);
-  --ao-field-opacity: .5;
+    radial-gradient(55% 70% at 88% 25%, #d0f255 0, transparent 70%),
+    radial-gradient(60% 70% at 55% 100%, #86dd70 0, transparent 70%);
+  --ao-field-opacity: .6;
 }
 :root[data-mode=dark] .auth, :root[data-mode=dark] .welcome {
   color-scheme: dark;
@@ -23,19 +23,19 @@
   --ao-btn: #d0f255;
   --ao-btn-ink: #0a0a0a;
   --ao-wash:
-    radial-gradient(60% 70% at 12% 20%, #0f7a6b 0, transparent 70%),
-    radial-gradient(55% 70% at 88% 25%, #36cc8b 0, transparent 70%),
-    radial-gradient(60% 70% at 55% 100%, #005656 0, transparent 70%);
-  --ao-field-opacity: .55;
+    radial-gradient(60% 70% at 12% 20%, #005656 0, transparent 70%),
+    radial-gradient(55% 70% at 85% 30%, #36cc8b 0, transparent 70%),
+    radial-gradient(65% 60% at 70% 105%, #d0f255 0, transparent 72%);
+  --ao-field-opacity: .75;
 }
 :root[data-mode=dark] .auth, :root[data-mode=dark] .welcome { background: #0a0a0a; }
 
 /* right panel */
 :root[data-mode=dark] .stage { background: #031a1a; }
-.gs-meter span { background: linear-gradient(90deg, #005656, #36cc8b); }
+.gs-meter span { background: linear-gradient(90deg, #005656, #36cc8b 55%, #d0f255); }
 @keyframes gs-press { 0%,70% { box-shadow: 0 0 0 0 rgba(54,204,139,.5) } 85% { box-shadow: 0 0 0 8px rgba(54,204,139,.3); transform: scale(.96) } 100% { opacity: 0; transform: scale(.96) } }
 
 /* welcome colour wave */
-.welcome::before { background: radial-gradient(50% 75% at 10% 100%, #36cc8b 0, transparent 72%), radial-gradient(55% 90% at 50% 108%, #7fd6c2 0, transparent 72%), radial-gradient(50% 75% at 92% 100%, #86dd70 0, transparent 72%); }
-:root[data-mode=dark] .welcome::before { background: radial-gradient(50% 75% at 10% 100%, #0f7a6b 0, transparent 72%), radial-gradient(55% 90% at 50% 108%, #005656 0, transparent 72%), radial-gradient(50% 75% at 92% 100%, #36cc8b 0, transparent 72%); opacity: .6; }
+.welcome::before { background: radial-gradient(50% 75% at 10% 100%, #36cc8b 0, transparent 72%), radial-gradient(55% 90% at 50% 108%, #86dd70 0, transparent 72%), radial-gradient(50% 75% at 92% 100%, #d0f255 0, transparent 72%); }
+:root[data-mode=dark] .welcome::before { background: radial-gradient(50% 75% at 10% 100%, #005656 0, transparent 72%), radial-gradient(55% 90% at 50% 108%, #36cc8b 0, transparent 72%), radial-gradient(50% 75% at 92% 100%, #d0f255 0, transparent 72%); opacity: .55; }
 :root[data-mode=dark] .welcome { --w-ground: #0a0a0a; }
