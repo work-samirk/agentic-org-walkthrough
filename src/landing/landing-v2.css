@@ -232,3 +232,31 @@
 
 /* founder cards: a green line icon in place of the coloured orbs */
 .v2 .fd-ico { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 8px; color: #36cc8b; background: rgb(54 204 139 / .14); border: 1px solid rgb(54 204 139 / .3); }
+
+/* org chart section: the CSV file is shown first, then each row is read and its person appears */
+.v2 .og-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 56px; align-items: center; }
+.v2 .og-copy .lp-lead { margin-bottom: 24px; }
+.og-file { border-radius: 18px; background: #141414; border: 1px solid #262626; overflow: hidden; }
+.og-file-head { display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-bottom: 1px solid #262626; color: #36cc8b; }
+.og-file-head b { color: #f4f1ec; font-weight: 600; font-size: 15px; }
+.og-file-head span { margin-left: auto; font-size: 13.5px; color: rgb(244 241 236 / .6); }
+.og-file ol { list-style: none; margin: 0; padding: 8px; display: grid; gap: 2px; }
+.og-file li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 12px; border-radius: 9px; font: 400 14.5px/1.5 "Timeless Sans", system-ui, sans-serif; color: rgb(244 241 236 / .5); transition: background .25s, color .25s; }
+.og-file li[data-done] { color: rgb(244 241 236 / .85); }
+.og-file li[data-done] svg { color: #36cc8b; }
+.og-file li[data-now] { background: rgb(54 204 139 / .16); color: #f4f1ec; box-shadow: inset 2px 0 0 #36cc8b; }
+.og-wait { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: rgb(244 241 236 / .35); font-size: 15px; z-index: 2; pointer-events: none; }
+.og-card { position: relative; border-radius: 30px; padding: 26px 26px 20px; background: linear-gradient(160deg, #161616, #0f0f0f); border: 1px solid #262626; box-shadow: 0 30px 80px rgb(0 0 0 / .45), inset 0 1px 0 rgb(255 255 255 / .06); overflow: hidden; }
+.og-card::before { content: ""; position: absolute; inset: auto -10% -40% -10%; height: 70%; background: radial-gradient(50% 60% at 50% 100%, rgb(54 204 139 / .16), transparent 70%); pointer-events: none; }
+.og-card svg { position: relative; width: 100%; height: auto; display: block; }
+.og-card .n { fill: #f4f1ec; font: 600 17px "Timeless Sans", system-ui, sans-serif; }
+.og-card .s { fill: rgb(244 241 236 / .62); font: 500 13.5px "Timeless Sans", system-ui, sans-serif; }
+.og-card .edge { fill: none; stroke: rgb(54 204 139 / .8); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: stroke-dashoffset .7s ease; }
+.og-card .halo { fill: rgb(208 242 85 / .22); }
+.og-card .job { fill: rgb(255 255 255 / .06); stroke: rgb(255 255 255 / .1); }
+.og-card .jt { fill: rgb(244 241 236 / .82); font: 500 12.5px "Timeless Sans", system-ui, sans-serif; }
+.og-card .chip { fill: rgb(208 242 85 / .12); stroke: rgb(208 242 85 / .5); }
+.og-card .ct { fill: #e6f9a0; font: 600 14px "Timeless Sans", system-ui, sans-serif; }
+.og-strip { position: relative; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 8px 0 0; font-size: 14.5px; color: rgb(244 241 236 / .7); }
+.og-strip i { width: 8px; height: 8px; border-radius: 50%; background: #36cc8b; box-shadow: 0 0 10px #36cc8b; }
+@media (max-width: 960px) { .v2 .og-grid { grid-template-columns: 1fr; gap: 32px; } }
