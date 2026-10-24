@@ -10,9 +10,6 @@ import { Requested } from './auth/Requested'
 import { Forgot } from './auth/Forgot'
 import { Welcome } from './onboarding/Welcome'
 
-// visual feedback toolbar for refining the UI with Claude; dev only, syncs to the agentation MCP server
-const Agentation = import.meta.env.DEV ? lazy(() => import('agentation').then((m) => ({ default: m.Agentation }))) : null
-
 const PlatformProvider = lazy(() => import('./platform/state').then((m) => ({ default: m.PlatformProvider })))
 const Shell = lazy(() => import('./platform/Shell').then((m) => ({ default: m.Shell })))
 const Dashboard = lazy(() => import('./platform/pages/Dashboard').then((m) => ({ default: m.Dashboard })))
@@ -58,7 +55,6 @@ export default function App() {
       </Route>
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
-    {Agentation && window.self === window.top && <Agentation endpoint="http://localhost:4747" />}
     </Suspense>
   )
 }
