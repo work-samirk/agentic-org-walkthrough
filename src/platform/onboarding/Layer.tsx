@@ -154,19 +154,19 @@ export function Spotlight({ step, total, onNext, onSkip, onPause, onSkipStep, co
 // the checklist is the tour: one item per stop
 const ITEMS: { key: string; label: string; to: string | null }[] = [...TOUR_ITEMS]
 
-function ChecklistCard({ compact }: { compact?: boolean }) {
+function ChecklistCard() {
   const { s, set } = usePlatform()
-  // while the tour is running the box stays a small pill; it opens again when the tour is paused or done
-  const open = s.checklistOpen && !compact
+  const open = s.checklistOpen
+  const touring = s.tour.status === 'active'
   const done = ITEMS.filter((i) => s.checklist[i.key]).length
   const { pathname } = useLocation()
   const last = useRef(pathname)
-  // open on arrival, tuck away as soon as the person moves to another page
+  // open on arrival, tuck away as soon as the person moves to another page (the tour moves pages itself, so it stays open then)
   useEffect(() => {
     if (last.current === pathname) return
     last.current = pathname
-    set({ checklistOpen: false })
-  }, [pathname, set])
+    if (!touring) set({ checklistOpen: false })
+  }, [pathname, set, touring])
   const complete = done === ITEMS.length
   // once everything is ticked, show "You are all set" for a moment, then close it
   useEffect(() => {
@@ -179,16 +179,14 @@ function ChecklistCard({ compact }: { compact?: boolean }) {
   return (
     <aside className="ob-check" aria-label="Getting started" data-open={open ? '' : undefined}>
       <div className="ob-check-head">
-        <button type="button" className="ob-check-toggle" aria-expanded={open} disabled={compact} onClick={() => set({ checklistOpen: !s.checklistOpen })}>
+        <button type="button" className="ob-check-toggle" aria-expanded={open} onClick={() => set({ checklistOpen: !s.checklistOpen })}>
           <span className="ob-ring-mini" style={{ ['--p' as string]: done / ITEMS.length }}><b>{done}/{ITEMS.length}</b></span>
           <span className="t">{all ? 'You are all set' : 'Getting started'}</span>
         </button>
-        {!compact && (
-          <div className="ob-check-ctl">
-            <button type="button" aria-label={open ? 'Collapse checklist' : 'Expand checklist'} onClick={() => set({ checklistOpen: !s.checklistOpen })}>{open ? <ChevronDown size={18} /> : <ChevronUp size={18} />}</button>
-            <button type="button" aria-label="Dismiss checklist" onClick={() => set({ checklistDismissed: true })}><X size={16} /></button>
-          </div>
-        )}
+        <div className="ob-check-ctl">
+          <button type="button" aria-label={open ? 'Collapse checklist' : 'Expand checklist'} onClick={() => set({ checklistOpen: !s.checklistOpen })}>{open ? <ChevronDown size={18} /> : <ChevronUp size={18} />}</button>
+          <button type="button" aria-label="Dismiss checklist" onClick={() => set({ checklistDismissed: true })}><X size={16} /></button>
+        </div>
       </div>
       {open && (
         <ul>
@@ -288,7 +286,7 @@ export function OnboardingLayer() {
           <button type="button" className="ob-link" onClick={() => setFinished(false)}>Close</button>
         </div>
       )}
-      <ChecklistCard compact={s.tour.status === 'active'} />
+      <ChecklistCard />
     </>
   )
 }
