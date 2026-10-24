@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Icon } from '../components/Icon'
 import { LogoMark } from '../components/Logo'
 
@@ -13,6 +14,7 @@ const ROWS: [string, string, string][] = [
 ]
 
 export function Compare() {
+  const [tab, setTab] = useState<'us' | 'them'>('us')
   return (
     <section id="why" className="lp-sec lp-soft dv" aria-labelledby="dv-h-why">
       <div className="lp-wrap">
@@ -35,16 +37,23 @@ export function Compare() {
             </div>
           ))}
         </div>
-        <div className="dv-m" aria-label="AgenticOrg compared with other platforms">
-          <div className="dv-m-card dv-m-us">
-            <p className="dv-m-name"><LogoMark size={22} />AgenticOrg</p>
-            <ul>{ROWS.map(([k, a]) => <li key={k}><Icon name="check" size={16} strokeWidth={3} /><div><b>{k}</b><span>{a}</span></div></li>)}</ul>
+        <div className="dv-m" data-tab={tab}>
+          <div className="dv-m-tabs" role="tablist" aria-label="Compare AgenticOrg with other platforms">
+            <button type="button" role="tab" aria-selected={tab === 'us'} onClick={() => setTab('us')}><LogoMark size={16} />AgenticOrg</button>
+            <button type="button" role="tab" aria-selected={tab === 'them'} onClick={() => setTab('them')}>Other platforms</button>
           </div>
-          <p className="dv-m-vs" aria-hidden="true"><span>vs</span></p>
-          <div className="dv-m-card dv-m-them">
-            <p className="dv-m-name">Other platforms</p>
-            <ul>{ROWS.map(([k, , b]) => <li key={k}><i aria-hidden="true" /><div><b>{k}</b><span>{b}</span></div></li>)}</ul>
-          </div>
+          <p className="dv-m-sum">
+            <b>{tab === 'us' ? 'Built in' : 'Built in-house'}</b>
+            <span>{tab === 'us' ? 'Each capability ships ready to use.' : 'Frameworks leave each capability to the engineering team.'}</span>
+          </p>
+          <dl className="dv-m-list" role="tabpanel">
+            {ROWS.map(([k, a, b]) => (
+              <div key={k}>
+                <dt>{k}</dt>
+                <dd>{tab === 'us' && <Icon name="check" size={12} strokeWidth={3} />}{tab === 'us' ? a : b}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </div>
     </section>

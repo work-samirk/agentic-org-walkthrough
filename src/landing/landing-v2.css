@@ -276,31 +276,29 @@
 :root:has(.v2) { overflow-x: clip; }
 .v2 .ft { position: relative; overflow-x: clip; }
 
-/* compare, phone layout: the whole AgenticOrg column first, then "vs", then the other platforms */
-.v2 .dv-m { display: none; }
-@media (max-width: 960px) {
-  .v2 .dv-cmp { display: none; }
-  .v2 .dv-m { display: grid; gap: 4px; margin-top: 4px; }
-  .v2 .dv-m-card { padding: 22px 20px; border-radius: 24px; }
-  .v2 .dv-m-us { border: 1.5px solid transparent; background: linear-gradient(#fff, #fff) padding-box, linear-gradient(140deg, #005656, #36cc8b 55%, #d0f255) border-box; }
-  .v2 .dv-m-them { border: 1px solid color-mix(in srgb, var(--ao-ink) 12%, transparent); background: color-mix(in srgb, var(--ao-ink) 3%, transparent); }
-  .v2 .dv-m-name { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; font: 600 18px/1.2 var(--ao-font-display); letter-spacing: -.01em; color: var(--ao-ink); }
-  .v2 .dv-m-them .dv-m-name { color: var(--ao-muted); font-size: 16px; }
-  .v2 .dv-m ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
-  .v2 .dv-m li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: start; padding: 13px 0; border-top: 1px solid color-mix(in srgb, var(--ao-ink) 9%, transparent); }
-  .v2 .dv-m li:first-child { border-top: 0; padding-top: 0; }
-  .v2 .dv-m li:last-child { padding-bottom: 0; }
-  .v2 .dv-m li > svg { width: 22px; height: 22px; padding: 4px; border-radius: 50%; background: var(--ao-ink); color: #fff; margin-top: 1px; }
-  .v2 .dv-m li > i { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--ao-ink) 25%, transparent); margin-top: 1px; }
-  .v2 .dv-m li b { display: block; font: 600 12.5px/1.2 var(--ao-font-text); letter-spacing: .01em; color: var(--ao-muted); margin-bottom: 4px; }
-  .v2 .dv-m li span { display: block; font-size: 15.5px; line-height: 1.45; color: var(--ao-ink); }
-  .v2 .dv-m-them li span { color: var(--ao-muted); }
-  .v2 .dv-m-vs { display: flex; align-items: center; gap: 14px; margin: 10px 0; color: var(--ao-muted); font: 600 14px/1 var(--ao-font-text); }
-  .v2 .dv-m-vs::before, .v2 .dv-m-vs::after { content: ""; flex: 1; height: 1px; background: color-mix(in srgb, var(--ao-ink) 14%, transparent); }
-}
 
 /* autonomy cards on phones: they stack like on desktop, each new card sliding over the last */
 @media (max-width: 960px) {
   .v2 .ts-card { position: sticky; top: calc(84px + var(--i) * 14px); margin-bottom: 16vh; min-height: 0; padding: 22px; transform: scale(var(--s, 1)); filter: brightness(var(--o, 1)); }
   .v2 .ts-card:last-child { margin-bottom: 0; }
+}
+
+/* compare, phone layout: two tabs, AgenticOrg selected and Other platforms beside it, with one list under the tabs */
+.v2 .dv-m { display: none; }
+@media (max-width: 960px) {
+  .v2 .dv-cmp { display: none; }
+  .v2 .dv-m { display: block; }
+  .v2 .dv-m-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 18px; }
+  .v2 .dv-m-tabs button { min-height: 44px; padding: 0 20px; border-radius: 99px; border: 1px solid color-mix(in srgb, var(--ao-ink) 18%, transparent); background: transparent; color: var(--ao-ink); font: 600 15px/1 var(--ao-font-text); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+  .v2 .dv-m-tabs button[aria-selected=true] { background: var(--ao-ink); border-color: var(--ao-ink); color: #fff; }
+  .v2 .dv-m-tabs button svg { height: 16px; width: auto; }
+  .v2 .dv-m-sum { text-align: center; margin: 0 0 14px; }
+  .v2 .dv-m-sum b { display: block; font: 600 22px/1.2 var(--ao-font-display); letter-spacing: -.02em; }
+  .v2 .dv-m-sum span { display: block; margin-top: 6px; font-size: 15px; line-height: 1.45; color: var(--ao-muted); }
+  .v2 .dv-m-list { margin: 0; padding: 0; border-top: 1px solid color-mix(in srgb, var(--ao-ink) 12%, transparent); }
+  .v2 .dv-m-list > div { display: grid; grid-template-columns: 112px 1fr; gap: 14px; align-items: start; padding: 14px 0; border-bottom: 1px solid color-mix(in srgb, var(--ao-ink) 9%, transparent); }
+  .v2 .dv-m-list dt { font: 600 14.5px/1.4 var(--ao-font-text); color: var(--ao-ink); }
+  .v2 .dv-m-list dd { margin: 0; display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.45; color: var(--ao-ink); }
+  .v2 .dv-m-list dd svg { flex: none; width: 20px; height: 20px; padding: 4px; border-radius: 50%; background: #005656; color: #fff; margin-top: 1px; }
+  .v2 .dv-m[data-tab=them] .dv-m-list dd { color: var(--ao-muted); }
 }
