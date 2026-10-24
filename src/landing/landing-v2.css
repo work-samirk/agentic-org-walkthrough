@@ -207,3 +207,25 @@
 .v2 #why { position: relative; overflow: hidden; isolation: isolate; }
 .v2 #why::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-image: radial-gradient(rgb(0 86 86 / .16) 1.1px, transparent 1.4px); background-size: 22px 22px; -webkit-mask-image: radial-gradient(60% 70% at 50% 50%, #000 20%, transparent 100%); mask-image: radial-gradient(60% 70% at 50% 50%, #000 20%, transparent 100%); }
 .v2 .dv-cmp-hl::after { content: ""; position: absolute; inset: -18% -22%; z-index: -1; border-radius: 40px; background: radial-gradient(60% 55% at 50% 45%, rgb(54 204 139 / .3), transparent 70%), radial-gradient(50% 40% at 70% 100%, rgb(208 242 85 / .24), transparent 70%); filter: blur(34px); }
+
+/* autonomy cards: an icon with the step label, and a real panel of what that step shows */
+.v2 .ts-top { display: flex; align-items: center; gap: 10px; }
+.v2 .ts-ico { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; color: #36cc8b; background: rgb(54 204 139 / .12); border: 1px solid rgb(54 204 139 / .28); }
+.v2 .ts-card .ts-p { gap: 10px; padding: 18px; margin-top: auto; }
+.v2 .ts-p-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; }
+.v2 .ts-p-head small { font-size: 13px; }
+.v2 .ts-p-list { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 8px; width: 100%; }
+.v2 .ts-p-list li { display: flex; align-items: center; gap: 10px; font-size: 14.5px; color: rgb(244 241 236 / .88); }
+.v2 .ts-p-list li i { flex: none; width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid rgb(244 241 236 / .35); }
+.v2 .ts-p-list li small { margin-left: auto; font-size: 12.5px; }
+.v2 .ts-p-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; width: 100%; font-size: 14.5px; color: rgb(244 241 236 / .7); }
+.v2 .ts-p-row b { font: 600 15px/1.2 var(--ao-font-text); color: #f4f1ec; }
+.v2 .ts-p-bar { width: 100%; height: 8px; border-radius: 99px; background: rgb(255 255 255 / .1); overflow: hidden; }
+.v2 .ts-p-bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #005656, #36cc8b 60%, #d0f255); }
+.v2 .ts-p-why { width: 100%; padding: 10px 12px; border-radius: 12px; background: rgb(255 255 255 / .05); font-size: 14px; line-height: 1.45; color: rgb(244 241 236 / .8); }
+.v2 .ts-p-why b { font: 600 12.5px/1 var(--ao-font-text); color: rgb(244 241 236 / .55); margin-right: 8px; }
+.v2 .ts-p-btns { display: flex; gap: 10px; align-items: center; }
+.v2 .ts-p-note { font-size: 13px; }
+.v2 .ts-card .ts-log p { margin: 0; }
+.v2 .ts-card .ts-log p { font: 400 14px/1.5 var(--ao-font-text); }
+.v2 .ts-card .ts-log p b { font: 500 13px/1.5 var(--ao-font-text); letter-spacing: 0; color: rgb(244 241 236 / .55); }

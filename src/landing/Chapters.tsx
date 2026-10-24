@@ -15,21 +15,56 @@ function useInView(ref: React.RefObject<HTMLElement | null>) {
 
 /* 4. Earn trust, one step at a time: static left, cards that stack on the right ----------- */
 const STEPS = [
-  { n: 'Draft', tag: 'Step 1', d: 'You describe the job. The agent writes a plan and touches nothing yet.', demo: 'draft', limit: 'No actions yet' },
-  { n: 'Shadow', tag: 'Step 2', d: 'It runs on sample data and pretends to act. Nothing leaves.', demo: 'shadow', limit: 'Simulated only' },
-  { n: 'Approve', tag: 'Step 3', d: 'It acts for real, but waits for a yes on each important step.', demo: 'approve', limit: 'Up to $120, with your yes' },
-  { n: 'Auto', tag: 'Step 4', d: 'It works alone inside your limits and asks when unsure.', demo: 'auto', limit: 'Up to $50 on its own' },
-  { n: 'Audit and roll back', tag: 'Always on', d: 'Every step is logged. Roll back or hit the kill switch at any time.', demo: 'audit', limit: 'Always yours to change' },
+  { n: 'Draft', tag: 'Step 1', d: 'You describe the job. The agent writes a plan and touches nothing yet.', demo: 'draft', icon: 'spark' as const, limit: 'No actions yet' },
+  { n: 'Shadow', tag: 'Step 2', d: 'It runs on sample data and pretends to act. Nothing leaves.', demo: 'shadow', icon: 'eye' as const, limit: 'Simulated only' },
+  { n: 'Approve', tag: 'Step 3', d: 'It acts for real, but waits for a yes on each important step.', demo: 'approve', icon: 'users' as const, limit: 'Up to $120, with your yes' },
+  { n: 'Auto', tag: 'Step 4', d: 'It works alone inside your limits and asks when unsure.', demo: 'auto', icon: 'play' as const, limit: 'Up to $50 on its own' },
+  { n: 'Audit and roll back', tag: 'Always on', d: 'Every step is logged. Roll back or hit the kill switch at any time.', demo: 'audit', icon: 'shield' as const, limit: 'Always yours to change' },
 ]
 function StepDemo({ kind }: { kind: string }) {
-  if (kind === 'draft') return <div className="lp-mini"><span className="lp-pill sky"><i />Plan ready</span><p>Refund customers for damaged orders</p><small>3 steps · no actions taken</small></div>
-  if (kind === 'shadow') return <div className="lp-mini"><span className="lp-pill sky"><i />Simulated</span><p>Refund $120 on a sample order</p><small>Customer's bank: untouched</small></div>
-  if (kind === 'approve') return <div className="lp-mini"><span className="lp-pill coral"><i />Your turn</span><p>Refund $120 to a customer?</p><span className="lp-btn ink sm" aria-hidden="true">Approve</span></div>
-  if (kind === 'auto') return <div className="lp-mini"><span className="lp-pill lime"><i />Done, 93% sure</span><p>Refund $12 inside your limit</p><small>Anything above $50 still asks you</small></div>
+  if (kind === 'draft') return (
+    <div className="lp-mini ts-p">
+      <div className="ts-p-head"><span className="lp-pill sky"><i />Plan ready</span><small>3 steps · no actions taken</small></div>
+      <p>Refund customers for damaged orders</p>
+      <ol className="ts-p-list">
+        <li><i />Find damaged orders from the last 7 days<small>Not run</small></li>
+        <li><i />Check each one against the refund policy<small>Not run</small></li>
+        <li><i />Prepare the refunds for review<small>Not run</small></li>
+      </ol>
+    </div>
+  )
+  if (kind === 'shadow') return (
+    <div className="lp-mini ts-p">
+      <div className="ts-p-head"><span className="lp-pill sky"><i />Simulated</span><small>Sample data only</small></div>
+      <p>Refund $120 on sample order #4821</p>
+      <div className="ts-p-row"><span>Customer's bank</span><b>Untouched</b></div>
+      <div className="ts-p-row"><span>Accuracy on 40 sample orders</span><b>97%</b></div>
+      <div className="ts-p-bar"><i style={{ width: '97%' }} /></div>
+    </div>
+  )
+  if (kind === 'approve') return (
+    <div className="lp-mini ts-p">
+      <div className="ts-p-head"><span className="lp-pill coral"><i />Your turn</span><small>91% sure</small></div>
+      <p>Refund $120 to a customer?</p>
+      <div className="ts-p-why"><b>Why</b>Item arrived damaged. Inside the refund policy.</div>
+      <div className="ts-p-btns"><span className="lp-ctl" aria-hidden="true">Reject</span><span className="lp-btn ink sm" aria-hidden="true">Approve</span></div>
+    </div>
+  )
+  if (kind === 'auto') return (
+    <div className="lp-mini ts-p">
+      <div className="ts-p-head"><span className="lp-pill lime"><i />Done, 93% sure</span><small>Inside your limit</small></div>
+      <p>Refund $12 sent</p>
+      <div className="ts-p-row"><span>Today, on its own</span><b>$36 of $50</b></div>
+      <div className="ts-p-bar"><i style={{ width: '72%' }} /></div>
+      <small className="ts-p-note">Anything above $50 still asks you first.</small>
+    </div>
+  )
   return (
-    <div className="lp-mini ts-log">
+    <div className="lp-mini ts-log ts-p">
+      <div className="ts-p-head"><span className="lp-pill sky"><i />Every action logged</span><small>Last 3 of 214</small></div>
       <p><b>09:42</b> Refund $12 sent within policy</p>
       <p><b>09:44</b> Refund $120 approved by Dana</p>
+      <p><b>09:51</b> Refund $60 paused, over the limit</p>
       <div className="ts-log-btns"><span className="lp-ctl" aria-hidden="true"><Icon name="loop" size={14} />Roll Back</span><span className="lp-ctl danger" aria-hidden="true"><Icon name="alert" size={14} />Kill Switch</span></div>
     </div>
   )
@@ -78,7 +113,7 @@ export function Ladder() {
           {STEPS.map((x, i) => (
             <article key={x.n} className="ts-card" data-now={i === idx ? '' : undefined}
               style={{ ['--i' as string]: i, ['--s' as string]: i < idx ? 1 - 0.035 * (idx - i) : 1, ['--o' as string]: i < idx ? Math.max(0.5, 1 - 0.14 * (idx - i)) : 1 }}>
-              <span className="lp-tag">{x.tag}</span>
+              <div className="ts-top"><span className="ts-ico"><Icon name={x.icon} size={18} /></span><span className="lp-tag">{x.tag}</span></div>
               <b>{x.n}</b>
               <p>{x.d}</p>
               <StepDemo kind={x.demo} />
