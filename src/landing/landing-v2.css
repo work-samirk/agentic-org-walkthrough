@@ -271,3 +271,7 @@
 /* the card's "svg fills the width" rule was stretching the file icon */
 .og-card .og-drop-top svg { position: static; width: 30px; height: 38px; flex: none; }
 .og-drop-top small { white-space: nowrap; }
+
+/* the footer glow pokes a little past the right edge on phones, which made the page scroll sideways and showed a dark strip */
+:root:has(.v2) { overflow-x: clip; }
+.v2 .ft { position: relative; overflow-x: clip; }
