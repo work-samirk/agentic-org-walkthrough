@@ -90,6 +90,18 @@ function Chart({ show, edge, pulse, chip, jobs }: { show: (id: string) => number
 }
 
 
+// a spreadsheet file: green page, folded corner and a white table
+function SheetIcon({ size = 24 }: { size?: number }) {
+  return (
+    <svg width={size} height={size * 1.25} viewBox="0 0 32 40" aria-hidden="true">
+      <path d="M4 5a4 4 0 0 1 4-4h12l8 8v26a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" fill="#1fb36f" />
+      <path d="M20 1l8 8h-5a3 3 0 0 1-3-3z" fill="#86dd70" />
+      <rect x="9" y="17" width="14" height="14" rx="2" fill="#fff" />
+      <path d="M9 22h14M9 26.5h14M15.5 17v14" stroke="#1fb36f" strokeWidth="1.6" />
+    </svg>
+  )
+}
+
 const CYC = 14500
 const SCAN = 650
 const START = 3000
@@ -130,7 +142,7 @@ export function OrgChart() {
           <h2 id="lp-h-org">Drop in your org chart. Get a staffed team.</h2>
           <p className="lp-lead">Agents match your hierarchy. When one is unsure, the question climbs to its manager, then the domain head, then a person.</p>
           <div className="og-file" style={{ opacity: fileIn, transform: `translateY(${(1 - fileIn) * 14}px)` }} aria-label="Sample CSV file">
-            <div className="og-file-head"><Icon name="layers" size={16} /><b>org.csv</b><span>{read >= 6 ? "5 people read" : "5 rows"}</span></div>
+            <div className="og-file-head"><SheetIcon size={16} /><b>org.csv</b><span>{read >= 6 ? "5 people read" : "5 rows"}</span></div>
             <ol>
               {CSV.map((l, i) => (
                 <li key={l} data-now={i === read ? '' : undefined} data-done={i < read || (i === 0 && read >= 0) ? '' : undefined}>
@@ -143,7 +155,7 @@ export function OrgChart() {
         </div>
         <div className="og-card" style={{ opacity: fade }}>
           <div className="og-drop" style={{ opacity: dropIn * (1 - dropOut), transform: `translate(-50%, calc(-50% + ${(1 - dropIn) * -70}px)) scale(${1 - 0.2 * dropOut})` }} aria-hidden="true">
-            <div className="og-drop-top"><Icon name="layers" size={22} /><div><b>org.csv</b><small>{upload >= 1 ? '5 people found' : 'Uploading'}</small></div></div>
+            <div className="og-drop-top"><SheetIcon size={34} /><div><b>org.csv</b><small>{upload >= 1 ? '5 people found' : 'Uploading'}</small></div></div>
             <span className="og-bar"><i style={{ width: `${Math.round(upload * 100)}%` }} /></span>
           </div>
           <Chart show={sh} edge={(to) => (read >= order[to] ? 1 : 0)} pulse={pulse} chip={chip} jobs={ease(clamp((t - 7000) / 600))} />
