@@ -268,3 +268,6 @@
 .og-bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #005656, #36cc8b 60%, #d0f255); }
 .og-file-head svg { flex: none; }
 .og-drop-top svg { flex: none; filter: drop-shadow(0 6px 14px rgb(31 179 111 / .35)); }
+/* the card's "svg fills the width" rule was stretching the file icon */
+.og-card .og-drop-top svg { position: static; width: 30px; height: 38px; flex: none; }
+.og-drop-top small { white-space: nowrap; }
