@@ -1,6 +1,5 @@
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { Landing } from './landing/Landing'
 import { LandingV2 } from './landing/LandingV2'
 import { Pricing } from './landing/Pricing'
 import { SignIn } from './auth/SignIn'
@@ -31,8 +30,8 @@ export default function App() {
   return (
     <Suspense fallback={null}>
     <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/v2" element={<LandingV2 />} />
+      <Route path="/" element={<LandingV2 />} />
+      <Route path="/v2" element={<Navigate to="/" replace />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/login" element={<SignIn />} />
       <Route path="/signup" element={<CreateOrg />} />
