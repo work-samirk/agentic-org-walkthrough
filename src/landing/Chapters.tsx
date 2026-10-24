@@ -1,17 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { Icon } from '../components/Icon'
-import { reduced } from './config'
-
-function useInView(ref: React.RefObject<HTMLElement | null>) {
-  const [seen, setSeen] = useState(false)
-  useEffect(() => {
-    if (!ref.current) return
-    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setSeen(true), io.disconnect()), { threshold: 0.35 })
-    io.observe(ref.current)
-    return () => io.disconnect()
-  }, [ref])
-  return seen
-}
 
 /* 4. Earn trust, one step at a time: static left, cards that stack on the right ----------- */
 const STEPS = [
