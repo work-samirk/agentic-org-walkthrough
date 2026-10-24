@@ -8,10 +8,10 @@ import { reduced } from './config'
 const MS = 5000
 
 const HEADS = [
-  { id: 'CFO', icon: Landmark, promise: 'Close the books in 1 day, not 5', count: '10 finance agents', grad: ['#ff7f63', '#8b6ef0'], chips: ['Accounts Payable', 'Accounts Receivable', 'Treasury', 'Reconciliation', 'Tax Filing', 'Month-end Close', 'FP&A', 'Expense Mgmt'], proof: 'Shadow mode measures exact ROI with your real data before go-live' },
-  { id: 'CHRO', icon: Users, promise: 'Onboard in hours, not weeks', count: '6 HR agents', grad: ['#6db1f5', '#8b6ef0'], chips: ['Onboarding', 'Payroll', 'Talent Acquisition', 'Performance', 'L&D', 'Offboarding'], proof: 'Zero payroll errors with automated PF, ESI and TDS' },
-  { id: 'CMO', icon: Megaphone, promise: 'Launch campaigns while you sleep', count: '9 marketing agents', grad: ['#8b6ef0', '#ff7f63'], chips: ['Campaign Mgmt', 'A/B Testing', 'Email Drip', 'ABM + Intent', 'Content Gen', 'SEO', 'CRM Nurture', 'Brand Monitor'], proof: 'A/B auto-winner selection, with a CMO override on multi-channel campaigns' },
-  { id: 'COO', icon: Workflow, promise: 'Resolve P1s before the CEO asks', count: '5 ops agents', grad: ['#ff7f63', '#6db1f5'], chips: ['Support Triage', 'IT Ops', 'Compliance', 'Contracts', 'Vendor Mgmt'], proof: '42 tickets triaged per day with zero manual routing' },
+  { id: 'CFO', icon: Landmark, promise: 'Close the books in 1 day, not 5', count: '10 finance agents', grad: ['#005656', '#36cc8b'], chips: ['Accounts Payable', 'Accounts Receivable', 'Treasury', 'Reconciliation', 'Tax Filing', 'Month-end Close', 'FP&A', 'Expense Mgmt'], proof: 'Shadow mode measures exact ROI with your real data before go-live' },
+  { id: 'CHRO', icon: Users, promise: 'Onboard in hours, not weeks', count: '6 HR agents', grad: ['#0f7a6b', '#36cc8b'], chips: ['Onboarding', 'Payroll', 'Talent Acquisition', 'Performance', 'L&D', 'Offboarding'], proof: 'Zero payroll errors with automated PF, ESI and TDS' },
+  { id: 'CMO', icon: Megaphone, promise: 'Launch campaigns while you sleep', count: '9 marketing agents', grad: ['#1f9e75', '#86dd70'], chips: ['Campaign Mgmt', 'A/B Testing', 'Email Drip', 'ABM + Intent', 'Content Gen', 'SEO', 'CRM Nurture', 'Brand Monitor'], proof: 'A/B auto-winner selection, with a CMO override on multi-channel campaigns' },
+  { id: 'COO', icon: Workflow, promise: 'Resolve P1s before the CEO asks', count: '5 ops agents', grad: ['#003f3f', '#1f9e75'], chips: ['Support Triage', 'IT Ops', 'Compliance', 'Contracts', 'Vendor Mgmt'], proof: '42 tickets triaged per day with zero manual routing' },
 ] as const
 
 const CLOSE = ['Bank reconciliation', 'AP accruals', 'Tax provisions', 'Revenue recognition', 'Books closed']
