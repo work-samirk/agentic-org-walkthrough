@@ -1,0 +1,186 @@
+/* V2 palette: #003434 · #005656 · #36cc8b · #d0f255. Green is for the hero and accents only; every other surface keeps the neutral blacks and warm light tones.
+   landing.css reads these through --lp-* variables, so V1 keeps its own colours. */
+
+/* neutral dark scale (R=G=B, no blue tint): base #0a0a0a, deep #050505, panel #141414, raised #1a1a1a, line #262626, muted text #a3a3a3.
+   landing.css reads these through the --lp-* variables; the hero re-declares them in green below. */
+.v2 {
+  --lp-d0: #0a0a0a; --lp-d0-rgb: 10 10 10;
+  --lp-d1: #0a0a0a;
+  --lp-d2: #050505; --lp-d2-rgb: 5 5 5;
+  --lp-panel: #141414;
+  --lp-soft: #1a1a1a;
+  --lp-line: #262626;
+  --lp-muted: #a3a3a3;
+  --lp-ink: #141414;
+}
+
+/* accents: replace the blues, violets and corals everywhere */
+.v2 {
+  --lp-blue: #36cc8b; --lp-blue-rgb: 54 204 139;
+  --lp-violet: #86dd70; --lp-violet-rgb: 134 221 112;
+  --lp-coral: #d0f255; --lp-coral-rgb: 208 242 85;
+}
+
+/* hero: the only green surface */
+.v2 .v2-hero {
+  --lp-d0: #002222; --lp-d0-rgb: 0 34 34;
+  --lp-d2: #001515; --lp-d2-rgb: 0 21 21;
+  --lp-panel: #002c2c;
+  --lp-soft: #003636;
+  --lp-line: #0a4745;
+  --lp-muted: #9fc9bc;
+}
+
+/* accent tokens on light sections (the :root[data-mode=dark] twin beats landing.css's "marketing pages stay light" block) */
+.v2.lp, .v2 .lp-light, :root[data-mode=dark] .v2.lp {
+  --ao-control: #005656; --ao-ring: #005656;
+  --ao-coral: #d0f255; --ao-sky: #36cc8b;
+  --ao-sky-tint: #dff5ea; --ao-coral-tint: #eef9bf;
+}
+
+/* primary action on dark: lime */
+.v2 .lp-dark .lp-btn.ink { background: #d0f255; color: #002222; }
+.v2 .lp-dark .lp-btn.ink:hover { background: #dcf77d; }
+
+/* top nav: clear over the hero, then a translucent fill that follows the section underneath (Agentation notes) */
+.v2 .lp-nav::before, .v2 .lp-nav::after { display: none; }
+.v2 header.lp-nav.lp-dark, .v2 header.lp-nav.lp-dark[data-stuck] { background: rgb(10 10 10 / .72); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%); box-shadow: none; }
+.v2 header.lp-nav:not(.lp-dark), .v2 header.lp-nav:not(.lp-dark)[data-stuck] { background: rgb(255 255 255 / .72); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%); box-shadow: none; }
+.v2 header.lp-nav[data-clear], .v2 header.lp-nav.lp-dark[data-clear], .v2 header.lp-nav[data-clear][data-stuck], .v2 header.lp-nav.lp-dark[data-clear][data-stuck] { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+/* the nav floats over the hero, so the hero runs underneath it */
+.v2 .lp-nav + main { margin-top: -68px; }
+/* hero height: fills the first screen (100svh minus the 38px banner, less 2px so the 1px banner/nav overlap can't leave a sliver of page showing), capped at a 16:11 box so tall or squarer displays don't stretch it; content centred */
+.v2 .v2-hero { padding: 68px 0 72px; display: flex; flex-direction: column; justify-content: center; min-height: max(560px, min(calc(100svh - 36px), calc(100vw * 11 / 16))); }
+.v2 .v2-hero .lp-wrap { width: 100%; }
+.v2 .v2-hero .lp-hero-grid { min-height: 0; }
+
+/* hero: everything centred */
+.v2 .v2-hero .lp-hero-grid { grid-template-columns: minmax(0, 980px); justify-content: center; text-align: center; }
+.v2 .v2-hero .cl-badge, .v2 .v2-hero .lp-sso { justify-content: center; }
+.v2 .v2-hero .lp-ticks { display: flex; flex-wrap: nowrap; justify-content: center; gap: 12px 24px; margin-left: 0; margin-right: 0; }
+.v2 .v2-hero .v2-ascii::after { background: linear-gradient(180deg, rgb(var(--lp-d2-rgb, 10 10 10) / .94) 0, rgb(var(--lp-d2-rgb, 10 10 10) / .6) 110px, transparent 260px), radial-gradient(ellipse 90% 60% at 50% calc(100% + 160px), rgb(var(--lp-d0-rgb, 10 10 10) / .85) 0%, rgb(var(--lp-d0-rgb, 10 10 10) / .5) 50%, transparent 100%); }
+
+/* product window overlaps the hero by 60px (plus the 6px glass frame); the section's own tint starts below that */
+.v2 #product { margin-top: -66px; padding-top: 0; z-index: 2; background: linear-gradient(180deg, transparent 66px, var(--ao-soft) 66px); }
+
+/* product tabs: quiet underlined tabs, not buttons */
+.v2 .cl-tabs { gap: 28px; }
+.v2 .cl-tabs .lp-chip { min-height: 36px; padding: 0 2px; border-radius: 0; background: transparent; backdrop-filter: none; box-shadow: none; color: var(--ao-muted); border-bottom: 2px solid transparent; transform: none; }
+.v2 .cl-tabs .lp-chip:hover { color: var(--ao-ink); transform: none; border-radius: 0; }
+.v2 .cl-tabs .lp-chip { position: relative; }
+.v2 .cl-tabs .lp-chip[aria-pressed=true] { background: transparent; color: var(--ao-ink); box-shadow: none; border-bottom-color: transparent; }
+.v2 .cl-tabs .lp-chip[aria-pressed=true]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, #005656, #36cc8b 55%, #d0f255); box-shadow: 0 0 12px 1px rgb(54 204 139 / .55), 0 4px 18px 2px rgb(208 242 85 / .35); }
+
+/* nav links on dark: pure white, no tint (a darker green fades in behind them at the top of the hero for contrast) */
+.v2 header.lp-nav.lp-dark nav a, .v2 header.lp-nav.lp-dark .lp-btn.ghost { color: #fff; }
+.v2 header.lp-nav.lp-dark nav a:hover { color: #fff; opacity: .8; }
+
+/* product window grows from 80% to 100% on scroll (--grow is set from LandingV2); the negative margin closes the gap the scale leaves above the tabs */
+.v2 #product [role=tabpanel] { transform: scale(var(--grow, 1)); transform-origin: 50% 0; margin-bottom: calc((var(--grow, 1) - 1) * 60%); will-change: transform; }
+
+/* glass frame around the browser window */
+.v2 #product [role=tabpanel] { margin-inline: -6px; padding: 6px; border-radius: 32px; background: linear-gradient(160deg, rgb(255 255 255 / .5), rgb(255 255 255 / .16)); border: 1px solid rgb(255 255 255 / .6); box-shadow: inset 0 1px 0 rgb(255 255 255 / .8), 0 0 0 1px rgb(0 0 0 / .04), 0 10px 30px rgb(0 0 0 / .06); backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%); }
+.v2 #product [role=tabpanel] .lp-win { border-radius: 26px; box-shadow: 0 2px 10px rgb(0 0 0 / .05); }
+
+
+/* hero badge: smaller */
+.v2 .v2-hero .lp-pill { font-size: 11.5px; height: 22px; padding: 0 10px; gap: 6px; }
+.v2 .v2-hero .lp-pill i { width: 6px; height: 6px; }
+.v2 .v2-hero .cl-badge { margin-bottom: 14px; }
+
+/* hero ticks on one line (they wrap again on narrow screens) */
+.v2 .v2-hero .lp-ticks li { white-space: nowrap; font-size: 15px; gap: 8px; }
+@media (max-width: 900px) { .v2 .v2-hero .lp-ticks { flex-wrap: wrap; } }
+
+/* hero headline: 20% larger, with a small lead-in line above the two gradient lines */
+.v2 .v2-hero #cl-h1 { font-size: clamp(2.9rem, 5.5vw, 5.04rem); }
+.v2 .v2-hero .v2-h1-lead { display: block; font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: .6em; font-weight: 400; letter-spacing: 0; line-height: 1.15; margin-bottom: .2em; color: rgb(255 255 255 / .9); }
+
+/* ticks: plain flex rows (landing.css lays them out as a 3-column grid), one line */
+.v2 .v2-hero .lp-ticks li { display: flex; align-items: center; grid-template-columns: none; line-height: 1.3; }
+.v2 .v2-hero .lp-ticks b { margin-right: 0; }
+.v2 .v2-hero .lp-ticks svg { margin-top: 0; }
+
+/* badge fill matches the tick checkbox fill (Agentation note) */
+.v2 .v2-hero .lp-pill { background: color-mix(in srgb, var(--ao-ink) 16%, transparent); }
+
+/* page end: no black block. The orb's black backdrop blends into the card, the card/art panel share one surface, and the footer continues the end section's colour with no seam */
+.v2 .lp-end-art { background: transparent; }
+.v2 .lp-end-art .lp-arch { mix-blend-mode: screen; }
+.v2 .lp-end-wrap { padding-bottom: 96px; }
+.v2 .ft { background: var(--lp-d0, #0a0a0a); border-top: 0; }
+
+/* browser window bar: pure neutral greys, no warm or green tint */
+.v2 .lp-win-bar { background: #f5f5f5; border-bottom-color: rgb(0 0 0 / .08); color: #6b6b6b; }
+.v2 .lp-win-bar i { background: #d4d4d4; }
+.v2 .lp-win-bar span { background: rgb(0 0 0 / .05); }
+.v2 .lp-win-bar a { color: #6b6b6b; }
+
+/* the tinted dark literals in landing.css, made neutral */
+.v2 .lp-dark, .v2 .lp-night { --ao-sky-tint: rgb(54 204 139 / .12); --ao-coral-tint: rgb(208 242 85 / .12); }
+.v2 .lp-sdk { background: #0f0f0f; border-color: #222; }
+.v2 .lp-sdk header { border-bottom-color: #1a1a1a; }
+.v2 .lp-inst { background: #0b0b0b; }
+.v2 .lp-rev { background: linear-gradient(135deg, #1c1c1c, #121212) !important; }
+.v2 .tr-map { background: linear-gradient(160deg, #101010, #0a0a0a 60%, #101010); }
+.v2 .tr-posture { background: linear-gradient(160deg, #111, #0a0a0a); }
+.v2 .tr-n { color: #0a0a0a; }
+.v2 .pr-tier[data-pop] { background: linear-gradient(160deg, rgb(26 26 26 / .95), rgb(16 16 16 / .95)) padding-box, linear-gradient(135deg, var(--lp-coral), var(--lp-violet) 60%, var(--lp-blue)) border-box; }
+.v2 .lp-end { background: rgb(10 10 10 / .82); }
+.v2 .pr-box textarea { background: rgb(5 5 5 / .72); }
+.v2 .ts-card { background: linear-gradient(160deg, #181818, #101010); }
+.v2 .cs { --ao-muted: #3d3d3d; }
+
+/* prompt section: the hero's ASCII field behind the copy, with a centred scrim for legibility */
+.v2 #try .v2-ascii { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.v2 #try .v2-ascii::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 75% at 50% 50%, rgb(10 10 10 / .82), rgb(10 10 10 / .4) 60%, transparent); }
+.v2 #try .pr-wrap { position: relative; z-index: 1; }
+
+/* comparison table: no row strokes and no shadow; the AgenticOrg column has a green gradient stroke */
+.v2 .dv-cmp-r > * { border-top: 0; }
+.v2 .dv-cmp-r b { align-self: start; }
+.v2 .dv-cmp-r { border-top: 0; }
+.v2 .dv-cmp-hl { z-index: auto; border: 1.5px solid transparent; background: linear-gradient(#fff, #fff) padding-box, linear-gradient(140deg, #005656, #36cc8b 55%, #d0f255) border-box; box-shadow: none; }
+.v2 .dv-cmp-hl::before { display: none; }
+.v2 .dv-cmp { grid-template-columns: 132px minmax(0, 1.45fr) minmax(0, 1fr); column-gap: 40px; padding-inline: 24px; }
+.v2 .dv-cmp-r > span { text-wrap: pretty; }
+@media (max-width: 960px) { .v2 .dv-cmp-r .us { background: linear-gradient(#fff, #fff) padding-box, linear-gradient(140deg, #005656, #36cc8b 55%, #d0f255) border-box; border: 1.5px solid transparent; box-shadow: none; } }
+
+/* connector rails: a static, light line; only the icons travel along it */
+.v2 .lp-rail-line { display: none; }
+.v2 .lp-rail::before { content: ""; position: absolute; left: 0; right: 0; top: 56px; height: 1px; background: color-mix(in srgb, var(--ao-ink) 7%, transparent); }
+.v2 .lp-pearl { top: 20px !important; }
+
+/* live-execution tabs: the selected state is a stroke colour only */
+.v2 .lp-tab[aria-selected=true] { background: rgba(255, 255, 255, .05); color: var(--ao-ink); border: 1.5px solid #36cc8b; box-shadow: none; }
+
+/* merged prompt heading has no lead paragraph under it */
+.v2 #try h2 { margin-bottom: 32px; }
+
+/* prompt box footer: the note is centred on the button's 48px height */
+.v2 .pr-row { align-items: center; }
+.v2 .pr-row p { display: flex; align-items: center; min-height: 48px; margin: 0 0 0 6px; line-height: 1.2; }
+
+
+/* gradient word on light sections: deep teal to mint (lime is too pale on white) */
+.v2 .v2-grad { background: linear-gradient(95deg, #005656, #36cc8b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* autonomy section: heading on the left (sticky), larger cards stacked on the right; the numbered list and its live "what it may do" box stay removed */
+.v2 .ts-steps, .v2 .ts-limit { display: none; }
+@media (min-width: 961px) {
+  .v2 .ts-grid { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 64px; }
+  .v2 .ts-card { min-height: 440px; padding: 36px; }
+  .v2 .ts-card b { font-size: clamp(1.9rem, 2.9vw, 2.5rem); }
+  .v2 .ts-card p { font-size: 18px; max-width: 48ch; }
+}
+
+/* SDK cards: the badge is just the logo, no name and no fill (the name stays in the DOM for screen readers) */
+.v2 .lp-sdk header span { font-size: 0; padding: 0; background: none; color: rgb(255 255 255 / .85); gap: 0; }
+.v2 .lp-sdk header span svg { width: 22px; height: 22px; }
+
+/* SDK cards: neutral link, code block as wide as the command box, icon-only copy button */
+.v2 .lp-sdk > a { color: rgb(255 255 255 / .72); }
+.v2 .lp-sdk > a:hover { color: #fff; }
+.v2 .lp-sdk pre { margin: 0; }
+.v2 .lp-copy-btn { position: relative; width: 32px; padding: 0; justify-content: center; }
+.v2 .lp-copy-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

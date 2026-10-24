@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Component, type ReactNode } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { Bot, ChevronDown } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import { EMBED_APPROVALS, NAV } from './data'
 import { usePlatform } from './state'
 import { OnboardingLayer } from './onboarding/Layer'
@@ -9,6 +9,7 @@ import { Launcher } from './onboarding/Launcher'
 import { useTourTarget } from './onboarding/tour'
 import { ThemeSwitch } from './ThemeSwitch'
 import { cn } from '@/lib/utils'
+import { LogoMark } from '@/components/Logo'
 
 const ROLE: Record<string, string> = { admin: 'CEO/Admin' }
 
@@ -72,7 +73,9 @@ export function Shell() {
     return cn(
       'interactive-surface flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-all duration-150',
       active
-        ? 'bg-linear-to-r from-primary via-primary to-accent font-medium text-primary-foreground shadow-sm shadow-primary/25'
+        ? embed
+          ? 'bg-muted font-medium text-foreground'
+          : 'bg-linear-to-r from-primary via-primary to-accent font-medium text-primary-foreground shadow-sm shadow-primary/25'
         : 'text-muted-foreground hover:bg-muted/70 hover:text-foreground',
     )
   }
@@ -80,9 +83,7 @@ export function Shell() {
   const sidebar = (
     <>
       <div className="mb-5 flex items-center gap-2.5 px-1">
-        <div className="animate-pulse-soft flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-primary via-primary/90 to-accent text-primary-foreground shadow-sm shadow-primary/30">
-          <Bot className="h-4 w-4" />
-        </div>
+        <span className="flex flex-shrink-0 items-center text-foreground"><LogoMark size={30} gradient={embed} /></span>
         <div>
           <span className="block bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-base font-bold tracking-tight text-transparent">AgenticOrg</span>
           <span className="-mt-1 block text-[10px] font-medium tracking-wide text-muted-foreground uppercase">Enterprise Fleet</span>
@@ -132,7 +133,7 @@ export function Shell() {
   )
 
   return (
-    <div className="plat fixed inset-0 flex overflow-hidden">
+    <div className={`plat${embed ? ' embed' : ''} fixed inset-0 flex overflow-hidden`}>
       {open && <div className="fixed inset-0 z-40 bg-black/50 lg:hidden" onClick={() => setOpen(false)} />}
 
       <aside className="hidden w-64 flex-shrink-0 flex-col border-r bg-linear-to-b from-muted/60 to-muted/10 p-4 lg:flex">{sidebar}</aside>

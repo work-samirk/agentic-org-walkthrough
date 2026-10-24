@@ -55,7 +55,7 @@ function labelTex(text: string, color: string) {
     g.arc(36 + i * 24, 38, 8, 0, Math.PI * 2)
     g.fill()
   })
-  g.font = '500 50px "JetBrains Mono", ui-monospace, monospace'
+  g.font = '500 50px "Timeless Sans", system-ui, sans-serif'
   g.textBaseline = 'middle'
   g.fillStyle = color
   g.fillText('$', 30, 96)

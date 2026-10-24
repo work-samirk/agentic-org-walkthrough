@@ -35,13 +35,19 @@ function Rail({ logos, dir }: { logos: Logo[]; dir: 'l' | 'r' }) {
   )
 }
 
-export function Pearls() {
+export function Pearls({ merged = false }: { merged?: boolean }) {
   return (
     <section id="connectors" className="lp-sec lp-center" aria-labelledby="lp-h-conn">
       <div className="lp-wrap">
         <div className="lp-head c">
-          <h2 id="lp-h-conn">Connect the tools your agent uses.</h2>
-          <p className="lp-lead">Agents work through connectors, each with the permissions you set. Cloud or your own VPC.</p>
+          {merged ? (
+            <h2 id="lp-h-conn"><span className="v2-grad">100s</span> of connectors tailored to your use case</h2>
+          ) : (
+            <>
+              <h2 id="lp-h-conn">Connect the tools your agent uses.</h2>
+              <p className="lp-lead">Agents work through connectors, each with the permissions you set. Cloud or your own VPC.</p>
+            </>
+          )}
         </div>
       </div>
       <div className="lp-rails"><Rail logos={ROW_A} dir="l" /><Rail logos={ROW_B} dir="r" /></div>

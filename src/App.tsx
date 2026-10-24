@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Landing } from './landing/Landing'
+import { LandingV2 } from './landing/LandingV2'
 import { Pricing } from './landing/Pricing'
 import { SignIn } from './auth/SignIn'
 import { CreateOrg } from './auth/CreateOrg'
@@ -8,6 +9,9 @@ import { JoinOrg } from './auth/JoinOrg'
 import { Requested } from './auth/Requested'
 import { Forgot } from './auth/Forgot'
 import { Welcome } from './onboarding/Welcome'
+
+// visual feedback toolbar for refining the UI with Claude; dev only, syncs to the agentation MCP server
+const Agentation = import.meta.env.DEV ? lazy(() => import('agentation').then((m) => ({ default: m.Agentation }))) : null
 
 const PlatformProvider = lazy(() => import('./platform/state').then((m) => ({ default: m.PlatformProvider })))
 const Shell = lazy(() => import('./platform/Shell').then((m) => ({ default: m.Shell })))
@@ -28,6 +32,7 @@ export default function App() {
     <Suspense fallback={null}>
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/v2" element={<LandingV2 />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/login" element={<SignIn />} />
       <Route path="/signup" element={<CreateOrg />} />
@@ -52,6 +57,7 @@ export default function App() {
       </Route>
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
+    {Agentation && window.self === window.top && <Agentation endpoint="http://localhost:4747" />}
     </Suspense>
   )
 }

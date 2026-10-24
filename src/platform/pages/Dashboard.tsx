@@ -7,7 +7,8 @@ import { Badge, Card, CardContent, CardHeader, CardTitle } from '../ui/primitive
 import { Hint } from '../onboarding/Hint'
 import { EmptyState } from '../ui/EmptyState'
 
-const DOMAIN_COLORS: Record<string, string> = { finance: '#3b82f6', hr: '#8b5cf6', marketing: '#f59e0b', ops: '#10b981', backoffice: '#6366f1', comms: '#ec4899', compliance: '#94a3b8' }
+const DOMAIN_COLORS_DEFAULT: Record<string, string> = { finance: '#3b82f6', hr: '#8b5cf6', marketing: '#f59e0b', ops: '#10b981', backoffice: '#6366f1', comms: '#ec4899', compliance: '#94a3b8' }
+const DOMAIN_COLORS_EMBED: Record<string, string> = { finance: '#005656', hr: '#36cc8b', marketing: '#8fb81f', ops: '#1f9e75', backoffice: '#0f7a6b', comms: '#6fd4a8', compliance: '#8aa5a0' }
 const STATUS_COLORS: Record<string, string> = { active: '#22c55e', shadow: '#f59e0b', paused: '#ef4444' }
 const TOOLTIP = { backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', color: 'hsl(var(--card-foreground))', borderRadius: '0.5rem' }
 
@@ -19,6 +20,7 @@ export function Dashboard() {
   const active = allAgents.filter((a) => a.status === 'active').length
   const shadow = allAgents.filter((a) => a.status === 'shadow').length
   const embed = new URLSearchParams(window.location.search).has('embed')
+  const DOMAIN_COLORS = embed ? DOMAIN_COLORS_EMBED : DOMAIN_COLORS_DEFAULT
   const pending = embed ? EMBED_APPROVALS.filter((a) => !s.approvalsDone.includes(a.id)) : s.pendingResolved ? [] : [APPROVAL]
   const resolved = s.resolved
   const decisions = resolved + pending.length
