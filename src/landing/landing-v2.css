@@ -229,3 +229,6 @@
 .v2 .ts-card .ts-log p { margin: 0; }
 .v2 .ts-card .ts-log p { font: 400 14px/1.5 var(--ao-font-text); }
 .v2 .ts-card .ts-log p b { font: 500 13px/1.5 var(--ao-font-text); letter-spacing: 0; color: rgb(244 241 236 / .55); }
+
+/* founder cards: a green line icon in place of the coloured orbs */
+.v2 .fd-ico { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 8px; color: #36cc8b; background: rgb(54 204 139 / .14); border: 1px solid rgb(54 204 139 / .3); }

@@ -42,10 +42,10 @@ export function Compare() {
 
 /* The secondary audience: founders and business teams --------------------------------------- */
 const FD_TILES = [
-  { c: '#ff7f63', t: 'A team in 3 minutes', d: 'Share your department structure and get an agent for every role.' },
-  { c: '#6db1f5', t: 'You approve what matters', d: 'Anything risky waits for a yes from a person.' },
-  { c: '#9b82f5', t: 'See what it saves', d: 'Estimate the hours and money back before you start.' },
-]
+  { icon: 'clock', t: 'A team in 3 minutes', d: 'Pick Finance, HR, Marketing or Support. Each agent comes with its prompt, tools and approval rules already set.' },
+  { icon: 'shield', t: 'You hold the limits', d: 'Set what each agent may spend or send. Anything above it waits for your yes.' },
+  { icon: 'coin', t: 'No surprise bills', d: 'Start free. A monthly cost cap stops any agent from running past your budget.' },
+] as const
 export function TeamsIntro() {
   return (
     <section id="teams" className="lp-sec lp-dark fd" aria-labelledby="fd-h">
@@ -60,7 +60,7 @@ export function TeamsIntro() {
           <ul className="fd-tiles">
             {FD_TILES.map((x) => (
               <li key={x.t}>
-                <i className="fd-orb" style={{ ['--c' as string]: x.c }} aria-hidden="true" />
+                <i className="fd-ico" aria-hidden="true"><Icon name={x.icon} size={20} /></i>
                 <b>{x.t}</b>
                 <span>{x.d}</span>
               </li>
