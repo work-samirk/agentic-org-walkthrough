@@ -184,3 +184,7 @@
 .v2 .lp-sdk pre { margin: 0; }
 .v2 .lp-copy-btn { position: relative; width: 32px; padding: 0; justify-content: center; }
 .v2 .lp-copy-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* savings card: dark green so the white text reads; department cards have no top line */
+.v2 .lp-hero-num { background: radial-gradient(120% 140% at 100% 100%, rgb(54 204 139 / .28), transparent 55%), linear-gradient(120deg, #002222, #004444 55%, #005656); box-shadow: 0 30px 80px rgb(0 34 34 / .35); }
+.v2 .lp-dom::before { content: none; }
