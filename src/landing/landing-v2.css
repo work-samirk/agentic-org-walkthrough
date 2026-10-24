@@ -298,3 +298,9 @@
   .v2 .dv-m-vs { display: flex; align-items: center; gap: 14px; margin: 10px 0; color: var(--ao-muted); font: 600 14px/1 var(--ao-font-text); }
   .v2 .dv-m-vs::before, .v2 .dv-m-vs::after { content: ""; flex: 1; height: 1px; background: color-mix(in srgb, var(--ao-ink) 14%, transparent); }
 }
+
+/* autonomy cards on phones: they stack like on desktop, each new card sliding over the last */
+@media (max-width: 960px) {
+  .v2 .ts-card { position: sticky; top: calc(84px + var(--i) * 14px); margin-bottom: 16vh; min-height: 0; padding: 22px; transform: scale(var(--s, 1)); filter: brightness(var(--o, 1)); }
+  .v2 .ts-card:last-child { margin-bottom: 0; }
+}

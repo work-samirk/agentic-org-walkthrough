@@ -69,10 +69,10 @@ export function Ladder() {
     let raf = 0
     const pick = () => {
       raf = 0
-      if (!window.matchMedia('(min-width:961px)').matches) { setIdx(0); return }
       const cards = Array.from(el.querySelectorAll<HTMLElement>('.ts-card'))
       let cur = 0
-      cards.forEach((c, i) => { if (c.getBoundingClientRect().top <= STICKY + i * STEP_GAP + 8) cur = i })
+      // each card pins at its own sticky offset (it differs on phones), so read it from the style
+      cards.forEach((c, i) => { if (c.getBoundingClientRect().top <= (parseFloat(getComputedStyle(c).top) || STICKY + i * STEP_GAP) + 8) cur = i })
       setIdx(cur)
     }
     const on = () => { if (!raf) raf = requestAnimationFrame(pick) }
