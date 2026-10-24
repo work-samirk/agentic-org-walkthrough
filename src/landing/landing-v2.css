@@ -106,7 +106,7 @@
 
 /* page end: no black block. The orb's black backdrop blends into the card, the card/art panel share one surface, and the footer continues the end section's colour with no seam */
 .v2 .lp-end-art { background: transparent; }
-.v2 .lp-end-art .lp-arch { mix-blend-mode: screen; }
+.v2 .lp-end-art .lp-arch { mix-blend-mode: normal; }
 .v2 .lp-end-wrap { padding-bottom: 96px; }
 .v2 .ft { background: var(--lp-d0, #0a0a0a); border-top: 0; }
 
