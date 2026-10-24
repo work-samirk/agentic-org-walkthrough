@@ -90,14 +90,14 @@ function Chart({ show, edge, pulse, chip, jobs }: { show: (id: string) => number
 }
 
 
-const CYC = 12000
+const CYC = 14500
 const SCAN = 650
-const START = 1000
+const START = 3000
 
 export function OrgChart() {
   const ref = useRef<HTMLElement>(null)
   const [seen, setSeen] = useState(false)
-  const [t, setT] = useState(reduced() ? 9500 : 0)
+  const [t, setT] = useState(reduced() ? 11000 : 0)
   useEffect(() => {
     if (!ref.current) return
     const io = new IntersectionObserver(([e]) => setSeen(e.isIntersecting), { threshold: 0.25 })
@@ -116,9 +116,13 @@ export function OrgChart() {
   const order: Record<string, number> = { h: 1, a: 2, b: 3, c: 4, d: 5 }
   const sh = (id: string) => (read >= order[id] ? 1 : 0)
   const fade = t > CYC - 700 ? clamp((CYC - t) / 700) : 1
-  const pulse = t >= 6300 ? (t - 6300) / 2200 : -1
-  const chip = ease(clamp((t - 8500) / 400))
+  const pulse = t >= 8300 ? (t - 8300) / 2200 : -1
+  const chip = ease(clamp((t - 10500) / 400))
   const fileIn = ease(clamp(t / 700))
+  // right side: the file lands on the card and uploads, then makes way for the chart
+  const dropIn = ease(clamp((t - 300) / 600))
+  const upload = clamp((t - 1000) / 1300)
+  const dropOut = ease(clamp((t - 2500) / 450))
   return (
     <section id="org" className="lp-sec lp-dark og" ref={ref} aria-labelledby="lp-h-org">
       <div className="lp-wrap og-grid">
@@ -138,9 +142,12 @@ export function OrgChart() {
           </div>
         </div>
         <div className="og-card" style={{ opacity: fade }}>
-          {read < 1 && <p className="og-wait">Waiting for org.csv</p>}
-          <Chart show={sh} edge={(to) => (read >= order[to] ? 1 : 0)} pulse={pulse} chip={chip} jobs={ease(clamp((t - 5000) / 600))} />
-          <p className="og-strip" style={{ opacity: ease(clamp((t - 5100) / 600)) }}><i />5 agents staffed · 1 person approves</p>
+          <div className="og-drop" style={{ opacity: dropIn * (1 - dropOut), transform: `translate(-50%, calc(-50% + ${(1 - dropIn) * -70}px)) scale(${1 - 0.2 * dropOut})` }} aria-hidden="true">
+            <div className="og-drop-top"><Icon name="layers" size={22} /><div><b>org.csv</b><small>{upload >= 1 ? '5 people found' : 'Uploading'}</small></div></div>
+            <span className="og-bar"><i style={{ width: `${Math.round(upload * 100)}%` }} /></span>
+          </div>
+          <Chart show={sh} edge={(to) => (read >= order[to] ? 1 : 0)} pulse={pulse} chip={chip} jobs={ease(clamp((t - 7000) / 600))} />
+          <p className="og-strip" style={{ opacity: ease(clamp((t - 7100) / 600)) }}><i />5 agents staffed · 1 person approves</p>
         </div>
       </div>
     </section>

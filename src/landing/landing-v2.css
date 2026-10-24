@@ -260,3 +260,9 @@
 .og-strip { position: relative; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 8px 0 0; font-size: 14.5px; color: rgb(244 241 236 / .7); }
 .og-strip i { width: 8px; height: 8px; border-radius: 50%; background: #36cc8b; box-shadow: 0 0 10px #36cc8b; }
 @media (max-width: 960px) { .v2 .og-grid { grid-template-columns: 1fr; gap: 32px; } }
+.og-drop { position: absolute; left: 50%; top: 46%; z-index: 3; width: min(320px, 70%); display: grid; gap: 14px; padding: 20px 22px; border-radius: 20px; background: rgb(255 255 255 / .07); border: 1px solid rgb(255 255 255 / .18); backdrop-filter: blur(14px); box-shadow: 0 20px 50px rgb(0 0 0 / .4); color: #36cc8b; }
+.og-drop-top { display: flex; align-items: center; gap: 14px; }
+.og-drop-top b { display: block; color: #f4f1ec; font-size: 16px; font-weight: 600; }
+.og-drop-top small { display: block; margin-top: 2px; font-size: 13.5px; color: rgb(244 241 236 / .6); }
+.og-bar { display: block; height: 6px; border-radius: 99px; background: rgb(255 255 255 / .12); overflow: hidden; }
+.og-bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #005656, #36cc8b 60%, #d0f255); }
