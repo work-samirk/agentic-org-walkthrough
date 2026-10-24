@@ -3,13 +3,13 @@ import { LogoMark } from '../components/Logo'
 
 /* What comes built in: our column is lifted and outlined, theirs is quiet ------------------- */
 const ROWS: [string, string, string][] = [
-  ['First agent', 'Describe it in plain English. It is ready to test straight away.', 'You write the graph, the prompts and the glue code.'],
-  ['Running it', 'We run it, with schedules, scaling and a monthly cost cap.', 'You host, scale and monitor it.'],
-  ['Human approval', 'Low-confidence actions wait for a person, with the reasoning shown.', 'You design and build the approval flow.'],
-  ['Testing', 'Dry-run on sample data and see its accuracy before it goes live.', 'You set up your own tests and evaluation.'],
-  ['Audit trail', 'Every step, tool call and approval is logged.', 'You add logging and keep the records.'],
-  ['Tools', 'Ready-made connectors with permissions you control.', 'You build and maintain every integration.'],
-  ['Where it runs', 'In the dashboard or your own app. Use it yourself or sell it.', 'You build every interface yourself.'],
+  ['Agent creation', 'Plain-English setup, ready to test immediately.', 'Custom graph, prompt and integration code.'],
+  ['Operations', 'Managed hosting with scheduling, scaling and cost caps.', 'Self-hosted infrastructure and monitoring.'],
+  ['Human approval', 'Built-in approval queue with confidence thresholds and visible reasoning.', 'Approval flow designed and built in-house.'],
+  ['Testing', 'Shadow Mode with accuracy scoring on sample data.', 'Separate test and evaluation tooling.'],
+  ['Audit trail', 'Every step, tool call and approval logged.', 'Custom logging and record retention.'],
+  ['Integrations', 'Pre-built connectors with scoped permissions.', 'Each integration built and maintained in-house.'],
+  ['Deployment', 'Dashboard or embedded in an existing app, with the option to resell.', 'Custom interface for every channel.'],
 ]
 
 export function Compare() {
@@ -18,14 +18,14 @@ export function Compare() {
       <div className="lp-wrap">
         <div className="lp-head c">
           <h2 id="dv-h-why">What comes built in.</h2>
-          <p className="lp-lead">With a framework like LangGraph, you build all of this yourself.</p>
+          <p className="lp-lead">Frameworks such as LangGraph leave each of these to the engineering team.</p>
         </div>
-        <div className="dv-cmp" role="table" aria-label="AgenticOrg compared with building it yourself">
+        <div className="dv-cmp" role="table" aria-label="AgenticOrg compared with other platforms">
           <i className="dv-cmp-hl" aria-hidden="true" />
           <div className="dv-cmp-h" role="row">
             <span role="columnheader" />
             <span role="columnheader" className="us"><LogoMark size={22} />AgenticOrg</span>
-            <span role="columnheader">Building it yourself</span>
+            <span role="columnheader">Other platforms</span>
           </div>
           {ROWS.map(([k, a, b]) => (
             <div key={k} className="dv-cmp-r" role="row">
@@ -34,6 +34,17 @@ export function Compare() {
               <span role="cell" className="them">{b}</span>
             </div>
           ))}
+        </div>
+        <div className="dv-m" aria-label="AgenticOrg compared with other platforms">
+          <div className="dv-m-card dv-m-us">
+            <p className="dv-m-name"><LogoMark size={22} />AgenticOrg</p>
+            <ul>{ROWS.map(([k, a]) => <li key={k}><Icon name="check" size={16} strokeWidth={3} /><div><b>{k}</b><span>{a}</span></div></li>)}</ul>
+          </div>
+          <p className="dv-m-vs" aria-hidden="true"><span>vs</span></p>
+          <div className="dv-m-card dv-m-them">
+            <p className="dv-m-name">Other platforms</p>
+            <ul>{ROWS.map(([k, , b]) => <li key={k}><i aria-hidden="true" /><div><b>{k}</b><span>{b}</span></div></li>)}</ul>
+          </div>
         </div>
       </div>
     </section>
