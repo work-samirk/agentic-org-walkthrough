@@ -83,7 +83,7 @@ const pickHead = (id: string) => () => window.dispatchEvent(new CustomEvent('ao-
 const COLS: { h: string; items: { l: string; href: string; ext?: boolean; head?: string }[] }[] = [
   { h: 'Platform', items: [{ l: 'Dashboard', href: '/app' }, { l: 'Agents', href: '/app/agents' }, { l: 'Workflows', href: '/app/workflows' }, { l: 'Connectors', href: '/app/connectors' }, { l: 'Observatory', href: '/app' }] },
   { h: 'Solutions', items: [{ l: 'For CFOs', href: '/#heads', head: 'CFO' }, { l: 'For CHROs', href: '/#heads', head: 'CHRO' }, { l: 'For CMOs', href: '/#heads', head: 'CMO' }, { l: 'For COOs', href: '/#heads', head: 'COO' }] },
-  { h: 'Resources', items: [{ l: 'How It Works', href: '/#steps' }, { l: 'Pricing', href: '/pricing' }, { l: 'ROI Calculator', href: '/#roi' }, { l: 'Live Demo', href: '/#live' }, { l: 'Blog', href: '#' }, { l: 'GitHub', href: 'https://github.com/mishrasanjeev/agentic-org', ext: true }] },
+  { h: 'Resources', items: [{ l: 'How It Works', href: '/#autonomy' }, { l: 'Pricing', href: '/pricing' }, { l: 'ROI Calculator', href: '/#roi' }, { l: 'Live Demo', href: '/#live' }, { l: 'Blog', href: 'https://agenticorg.pinelabs.com/blog' }, { l: 'GitHub', href: 'https://github.com/mishrasanjeev/agentic-org', ext: true }] },
   { h: 'Developers', items: [{ l: 'SDKs & APIs', href: '/#developers' }, { l: 'Python SDK (PyPI)', href: 'https://pypi.org/project/agenticorg/', ext: true }, { l: 'TypeScript SDK (npm)', href: 'https://www.npmjs.com/package/agenticorg-sdk', ext: true }, { l: 'MCP Server', href: 'https://www.npmjs.com/package/agenticorg-mcp-server', ext: true }, { l: 'API Keys', href: '/signup' }] },
 ]
 
@@ -119,7 +119,7 @@ export function Footer() {
         </div>
         <div className="ft-base">
           <p>© 2026 AgenticOrg. All rights reserved.</p>
-          <div><a href="#">Privacy</a><a href="#">Terms</a><span>agenticorg.ai</span></div>
+          <div><a href="https://agenticorg.pinelabs.com/privacy" target="_blank" rel="noopener noreferrer">Privacy</a><a href="https://agenticorg.pinelabs.com/terms" target="_blank" rel="noopener noreferrer">Terms</a><span>agenticorg.ai</span></div>
         </div>
       </div>
     </footer>

@@ -55,7 +55,7 @@ export function Trust() {
           <article className="tr-posture lp-dark lg-dark">
             <p className="tr-eyebrow">Protocol posture</p>
             <p>AgenticOrg uses OACP for grounded discovery and prepared handoffs. This section does not claim live checkout or payment execution.</p>
-            <a href="#trust" className="lp-btn ink">Explore the OACP Model<Icon name="arrowRight" size={18} /></a>
+            <a href="https://agenticorg.pinelabs.com/open-agentic-commerce-protocol" target="_blank" rel="noopener noreferrer" className="lp-btn ink">Explore the OACP Model<Icon name="arrowRight" size={18} /></a>
           </article>
         </div>
       </div>

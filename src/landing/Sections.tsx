@@ -167,12 +167,12 @@ export function Dev() {
         </div>
         <div className="lp-protos">
           {PROTOCOLS.map((p) => (
-            <article key={p.t} className="lg"><h3>{p.t}</h3><p>{p.d}</p>{p.link && <a href="#developers" aria-disabled="true" onClick={(e) => e.preventDefault()}>Learn how it works</a>}</article>
+            <article key={p.t} className="lg"><h3>{p.t}</h3><p>{p.d}</p>{p.link && <a href="https://agenticorg.pinelabs.com/how-grantex-works" target="_blank" rel="noopener noreferrer">Learn how it works<span className="sr-only"> (opens in a new tab)</span></a>}</article>
           ))}
         </div>
         <div className="lp-action lg">
           <div><h3>See it in action: OACP-grounded shopping preview</h3><p>Safe workflow preview: a buyer asks from ChatGPT, AgenticOrg uses MCP and cached OACP artifacts, checks freshness and revocation posture, then prepares a non-executing handoff or refuses unsafe paths. Live checkout and payment remain blocked until approved.</p></div>
-          <a className="lp-btn ink" href="#developers" onClick={(e) => e.preventDefault()}>View Safe Workflow</a>
+          <a className="lp-btn ink" href="https://agenticorg.pinelabs.com/integration-workflow" target="_blank" rel="noopener noreferrer">View Safe Workflow<span className="sr-only"> (opens in a new tab)</span></a>
         </div>
         <div className="lp-keyrow"><p>Get your API key from the dashboard to start building.</p><div><Link to="/signup" className="lp-btn ink big">Get API Key, Free</Link><a className="lp-btn line big" href="https://github.com/mishrasanjeev/agentic-org" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" width="18" height="18"><path d={siGithub.path} fill="currentColor" /></svg>View on GitHub</a></div></div>
       </div>
@@ -407,7 +407,7 @@ export function CaseStudy() {
             <p className="cs-num" aria-hidden="true">8</p>
             <h2 id="lp-h-case">A CA firm goes live in 8 days.</h2>
             <p className="cs-dek">Invoicing, bank reconciliation, GST filing and Tally sync, all handled by agents.</p>
-            <a href="#case" className="lp-btn ink" onClick={(e) => e.preventDefault()}>Read the Full Case Study<Icon name="arrowRight" size={16} /></a>
+            <a href="https://agenticorg.pinelabs.com/blog/ca-firm-ai-agent-end-to-end" target="_blank" rel="noopener noreferrer" className="lp-btn ink">Read the Full Case Study<Icon name="arrowRight" size={16} /></a>
           </header>
 
           <ol className="cs-story">
