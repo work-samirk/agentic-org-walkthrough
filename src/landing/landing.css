@@ -416,7 +416,7 @@ html:has(.lp){scroll-behavior:smooth}
 .cl-orbit .lp-const{inset:-14% auto auto -34%;width:108%}
 
 .lp-win-view{background:var(--ao-soft)}
-.lp-win-view iframe{opacity:0;transition:opacity .5s}
+.lp-win-view iframe{opacity:0;transition:opacity .25s}
 .lp-win-view iframe[data-ready]{opacity:1}
 @media (max-width:960px){.lp-hero-grid{grid-template-columns:1fr}.cl-orbit .lp-stage,.cl-orbit .cl-feedstage{position:relative;width:100%}.cl-orbit .lp-const{inset:auto;width:100%}}
 

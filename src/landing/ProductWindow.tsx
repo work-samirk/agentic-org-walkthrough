@@ -13,7 +13,7 @@ export function ProductWindow({ path, title, className = '', onReady, frameRef, 
     const el = box.current
     const ro = new ResizeObserver(() => setScale(el.clientWidth / 1440))
     ro.observe(el)
-    const io = new IntersectionObserver(([e]) => e.isIntersecting && setShow(true), { rootMargin: '300px' })
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && setShow(true), { rootMargin: '1500px' })
     io.observe(el)
     return () => { ro.disconnect(); io.disconnect() }
   }, [])
@@ -37,13 +37,14 @@ const TABS = [
 
 export function ProductTabs() {
   const [tab, setTab] = useState<(typeof TABS)[number]>(TABS[0])
-  const [loaded, setLoaded] = useState(0)
+  const [loaded, setLoaded] = useState<Record<string, boolean>>({})
   const [visible, setVisible] = useState(false)
   const root = useRef<HTMLDivElement>(null)
-  const frame = useRef<HTMLIFrameElement>(null)
-  const cursor = useRef<HTMLDivElement>(null)
+  const frames = useRef(TABS.map(() => ({ current: null as HTMLIFrameElement | null })))
+  const cursors = useRef(TABS.map(() => ({ current: null as HTMLDivElement | null })))
   const token = useRef(0)
   const motion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const idx = TABS.findIndex((x) => x.id === tab.id)
 
   useEffect(() => {
     if (!root.current) return
@@ -52,12 +53,12 @@ export function ProductTabs() {
     return () => io.disconnect()
   }, [])
 
-  // play the script for this screen once it has loaded and is on screen, then move on to the next one
+  // all four screens are loaded ahead of time and stacked; the script for the active one plays once it is loaded and on screen, then moves on
   useEffect(() => {
     const t = ++token.current
-    const f = frame.current
-    const cur = cursor.current
-    if (!loaded || !visible || !motion || !f || !cur) {
+    const f = frames.current[idx].current
+    const cur = cursors.current[idx].current
+    if (!loaded[tab.id] || !visible || !motion || !f || !cur) {
       if (cur) hide({ cursor: cur })
       return
     }
@@ -65,38 +66,42 @@ export function ProductTabs() {
     const win = f.contentWindow as (Window & typeof globalThis) | null
     if (!doc || !win) return
     const ctx: Ctx = { doc, win, frame: f, cursor: cur, alive: () => token.current === t }
+    const next = () => setTab((c) => TABS[(TABS.findIndex((x) => x.id === c.id) + 1) % TABS.length])
     ;(async () => {
       try {
-        await sleep(ctx, 600)
+        await sleep(ctx, 150)
         await show(ctx)
         await SCRIPTS[tab.id](ctx)
         await sleep(ctx, 700)
         hide(ctx)
         await sleep(ctx, 400)
-        setTab((c) => TABS[(TABS.findIndex((x) => x.id === c.id) + 1) % TABS.length])
+        next()
       } catch (e) {
-        if (!isAbort(e)) setTab((c) => TABS[(TABS.findIndex((x) => x.id === c.id) + 1) % TABS.length])
+        if (!isAbort(e)) next()
       }
     })()
     return () => {
       token.current++
       hide(ctx)
     }
-  }, [tab, loaded, visible, motion])
+  }, [tab, loaded, visible, motion, idx])
 
   return (
     <div ref={root}>
-      <div role="tabpanel">
-        <ProductWindow key={tab.id} title={tab.id} path={tab.path} frameRef={frame} onReady={() => setLoaded((n) => n + 1)}>
-          <div className="lp-cur" ref={cursor} aria-hidden="true">
-            <i />
-            <svg width="26" height="26" viewBox="0 0 24 24"><path d="M4 2.5l15.5 9-6.7 1.6-3.3 6.3z" fill="#fff" stroke="#16161a" strokeWidth="1.6" strokeLinejoin="round" /></svg>
+      <div role="tabpanel" style={{ display: 'grid' }}>
+        {TABS.map((t, i) => (
+          <div key={t.id} style={{ gridArea: '1 / 1', opacity: i === idx ? 1 : 0, visibility: i === idx ? 'visible' : 'hidden', pointerEvents: i === idx ? 'auto' : 'none', transition: 'opacity .25s' }} aria-hidden={i === idx ? undefined : true}>
+            <ProductWindow title={t.id} path={t.path} frameRef={frames.current[i]} onReady={() => setLoaded((l) => ({ ...l, [t.id]: true }))}>
+              <div className="lp-cur" ref={cursors.current[i]} aria-hidden="true">
+                <i />
+                <svg width="26" height="26" viewBox="0 0 24 24"><path d="M4 2.5l15.5 9-6.7 1.6-3.3 6.3z" fill="#fff" stroke="#16161a" strokeWidth="1.6" strokeLinejoin="round" /></svg>
+              </div>
+            </ProductWindow>
           </div>
-
-        </ProductWindow>
+        ))}
       </div>
       <div className="cl-tabs" role="tablist" aria-label="Product screens">
-        {TABS.map((t) => <button key={t.id} type="button" role="tab" aria-selected={tab.id === t.id} className="lp-chip" aria-pressed={tab.id === t.id} onClick={() => { setLoaded(0); setTab(t) }}>{t.id}</button>)}
+        {TABS.map((t) => <button key={t.id} type="button" role="tab" aria-selected={tab.id === t.id} className="lp-chip" aria-pressed={tab.id === t.id} onClick={() => setTab(t)}>{t.id}</button>)}
       </div>
     </div>
   )

@@ -104,7 +104,7 @@ export const scrollTo = async (c: Ctx, el: Element) => {
 /* One script per screen. Each ends with the screen still showing its result. */
 export const SCRIPTS: Record<string, (c: Ctx) => Promise<void>> = {
   'Agent fleet': async (c) => {
-    await sleep(c, 700)
+    await sleep(c, 150)
     const search = await find(c, () => c.doc.querySelector<HTMLInputElement>('input[aria-label="Search agents"]'))
     await moveTo(c, search, 0.25, 0.5)
     await click(c, search)
@@ -119,7 +119,7 @@ export const SCRIPTS: Record<string, (c: Ctx) => Promise<void>> = {
   },
 
   'Create agent': async (c) => {
-    await sleep(c, 600)
+    await sleep(c, 150)
     const box = await find(c, () => c.doc.querySelector<HTMLTextAreaElement>('textarea[aria-label="Describe the employee you need"]'))
     await moveTo(c, box, 0.3, 0.35)
     await click(c, box)
@@ -135,7 +135,7 @@ export const SCRIPTS: Record<string, (c: Ctx) => Promise<void>> = {
   },
 
   'Live observatory': async (c) => {
-    await sleep(c, 800)
+    await sleep(c, 150)
     const first = await find(c, () => c.doc.querySelector<HTMLElement>('.max-h-80 > div')).catch(() => null)
     if (first) {
       const rows = [...(first.parentElement?.children ?? [])].slice(0, 3)
@@ -153,7 +153,7 @@ export const SCRIPTS: Record<string, (c: Ctx) => Promise<void>> = {
   },
 
   Approvals: async (c) => {
-    await sleep(c, 700)
+    await sleep(c, 150)
     const trace = await find(c, () => byText(c, 'summary', 'Reasoning Trace'))
     await moveTo(c, trace, 0.15, 0.5)
     await click(c, trace)
