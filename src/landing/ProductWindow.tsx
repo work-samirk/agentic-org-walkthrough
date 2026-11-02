@@ -88,9 +88,9 @@ export function ProductTabs() {
 
   return (
     <div ref={root}>
-      <div role="tabpanel" style={{ display: 'grid' }}>
+      <div role="tabpanel" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)' }}>
         {TABS.map((t, i) => (
-          <div key={t.id} style={{ gridArea: '1 / 1', opacity: i === idx ? 1 : 0, visibility: i === idx ? 'visible' : 'hidden', pointerEvents: i === idx ? 'auto' : 'none', transition: 'opacity .25s' }} aria-hidden={i === idx ? undefined : true}>
+          <div key={t.id} style={{ gridArea: '1 / 1', minWidth: 0, opacity: i === idx ? 1 : 0, visibility: i === idx ? 'visible' : 'hidden', pointerEvents: i === idx ? 'auto' : 'none', transition: 'opacity .25s' }} aria-hidden={i === idx ? undefined : true}>
             <ProductWindow title={t.id} path={t.path} frameRef={frames.current[i]} onReady={() => setLoaded((l) => ({ ...l, [t.id]: true }))}>
               <div className="lp-cur" ref={cursors.current[i]} aria-hidden="true">
                 <i />

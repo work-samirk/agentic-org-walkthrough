@@ -96,6 +96,13 @@
 .v2 .v2-hero #cl-h1 { font-size: clamp(2.9rem, 5.5vw, 5.04rem); }
 .v2 .v2-hero .v2-h1-lead { display: block; font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: .6em; font-weight: 400; letter-spacing: 0; line-height: 1.15; margin-bottom: .2em; color: rgb(255 255 255 / .9); }
 
+/* phones: headline scales with the screen so "Production Ready" never clips; the badge may wrap inside its pill */
+@media (max-width: 560px) {
+  .v2 .v2-hero #cl-h1 { font-size: min(2.9rem, 10.4vw); }
+  .v2 .v2-hero .lp-pill { height: auto; min-height: 22px; padding: 4px 10px; line-height: 1.25; text-align: left; }
+  .v2 .v2-hero .lp-ticks li { white-space: normal; text-align: left; }
+}
+
 /* ticks: plain flex rows (landing.css lays them out as a 3-column grid), one line */
 .v2 .v2-hero .lp-ticks li { display: flex; align-items: center; grid-template-columns: none; line-height: 1.3; }
 .v2 .v2-hero .lp-ticks b { margin-right: 0; }
